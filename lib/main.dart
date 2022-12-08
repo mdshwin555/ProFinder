@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (BuildContext, Orientation, DeviceType) => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
+        //debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(
             name: Routes.typeScreen,
