@@ -50,6 +50,7 @@ dependencies:
   map_picker:
   #google_maps_flutter: 2.0.0
   geocoding:
+  animated_text_kit: ^4.2.2
 
 
 dev_dependencies:

@@ -24,4 +24,5 @@ class Images{
   static const String family='$source/family.json';
   static const String mental='$source/mental.json';
   static const String nofav='$source/nofav.json';
+  static const String logo='$source/logo.png';
 }

@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:map_picker/map_picker.dart';
 import 'package:project2022/view/screens/auth/Login.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../constants/fonts.dart';
