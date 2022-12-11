@@ -77,6 +77,22 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
+                Positioned(
+                  bottom: -25.h,
+                  left: -60.w,
+                  child: CircleAvatar(
+                    backgroundColor: Color(color.orange),
+                    radius: 250.sp,
+                  ),
+                ),
+                Positioned(
+                  top: -20.h,
+                  right: -40.w,
+                  child: CircleAvatar(
+                    backgroundColor: Color(color.orange),
+                    radius: 100.sp,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(
                     left: 6.w,
@@ -89,6 +105,13 @@ class _RegisterState extends State<Register> {
                     decoration: BoxDecoration(
                       color: Color(color.white),
                       borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.80),
+                          blurRadius: 25,
+                          spreadRadius: 1,
+                        ),
+                      ],
                     ),
                     child: Theme(
                       data: Theme.of(context).copyWith(

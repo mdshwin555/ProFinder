@@ -210,6 +210,7 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 Padding(
                   padding: EdgeInsets.only(
                     right: 15.w,
@@ -255,7 +256,7 @@ class MainScreen extends StatelessWidget {
                                 color: Color(color.blue),
                               ),
                               child: Icon(
-                                Icons.search,
+                                Icons.tune,
                                 size: 25.sp,
                                 color: Colors.orange,
                               ),

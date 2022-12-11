@@ -107,6 +107,7 @@ class _TypeState extends State<Type> {
             ),
           ),
 
+
           Positioned(
             bottom: -35.h,
             left: -65.w,
@@ -116,11 +117,11 @@ class _TypeState extends State<Type> {
             ),
           ),
           Positioned(
-            bottom: 4.h,
+            bottom: 3.h,
             left: 18.w,
             child: Lottie.asset(
               Images.think,
-              height: 40.h,
+              height: 35.h,
             ),
           ),
         ],
