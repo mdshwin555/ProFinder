@@ -17,7 +17,7 @@ SharedPreferences? sharedPref;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPref = await SharedPreferences.getInstance();
-  //sharedPref?.clear();                    // DON'T FORGET REMOVE IT 😒
+  sharedPref?.clear();                    // DON'T FORGET REMOVE IT 😒
   runApp(MyApp());
 }
 

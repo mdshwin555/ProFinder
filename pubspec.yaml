@@ -41,15 +41,9 @@ dependencies:
   animated_splash_screen:
   lottie:
   circle_nav_bar:
-  flutter_zoom_drawer:
   rive:
   flutter_staggered_grid_view:
-  list_wheel_scroll_view_nls:
-  carousel_slider:
   intl_phone_number_input:
-  map_picker:
-  #google_maps_flutter: 2.0.0
-  geocoding:
   animated_text_kit: ^4.2.2
 
 

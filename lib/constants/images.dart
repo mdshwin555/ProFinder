@@ -6,6 +6,7 @@ class Images{
   static const String choose='$source/choose.png';
   static const String logwall='$source/logwall.jpg';
   static const String welcome='$source/hello.png';
+  static const String welcome1='$source/welcome.json';
   static const String email='$source/email.png';
   static const String password='$source/pass.png';
   static const String username='$source/user_name.png';
@@ -25,4 +26,5 @@ class Images{
   static const String mental='$source/mental.json';
   static const String nofav='$source/nofav.json';
   static const String logo='$source/logo.png';
+  static const String think='$source/think.json';
 }

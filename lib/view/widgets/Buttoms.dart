@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:project2022/main.dart';
 import 'package:sizer/sizer.dart';
 
-
 class CustomButtom extends StatelessWidget {
   final int color;
   final String text;
@@ -33,14 +32,25 @@ class CustomButtom extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(color),
           borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.20),
+              blurRadius: 10,
+              spreadRadius: 1,
+            ),
+          ],
+          border: Border.all(
+            color: Color(0xffF9A826),
+            width: 3.sp,
+          ),
         ),
         child: Text(
           text,
           style: TextStyle(
-              decoration: TextDecoration.none,
-            color: color == 0xffF9A826 ? Color(0xff1E2738) : Color(0xffffffff),
+            decoration: TextDecoration.none,
+            color: color == 0xffffffff ? Color(0xff1E2738) : Color(0xffffffff),
             fontSize: 20.sp,
-            fontFamily: font
+            fontFamily: font,
           ),
         ),
       ),

@@ -21,19 +21,90 @@ class SplachScreen extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Positioned(
-                top: -15.h,
-                right: -30.w,
+                top: -20.h,
+                right: -35.w,
                 child: CircleAvatar(
                   backgroundColor: Color(color.orange),
                   radius: 100.sp,
                 ),
               ),
               Positioned(
-                bottom: -30.h,
-                left: -60.w,
+                bottom: -29.h,
+                left: -53.w,
+                child: CircleAvatar(
+                  backgroundColor: Color(0xf01e3562),
+                  radius: 200.sp,
+                ),
+              ),
+              Positioned(
+                top: 10.h,
+                left: 20.w,
+                child: CircleAvatar(
+                  backgroundColor: Color(0xf01e3562),
+                  radius: 22.sp,
+                ),
+              ),
+              Positioned(
+                bottom: 30.h,
+                right: -5.w,
+                child: CircleAvatar(
+                  backgroundColor: Color(0xf0587fcc),
+                  radius: 19.sp,
+                ),
+              ),
+              Positioned(
+                top: 47.h,
+                left: 17.w,
+                child: CircleAvatar(
+                  backgroundColor: Color(0xedcc8a21),
+                  radius: 10.sp,
+                ),
+              ),
+              Positioned(
+                bottom: -32.h,
+                left: -59.w,
+                child: CircleAvatar(
+                  backgroundColor: Color(color.white),
+                  radius: 200.sp,
+                ),
+              ),
+
+              Positioned(
+                bottom: -35.h,
+                left: -65.w,
                 child: CircleAvatar(
                   backgroundColor: Color(color.orange),
                   radius: 200.sp,
+                ),
+              ),
+              Positioned(
+                bottom: 5.h,
+                left: 20.w,
+                child: Container(
+                  height: 11.h,
+                  width: 75.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50.sp),
+                      bottomLeft: Radius.circular(10.sp),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 3.h,
+                right: 5.w,
+                child: Container(
+                  height: 5.h,
+                  width: 75.w,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.20),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(50.sp),
+                      bottomRight: Radius.circular(10.sp),
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -59,6 +130,7 @@ class SplachScreen extends StatelessWidget {
                     fontSize: 13.sp,
                   ),
                   child: AnimatedTextKit(
+                    pause: Duration(microseconds: 10),
                     isRepeatingAnimation: false,
                     animatedTexts: [
                       TypewriterAnimatedText('Find your experts now'),
@@ -105,7 +177,7 @@ class SplachScreen extends StatelessWidget {
           ),
           nextScreen: sharedPref?.getString("role") == null ? Type() : Home(),
           splashTransition: SplashTransition.fadeTransition,
-          duration: 10000000,
+          duration: 1000,
         ),
       ]),
     );
