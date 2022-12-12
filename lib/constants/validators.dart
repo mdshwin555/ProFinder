@@ -15,6 +15,21 @@ class Validators {
   static String? name(String? value) {
     if (value == null || !value.isAlphabetOnly) return ' invalid name';
   }
+  static String? username(String? value) {
+    if (value == null || !value.isAlphabetOnly) return ' invalid user name';
+  }
+
+  static String? details(String? value) {
+    if (value == null || value.isEmpty) return ' details must not be empty';
+  }
+
+  static String? price(String? value) {
+    if (value == null || value.isEmpty)
+      return 'price must not be empty';
+    else if (!value.isNumericOnly)
+      return 'price must be number only';
+  }
+
 
   static String? phone(String? value) {
     if (value == null || value.isEmpty) return 'phone must not be empty';

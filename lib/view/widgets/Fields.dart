@@ -32,7 +32,7 @@ class CustomFields extends StatefulWidget {
 class _CustomFieldsState extends State<CustomFields> {
   IconData visibility = Icons.visibility_off_outlined;
   bool hide = true;
-  DateTime? date;
+  TimeOfDay? date;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,9 @@ class _CustomFieldsState extends State<CustomFields> {
       controller: widget.controller,
       onTap: () async {
         widget.isTime == true
-            ? date = await showDatePicker(
+            ? date = await showTimePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(
-                  Duration(days: 365),
-                ),
+                initialTime: TimeOfDay.now(),
               )
             : null;
       },

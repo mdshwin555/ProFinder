@@ -29,4 +29,5 @@ class Images{
   static const String logo='$source/logo.png';
   static const String think='$source/think.json';
   static const String ballon='$source/ballon.png';
+  static const String credit='$source/credit.jpg';
 }

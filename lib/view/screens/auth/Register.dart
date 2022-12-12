@@ -22,6 +22,10 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   TextEditingController userNameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController CreditnumController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController PhoneController = TextEditingController();
@@ -33,8 +37,19 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey4 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey5 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
   String? _path;
+  DateTime?startTime;
+  DateTime?endTime;
   int CurrentStep = 0;
+  var creditNum;
+
+  void updateText(val) {
+    setState(() {
+      creditNum = val;
+    });
+  }
 
   List experiance = [
     'medical',
@@ -42,6 +57,16 @@ class _RegisterState extends State<Register> {
     'Mental',
     'familial',
     'business',
+  ];
+
+  List days = [
+    'Saturday',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
   ];
 
   PageController consoltingController = PageController(
@@ -120,7 +145,57 @@ class _RegisterState extends State<Register> {
                       child: Stepper(
                         onStepTapped: (index) {
                           setState(() {
-                            CurrentStep = index;
+                            CurrentStep <= 0
+                                ? {
+                              if (!_formKey1.currentState!.validate())
+                                {}
+                              else
+                                CurrentStep = index,
+                            }
+                                : CurrentStep <= 1
+                                ? {
+                              if (!_formKey2.currentState!.validate())
+                                {}
+                              else
+                                CurrentStep = index,
+                            }
+                                : CurrentStep <= 2
+                                ? {
+                              if (!_formKey3.currentState!
+                                  .validate())
+                                {}
+                              else
+                                CurrentStep = index,
+                            }
+                                : CurrentStep <= 3
+                                ? {
+                              if (!_formKey4.currentState!
+                                  .validate())
+                                {}
+                              else
+                                CurrentStep = index,
+                            }
+                                : CurrentStep <= 4
+                                ? {
+                              if (!_formKey5.currentState!
+                                  .validate())
+                                {}
+                              else
+                                CurrentStep =
+                                    index,
+                            }
+                                : CurrentStep <= 5
+                                ? {
+                              if (!_formKey6
+                                  .currentState!
+                                  .validate())
+                                {}
+                              else
+                                CurrentStep =
+                                    index,
+                            }
+                                : CurrentStep =
+                                index;
                           });
                         },
                         elevation: 0,
@@ -157,9 +232,29 @@ class _RegisterState extends State<Register> {
                                                     .validate())
                                                   {}
                                                 else
-                                                  Get.toNamed(Routes.Login),
+                                                  CurrentStep = CurrentStep + 1,
                                               }
-                                            : Get.offNamed(Routes.Login);
+                                            : CurrentStep == 4
+                                                ? {
+                                                    if (!_formKey5.currentState!
+                                                        .validate())
+                                                      {}
+                                                    else
+                                                      CurrentStep =
+                                                          CurrentStep + 1,
+                                                  }
+                                                : CurrentStep == 5
+                                                    ? {
+                                                        if (!_formKey6
+                                                            .currentState!
+                                                            .validate())
+                                                          {}
+                                                        else
+                                                          Get.offNamed(
+                                                              Routes.Login),
+                                                      }
+                                                    : Get.offNamed(
+                                                        Routes.Login);
                           });
                         },
                         onStepCancel: () {
@@ -191,7 +286,7 @@ class _RegisterState extends State<Register> {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: Text(
-                                      CurrentStep < 3 ? 'Continue' : 'Register',
+                                      CurrentStep < 5 ? 'Continue' : 'Register',
                                       style: TextStyle(
                                         color: Color(0xffffffff),
                                         fontSize: 20.sp,
@@ -472,7 +567,31 @@ class _RegisterState extends State<Register> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 12.h,
+                      top: 5.h,
+                      left: 1.w,
+                      right: 5.w,
+                    ),
+                    child: CustomFields(
+                      isExperiance: false,
+                      validator: Validators.username,
+                      isAddress: false,
+                      controller: userNameController,
+                      isTime: false,
+                      isPhone: false,
+                      isPass: false,
+                      icon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          Images.username,
+                          height: 1.h,
+                        ),
+                      ),
+                      label: 'user name',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 3.h,
                       left: 1.w,
                       right: 5.w,
                     ),
@@ -562,7 +681,7 @@ class _RegisterState extends State<Register> {
           ),
         ),
         Step(
-          state: CurrentStep > 0 && CurrentStep <= 3
+          state: CurrentStep > 0 && CurrentStep > 0
               ? StepState.complete
               : StepState.indexed,
           isActive: CurrentStep >= 1,
@@ -659,7 +778,7 @@ class _RegisterState extends State<Register> {
                       isExperiance: false,
                       validator: Validators.name,
                       isAddress: false,
-                      controller: userNameController,
+                      controller: nameController,
                       isTime: false,
                       isPhone: false,
                       isPass: false,
@@ -880,57 +999,81 @@ class _RegisterState extends State<Register> {
                       left: 1.w,
                       right: 5.w,
                     ),
-                    child: TextFormField(
-                      validator: Validators.experiance,
-                      controller: experianceController,
-                      minLines: 2,
-                      maxLines: 5,
-                      maxLength: 150,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xffEAEAEA),
-                        hintText: 'write your experiences',
-                        hintStyle: TextStyle(
-                          color: Color(color.blue),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            width: 0,
-                            color: Color(0xffEAEAEA),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            width: 1.8,
-                            color: Color(
-                              color.orange,
-                            ),
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            width: 1.8,
-                            color: Color(
-                              color.red,
-                            ),
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(
-                            width: 1.8,
-                            color: Color(
-                              color.red,
-                            ),
-                          ),
+                    child: CustomFields(
+                      isExperiance: false,
+                      validator: Validators.price,
+                      isAddress: false,
+                      controller: priceController,
+                      isTime: false,
+                      isPhone: true,
+                      isPass: false,
+                      icon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          Images.username,
+                          height: 1.h,
                         ),
                       ),
+                      label: 'price',
                     ),
                   ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(
+                  //     top: 2.h,
+                  //     left: 1.w,
+                  //     right: 5.w,
+                  //   ),
+                  //   child: TextFormField(
+                  //     validator: Validators.experiance,
+                  //     controller: experianceController,
+                  //     minLines: 2,
+                  //     maxLines: 5,
+                  //     maxLength: 150,
+                  //     keyboardType: TextInputType.multiline,
+                  //     decoration: InputDecoration(
+                  //       filled: true,
+                  //       fillColor: Color(0xffEAEAEA),
+                  //       hintText: 'write your experiences',
+                  //       hintStyle: TextStyle(
+                  //         color: Color(color.blue),
+                  //       ),
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         borderSide: BorderSide(
+                  //           width: 0,
+                  //           color: Color(0xffEAEAEA),
+                  //         ),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         borderSide: BorderSide(
+                  //           width: 1.8,
+                  //           color: Color(
+                  //             color.orange,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       errorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         borderSide: BorderSide(
+                  //           width: 1.8,
+                  //           color: Color(
+                  //             color.red,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       focusedErrorBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         borderSide: BorderSide(
+                  //           width: 1.8,
+                  //           color: Color(
+                  //             color.red,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -964,81 +1107,6 @@ class _RegisterState extends State<Register> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     top: 5.h,
-                  //     left: 1.w,
-                  //     right: 5.w,
-                  //   ),
-                  //   child: CustomFields(
-                  //     isExperiance: false,
-                  //     validator: Validators.time,
-                  //     isAddress: false,
-                  //     controller: date,
-                  //     isTime: true,
-                  //     isPhone: false,
-                  //     isPass: false,
-                  //     icon: Padding(
-                  //       padding: const EdgeInsets.all(7.0),
-                  //       child: Image.asset(
-                  //         Images.time,
-                  //         height: 1.h,
-                  //       ),
-                  //     ),
-                  //     label: 'Time',
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 3.h,
-                      left: 1.w,
-                      right: 5.w,
-                    ),
-                    child: Container(
-                      width: 100.w,
-                      height: 7.h,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 9.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Your consulting',
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7.w,
-                            ),
-                            SizedBox(
-                              height: 3.h,
-                              width: 25.w,
-                              child: PageView.builder(
-                                controller: consoltingController,
-                                scrollDirection: Axis.vertical,
-                                itemCount: experiance.length,
-                                itemBuilder: (context, index) {
-                                  return Text(
-                                    experiance[index],
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Color(0xffEAEAEA),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
                   Padding(
                     padding: EdgeInsets.only(
                       top: 2.h,
@@ -1096,8 +1164,323 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 1.w,
+                      right: 5.w,
+                    ),
+                    child: CustomFields(
+                      isExperiance: false,
+                      validator: Validators.details,
+                      isAddress: false,
+                      controller: detailsController,
+                      isTime: false,
+                      isPhone: false,
+                      isPass: false,
+                      icon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          Images.username,
+                          height: 1.h,
+                        ),
+                      ),
+                      label: 'details',
+                    ),
+                  ),
                   SizedBox(
                     height: 10.h,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Step(
+          state: CurrentStep > 0 && CurrentStep > 3
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: CurrentStep >= 4,
+          title: Text(
+            "",
+            style: TextStyle(
+              fontFamily: Fonts.g,
+              fontSize: 15.sp,
+              color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
+            ),
+          ),
+          content: Container(
+            child: Form(
+              key: _formKey5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 1.w,
+                      right: 3.w,
+                    ),
+                    child: Container(
+                      height: 10.h,
+                      width: 75.w,
+                      padding: EdgeInsets.only(
+                        top: 3.h,
+                        left: 5.w,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.sp),
+                        color: Color(color.orange),
+                      ),
+                      child: PageView.builder(
+                        onPageChanged: (i) {
+                          print(days[i]);
+                        },
+                        controller: PageController(
+                          viewportFraction: 0.4,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: days.length,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            days[index],
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 1.w,
+                      right: 5.w,
+                    ),
+                    child: CustomFields(
+                      isExperiance: false,
+                      validator: Validators.price,
+                      isAddress: false,
+                      controller: priceController,
+                      isTime: false,
+                      isPhone: true,
+                      isPass: false,
+                      icon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          Images.username,
+                          height: 1.h,
+                        ),
+                      ),
+                      label: 'price',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                      left: 1.w,
+                      right: 5.w,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomFields(
+                            isExperiance: false,
+                            validator: Validators.time,
+                            isAddress: false,
+                            controller: date,
+                            isTime: true,
+                            isPhone: false,
+                            isPass: false,
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                Images.time,
+                                height: 1.h,
+                              ),
+                            ),
+                            label: 'Start time',
+                          ),
+                        ),
+                        SizedBox(width: 5.w,),
+                        Expanded(
+                          child: CustomFields(
+                            isExperiance: false,
+                            validator: Validators.time,
+                            isAddress: false,
+                            controller: date,
+                            isTime: true,
+                            isPhone: false,
+                            isPass: false,
+                            icon: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                Images.time,
+                                height: 1.h,
+                              ),
+                            ),
+                            label: 'End time',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Step(
+          state: CurrentStep > 0 && CurrentStep > 4
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: CurrentStep >= 5,
+          title: Text(
+            "",
+            style: TextStyle(
+              fontFamily: Fonts.g,
+              fontSize: 15.sp,
+              color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
+            ),
+          ),
+          content: Container(
+            padding: EdgeInsets.only(
+              top: 5.h,
+            ),
+            child: Form(
+              key: _formKey6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: 1.w,
+                    ),
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          Images.credit,
+                          width: 100.w,
+                        ),
+                        Positioned(
+                          top: 11.5.h,
+                          left: 18.w,
+                          child: Text(
+                            '${creditNum == null ? "0000" : creditNum}',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.yellow,
+                              fontFamily: Fonts.a,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 16.5.h,
+                          left: 8.w,
+                          child: Text(
+                            '${nameController.text}',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.yellow,
+                              fontFamily: Fonts.a,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 4.h,
+                      left: 3.w,
+                      right: 4.w,
+                    ),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        updateText(val);
+                      },
+                      validator: Validators.price,
+                      controller: CreditnumController,
+                      obscureText: true,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffEAEAEA),
+                        label: Text(
+                          'Credit Price',
+                          style: TextStyle(
+                            color: Color(color.blue),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 0,
+                            color: Color(0xffEAEAEA),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 1.8,
+                            color: Color(
+                              color.orange,
+                            ),
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 1.8,
+                            color: Color(
+                              color.red,
+                            ),
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(
+                            width: 1.8,
+                            color: Color(
+                              color.red,
+                            ),
+                          ),
+                        ),
+                        prefixIcon: Image.asset(
+                          Images.password,
+                          height: 1.h,
+                        ),
+                      ),
+                    ), // CustomFields(
+                    //   isExperiance: false,
+                    //   validator: Validators.price,
+                    //   isAddress: false,
+                    //   controller: priceController,
+                    //   isTime: false,
+                    //   isPhone: true,
+                    //   isPass: false,
+                    //   icon: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: Image.asset(
+                    //       Images.username,
+                    //       height: 1.h,
+                    //     ),
+                    //   ),
+                    //   label: 'price',
+                    // ),
+                  ),
+                  SizedBox(
+                    height: 7.h,
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).viewInsets.bottom,
