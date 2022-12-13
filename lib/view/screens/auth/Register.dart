@@ -22,16 +22,25 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   TextEditingController userNameController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController CreditnumController = TextEditingController();
-  TextEditingController detailsController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController PhoneController = TextEditingController();
-  TextEditingController AddressController = TextEditingController();
 
-  TextEditingController experianceController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
+  TextEditingController consultingController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+
+  TextEditingController experienceController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
+
+  TextEditingController creditnumController = TextEditingController();
+
+
+
+
+
   TextEditingController date = TextEditingController();
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
@@ -48,6 +57,13 @@ class _RegisterState extends State<Register> {
   void updateText(val) {
     setState(() {
       creditNum = val;
+    });
+  }
+
+  void validateAddress(val) {
+    setState(() {
+      creditNum = val;
+      Validators.price(val);
     });
   }
 
@@ -68,7 +84,7 @@ class _RegisterState extends State<Register> {
     'Thursday',
     'Friday',
   ];
-
+  int selected=0;
   PageController consoltingController = PageController(
     initialPage: 0,
   );
@@ -548,6 +564,7 @@ class _RegisterState extends State<Register> {
   }
 
   List<Step> getSteps() => [
+
         Step(
           state: CurrentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: CurrentStep >= 0,
@@ -561,6 +578,7 @@ class _RegisterState extends State<Register> {
           ),
           content: Container(
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -695,6 +713,7 @@ class _RegisterState extends State<Register> {
           ),
           content: Container(
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey2,
               child: Column(
                 children: [
@@ -874,7 +893,7 @@ class _RegisterState extends State<Register> {
                       isExperiance: false,
                       validator: Validators.address,
                       isAddress: true,
-                      controller: AddressController,
+                      controller: addressController,
                       isTime: false,
                       isPhone: false,
                       isPass: false,
@@ -914,6 +933,7 @@ class _RegisterState extends State<Register> {
               top: 10.h,
             ),
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1017,63 +1037,6 @@ class _RegisterState extends State<Register> {
                       label: 'price',
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     top: 2.h,
-                  //     left: 1.w,
-                  //     right: 5.w,
-                  //   ),
-                  //   child: TextFormField(
-                  //     validator: Validators.experiance,
-                  //     controller: experianceController,
-                  //     minLines: 2,
-                  //     maxLines: 5,
-                  //     maxLength: 150,
-                  //     keyboardType: TextInputType.multiline,
-                  //     decoration: InputDecoration(
-                  //       filled: true,
-                  //       fillColor: Color(0xffEAEAEA),
-                  //       hintText: 'write your experiences',
-                  //       hintStyle: TextStyle(
-                  //         color: Color(color.blue),
-                  //       ),
-                  //       enabledBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //         borderSide: BorderSide(
-                  //           width: 0,
-                  //           color: Color(0xffEAEAEA),
-                  //         ),
-                  //       ),
-                  //       focusedBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //         borderSide: BorderSide(
-                  //           width: 1.8,
-                  //           color: Color(
-                  //             color.orange,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       errorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //         borderSide: BorderSide(
-                  //           width: 1.8,
-                  //           color: Color(
-                  //             color.red,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       focusedErrorBorder: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(15),
-                  //         borderSide: BorderSide(
-                  //           width: 1.8,
-                  //           color: Color(
-                  //             color.red,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -1103,6 +1066,7 @@ class _RegisterState extends State<Register> {
               top: 10.h,
             ),
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1115,7 +1079,7 @@ class _RegisterState extends State<Register> {
                     ),
                     child: TextFormField(
                       validator: Validators.experiance,
-                      controller: experianceController,
+                      controller: experienceController,
                       minLines: 2,
                       maxLines: 5,
                       maxLength: 150,
@@ -1214,6 +1178,7 @@ class _RegisterState extends State<Register> {
           ),
           content: Container(
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey5,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1237,6 +1202,9 @@ class _RegisterState extends State<Register> {
                       child: PageView.builder(
                         onPageChanged: (i) {
                           print(days[i]);
+                         setState(() {
+                           selected=i;
+                         });
                         },
                         controller: PageController(
                           viewportFraction: 0.4,
@@ -1247,7 +1215,7 @@ class _RegisterState extends State<Register> {
                           return Text(
                             days[index],
                             style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize:selected==index?15.sp:10.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           );
@@ -1358,6 +1326,7 @@ class _RegisterState extends State<Register> {
               top: 5.h,
             ),
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey6,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1410,7 +1379,7 @@ class _RegisterState extends State<Register> {
                         updateText(val);
                       },
                       validator: Validators.price,
-                      controller: CreditnumController,
+                      controller: creditnumController,
                       obscureText: true,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(

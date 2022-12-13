@@ -13,10 +13,10 @@ class Validators {
   }
 
   static String? name(String? value) {
-    if (value == null || !value.isAlphabetOnly) return ' invalid name';
+    if (value == null || value.isEmpty) return ' invalid name';
   }
   static String? username(String? value) {
-    if (value == null || !value.isAlphabetOnly) return ' invalid user name';
+    if (value == null || value.isEmpty) return ' invalid user name';
   }
 
   static String? details(String? value) {
