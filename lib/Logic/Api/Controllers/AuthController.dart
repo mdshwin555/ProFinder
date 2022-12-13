@@ -61,8 +61,8 @@ class AuthController{
 
   }
 
-  static Future<bool?> addExpert({
-    required String user_name,
+  static Future<int?> addExpert({
+    required String username,
     required String email,
     required String password,
     required String name,
@@ -78,25 +78,25 @@ class AuthController{
     var request = http.MultipartRequest('POST',
         Uri.parse(Api.addExpert));
     request.fields.addAll({
-      'user_name': user_name,
+      'user_name': username,
       'email': email,
       'password': password,
       'name': name,
-      'phone': phone,
+      'photo':image!,
+      'phone_number': phone,
       'address': address,
       'price': price,
-      'consulting': consulting,
+      'consuiting': consulting,
     });
     request.headers.addAll({
       'Accept':'application/json'
     });
-
-    if(image != null)
-      request.files.add(
-          await http.MultipartFile.fromPath(
-              'image',
-              image)
-      );
+    // if(image != null)
+    //   request.files.add(
+    //       await http.MultipartFile.fromPath(
+    //           'photo',
+    //           image)
+    //   );
 
     var response = await request.send();
 
@@ -108,7 +108,7 @@ class AuthController{
       //if json['message'] != null;
       //await storage.login(json['token']);
       //await sharedPref?.setString('access_token',json['access_token']);
-      return true;
+      return response.statusCode;
     }
 
 

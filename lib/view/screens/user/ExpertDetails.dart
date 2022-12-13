@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:project2022/Logic/Api/Models/expertmodel.dart';
 import 'package:sizer/sizer.dart';
+import '../../../Logic/Api/Controllers/ExpertController.dart';
 import '../../../constants/fonts.dart';
 import 'package:project2022/constants/colors.dart';
 
@@ -10,7 +12,8 @@ class ExpertDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: GridView.custom(
+      body:
+      GridView.custom(
         padding: EdgeInsets.only(
           top: 2.h,
           left: 3.w,

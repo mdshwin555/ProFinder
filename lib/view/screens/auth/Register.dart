@@ -214,58 +214,87 @@ class _RegisterState extends State<Register> {
                         steps: getSteps(),
                         currentStep: CurrentStep,
                         onStepContinue: () async {
-                          setState(() {
-                            CurrentStep == 0
-                                ? {
-                                    if (!_formKey1.currentState!.validate())
-                                      {}
-                                    else
-                                      CurrentStep = CurrentStep + 1,
-                                  }
-                                : CurrentStep == 1
-                                    ? {
-                                        if (!_formKey2.currentState!.validate())
-                                          {}
-                                        else
-                                          CurrentStep = CurrentStep + 1,
-                                      }
-                                    : CurrentStep == 2
-                                        ? {
 
-                                          }
-                                        : CurrentStep == 3
-                                            ? {
-                                                if (!_formKey4.currentState!
-                                                    .validate())
-                                                  {}
-                                                else
-                                                  CurrentStep = CurrentStep + 1,
-                                              }
-                                            : CurrentStep == 4
-                                                ? {
-                                                    if (!_formKey5.currentState!
-                                                        .validate())
-                                                      {}
-                                                    else
-                                                      CurrentStep =
-                                                          CurrentStep + 1,
-                                                  }
-                                                : CurrentStep == 5
-                                                    ? {
-                                                        if (!_formKey6
-                                                            .currentState!
-                                                            .validate())
-                                                          {}
-                                                        else
-                                                            Get.offNamed(
-                                                                Routes.Login),
-                                                          }
 
-                                                    : {
-                                                        Get.offNamed(
-                                                            Routes.Login),
-                                                      };
-                          });
+
+                            var token2 = await AuthController.addExpert(
+                                username:userNameController.text,
+                                email:emailController.text,
+                                password:passwordController.text,
+                                image: _path,
+                                name:nameController.text,
+                                phone:phoneController.text,
+                                address:addressController.text,
+                                price:priceController.text,
+                                consulting:consultingController.text,
+                            );
+                            if(token2 == 200)
+                              {
+                                Get.dialog(
+                                    WillPopScope(
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        onWillPop: () async {
+                                          return true;
+                                        }
+                                    )
+                                );
+                                Get.offAllNamed(Routes.Login);
+                              }
+                            else
+                              Get.snackbar('${token2}','failed');
+
+                            setState(() {
+                              CurrentStep == 0
+                                  ? {
+                                if (!_formKey1.currentState!.validate())
+                                  {}
+                                else
+                                  CurrentStep = CurrentStep + 1,
+                              }
+                                  : CurrentStep == 1
+                                  ? {
+                                if (!_formKey2.currentState!.validate())
+                                  {}
+                                else
+                                  CurrentStep = CurrentStep + 1,
+                              }
+                                  : CurrentStep == 2
+                                  ? {
+                                if (!_formKey3.currentState!.validate())
+                                  {}
+                                else
+                                  CurrentStep = CurrentStep + 1,
+                              }
+                                  : CurrentStep == 3
+                                  ? {
+                                if (!_formKey4.currentState!
+                                    .validate())
+                                  {}
+                                else
+                                  CurrentStep = CurrentStep + 1,
+                              }
+                                  : CurrentStep == 4
+                                  ? {
+                                if (!_formKey5.currentState!
+                                    .validate())
+                                  {}
+                                else
+                                  CurrentStep =
+                                      CurrentStep + 1,
+                              }
+                                  : CurrentStep == 5
+                                  ? {
+                                if (!_formKey6
+                                    .currentState!
+                                    .validate())
+                                  {}
+                              }
+
+                                  : {
+                              };
+                            });
                         },
                         onStepCancel: () {
                           setState(() {
