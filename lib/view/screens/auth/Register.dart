@@ -13,6 +13,7 @@ import 'package:project2022/constants/colors.dart';
 import '../../../../constants/validators.dart';
 import '../../../../main.dart';
 import 'dart:io';
+import '../../../Logic/Api/Controllers/AuthController.dart';
 import '../../widgets/Fields.dart';
 
 class Register extends StatefulWidget {
@@ -35,13 +36,10 @@ class _RegisterState extends State<Register> {
   TextEditingController experienceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
 
+  TextEditingController date = TextEditingController();
+
   TextEditingController creditnumController = TextEditingController();
 
-
-
-
-
-  TextEditingController date = TextEditingController();
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
@@ -49,8 +47,8 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey5 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
   String? _path;
-  DateTime?startTime;
-  DateTime?endTime;
+  DateTime? startTime;
+  DateTime? endTime;
   int CurrentStep = 0;
   var creditNum;
 
@@ -84,7 +82,7 @@ class _RegisterState extends State<Register> {
     'Thursday',
     'Friday',
   ];
-  int selected=0;
+  int selected = 0;
   PageController consoltingController = PageController(
     initialPage: 0,
   );
@@ -163,62 +161,59 @@ class _RegisterState extends State<Register> {
                           setState(() {
                             CurrentStep <= 0
                                 ? {
-                              if (!_formKey1.currentState!.validate())
-                                {}
-                              else
-                                CurrentStep = index,
-                            }
+                                    if (!_formKey1.currentState!.validate())
+                                      {}
+                                    else
+                                      CurrentStep = index,
+                                  }
                                 : CurrentStep <= 1
-                                ? {
-                              if (!_formKey2.currentState!.validate())
-                                {}
-                              else
-                                CurrentStep = index,
-                            }
-                                : CurrentStep <= 2
-                                ? {
-                              if (!_formKey3.currentState!
-                                  .validate())
-                                {}
-                              else
-                                CurrentStep = index,
-                            }
-                                : CurrentStep <= 3
-                                ? {
-                              if (!_formKey4.currentState!
-                                  .validate())
-                                {}
-                              else
-                                CurrentStep = index,
-                            }
-                                : CurrentStep <= 4
-                                ? {
-                              if (!_formKey5.currentState!
-                                  .validate())
-                                {}
-                              else
-                                CurrentStep =
-                                    index,
-                            }
-                                : CurrentStep <= 5
-                                ? {
-                              if (!_formKey6
-                                  .currentState!
-                                  .validate())
-                                {}
-                              else
-                                CurrentStep =
-                                    index,
-                            }
-                                : CurrentStep =
-                                index;
+                                    ? {
+                                        if (!_formKey2.currentState!.validate())
+                                          {}
+                                        else
+                                          CurrentStep = index,
+                                      }
+                                    : CurrentStep <= 2
+                                        ? {
+                                            if (!_formKey3.currentState!
+                                                .validate())
+                                              {}
+                                            else
+                                              CurrentStep = index,
+                                          }
+                                        : CurrentStep <= 3
+                                            ? {
+                                                if (!_formKey4.currentState!
+                                                    .validate())
+                                                  {}
+                                                else
+                                                  CurrentStep = index,
+                                              }
+                                            : CurrentStep <= 4
+                                                ? {
+                                                    if (!_formKey5.currentState!
+                                                        .validate())
+                                                      {}
+                                                    else
+                                                      CurrentStep = index,
+                                                  }
+                                                : CurrentStep <= 5
+                                                    ? {
+                                                        if (!_formKey6
+                                                            .currentState!
+                                                            .validate())
+                                                          {}
+                                                        else
+                                                          CurrentStep = index,
+                                                      }
+                                                    : CurrentStep = index;
                           });
                         },
                         elevation: 0,
                         type: StepperType.horizontal,
                         steps: getSteps(),
                         currentStep: CurrentStep,
-                        onStepContinue: () {
+                        onStepContinue: () async {
                           setState(() {
                             CurrentStep == 0
                                 ? {
@@ -236,11 +231,7 @@ class _RegisterState extends State<Register> {
                                       }
                                     : CurrentStep == 2
                                         ? {
-                                            if (!_formKey3.currentState!
-                                                .validate())
-                                              {}
-                                            else
-                                              CurrentStep = CurrentStep + 1,
+
                                           }
                                         : CurrentStep == 3
                                             ? {
@@ -266,11 +257,14 @@ class _RegisterState extends State<Register> {
                                                             .validate())
                                                           {}
                                                         else
-                                                          Get.offNamed(
-                                                              Routes.Login),
-                                                      }
-                                                    : Get.offNamed(
-                                                        Routes.Login);
+                                                            Get.offNamed(
+                                                                Routes.Login),
+                                                          }
+
+                                                    : {
+                                                        Get.offNamed(
+                                                            Routes.Login),
+                                                      };
                           });
                         },
                         onStepCancel: () {
@@ -488,10 +482,33 @@ class _RegisterState extends State<Register> {
                                   right: 5.w,
                                 ),
                                 child: InkWell(
-                                  onTap: () {
+                                  onTap: () async {
                                     if (!_formKey2.currentState!.validate()) {
-                                    } else
-                                      Get.toNamed(Routes.Login);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text('data error')));
+                                    } else {
+                                      Get.dialog(WillPopScope(
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                          onWillPop: () async {
+                                            return true;
+                                          }));
+
+                                      var token = await AuthController.register(
+                                        name: userNameController.text,
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        // image: _path
+                                      );
+                                      Get.back();
+                                      if (token == true)
+                                        Get.offAllNamed(Routes.Login);
+                                      else
+                                        Get.snackbar(
+                                            'register faild', 'Error in data');
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -502,7 +519,7 @@ class _RegisterState extends State<Register> {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: Text(
-                                      'Login',
+                                      'Register',
                                       style: TextStyle(
                                         color: Color(0xffffffff),
                                         fontSize: 20.sp,
@@ -564,7 +581,6 @@ class _RegisterState extends State<Register> {
   }
 
   List<Step> getSteps() => [
-
         Step(
           state: CurrentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: CurrentStep >= 0,
@@ -1202,9 +1218,9 @@ class _RegisterState extends State<Register> {
                       child: PageView.builder(
                         onPageChanged: (i) {
                           print(days[i]);
-                         setState(() {
-                           selected=i;
-                         });
+                          setState(() {
+                            selected = i;
+                          });
                         },
                         controller: PageController(
                           viewportFraction: 0.4,
@@ -1215,7 +1231,7 @@ class _RegisterState extends State<Register> {
                           return Text(
                             days[index],
                             style: TextStyle(
-                              fontSize:selected==index?15.sp:10.sp,
+                              fontSize: selected == index ? 15.sp : 10.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           );
@@ -1274,7 +1290,9 @@ class _RegisterState extends State<Register> {
                             label: 'Start time',
                           ),
                         ),
-                        SizedBox(width: 5.w,),
+                        SizedBox(
+                          width: 5.w,
+                        ),
                         Expanded(
                           child: CustomFields(
                             isExperiance: false,

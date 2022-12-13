@@ -45,7 +45,7 @@ dependencies:
   flutter_staggered_grid_view:
   intl_phone_number_input:
   animated_text_kit: ^4.2.2
-
+  http:
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2022/main.dart';
 import 'package:sizer/sizer.dart';
+import '../../../Logic/Api/Controllers/AuthController.dart';
 import '../../../constants/fonts.dart';
 import '../../../constants/images.dart';
 import 'package:project2022/constants/colors.dart';
@@ -96,6 +97,7 @@ class Login extends StatelessWidget {
                             ),
                             child: SingleChildScrollView(
                               child: Form(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 key: _formKey1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,12 +178,33 @@ class Login extends StatelessWidget {
                                         right: 5.w,
                                       ),
                                       child: InkWell(
-                                        onTap: () {
-                                          if (!_formKey1.currentState!
-                                              .validate()) {
-                                          } else
-                                            Get.offNamed(Routes.Home);
+                                        onTap: () async {
+                                          if(!_formKey1.currentState!.validate()) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(content: Text('data error')));
+                                          }
+                                          else{
+                                            Get.dialog(
+                                                WillPopScope(
+                                                    child: Center(
+                                                      child: CircularProgressIndicator(),
+                                                    ),
+                                                    onWillPop: () async {
+                                                      return true;
+                                                    }
+                                                )
+                                            );
+                                            var token = await AuthController.login(
+                                                emailController.text,
+                                                passwordController.text
+                                            );
+
+                                            Get.back();
+                                            if(token!=null)
+                                              Get.offAllNamed(Routes.Home);
+                                          }
                                         },
+
                                         child: Container(
                                           alignment: Alignment.center,
                                           height: 8.h,
@@ -330,6 +353,7 @@ class Login extends StatelessWidget {
                             ),
                             child: SingleChildScrollView(
                               child: Form(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 key: _formKey1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,11 +434,31 @@ class Login extends StatelessWidget {
                                         right: 5.w,
                                       ),
                                       child: InkWell(
-                                        onTap: () {
-                                          if (!_formKey1.currentState!
-                                              .validate()) {
-                                          } else
-                                            Get.offNamed(Routes.Home);
+                                        onTap: () async {
+                                          if(!_formKey1.currentState!.validate()) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(content: Text('data error')));
+                                          }
+                                          else{
+                                            Get.dialog(
+                                                WillPopScope(
+                                                    child: Center(
+                                                      child: CircularProgressIndicator(),
+                                                    ),
+                                                    onWillPop: () async {
+                                                      return true;
+                                                    }
+                                                )
+                                            );
+                                            var token = await AuthController.login(
+                                                emailController.text,
+                                                passwordController.text
+                                            );
+
+                                            Get.back();
+                                            if(token!=null)
+                                              Get.offAllNamed(Routes.Home);
+                                          }
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
