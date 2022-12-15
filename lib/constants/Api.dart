@@ -5,5 +5,8 @@ class Api{
   static const String login = '$baseUrl/login';
   static const String register = '$baseUrl/register';
   static const String addExpert = '$baseUrl/addExpert';
+  static const String addExperience = '$baseUrl/auth/addExperience';
+  static const String addtime = '$baseUrl/auth/addtime';
+  static const String addCredit = '$baseUrl/auth/addCredit';
 
 }

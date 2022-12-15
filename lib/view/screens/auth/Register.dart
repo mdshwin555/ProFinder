@@ -36,7 +36,9 @@ class _RegisterState extends State<Register> {
   TextEditingController experienceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
 
-  TextEditingController date = TextEditingController();
+  TextEditingController periodController = TextEditingController();
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
   TextEditingController creditnumController = TextEditingController();
 
@@ -47,15 +49,71 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey5 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
   String? _path;
-  DateTime? startTime;
-  DateTime? endTime;
   int CurrentStep = 0;
   var creditNum;
+  var token2;
+  var addexperiance;
+  var loginexpertperiance;
+  var loginexpert;
 
   void updateText(val) {
     setState(() {
       creditNum = val;
     });
+  }
+
+  void nextaddexperiance() async{
+     loginexpert = await AuthController.login(
+        emailController.text,
+        passwordController.text
+    );
+
+     addexperiance = await AuthController.addExperience(
+      token: '$loginexpert',
+      experiences:
+      experienceController
+          .text,
+      details: detailsController
+          .text,
+    );
+    if (addexperiance == 200)
+    {
+      CurrentStep =
+          CurrentStep + 1;
+      Get.snackbar(
+          'register Succsess',
+          'ok');
+    }
+    else
+      print(
+          '${loginexpert.toString()},'
+              '${experienceController.text},'
+              '${detailsController.text},');
+  }
+
+  void creditaddexperiance() async{
+    loginexpert = await AuthController.login(
+        emailController.text,
+        passwordController.text
+    );
+
+    addexperiance = await AuthController.addCredit(
+      token: '$loginexpert',
+     balance: '${creditnumController.text}'
+    );
+    if (addexperiance == 200)
+    {
+      CurrentStep =
+          CurrentStep + 1;
+      Get.snackbar(
+          'register Succsess',
+          'ok');
+    }
+    else
+      print(
+          '${loginexpert.toString()},'
+              '${creditnumController.text},'
+              );
   }
 
   void validateAddress(val) {
@@ -83,7 +141,9 @@ class _RegisterState extends State<Register> {
     'Friday',
   ];
   int selected = 0;
-  PageController consoltingController = PageController(
+  int current = 0;
+
+  final consoltingController = PageController(
     initialPage: 0,
   );
 
@@ -213,88 +273,109 @@ class _RegisterState extends State<Register> {
                         type: StepperType.horizontal,
                         steps: getSteps(),
                         currentStep: CurrentStep,
-                        onStepContinue: ()  {
-
-
-
-                            // var token2 = await AuthController.addExpert(
-                            //     username:userNameController.text,
-                            //     email:emailController.text,
-                            //     password:passwordController.text,
-                            //     image: _path,
-                            //     name:nameController.text,
-                            //     phone:phoneController.text,
-                            //     address:addressController.text,
-                            //     price:priceController.text,
-                            //     consulting:consultingController.text,
-                            // );
-                            // if(token2 == 200)
-                            //   {
-                            //     Get.dialog(
-                            //         WillPopScope(
-                            //             child: Center(
-                            //               child: CircularProgressIndicator(),
-                            //             ),
-                            //             onWillPop: () async {
-                            //               return true;
-                            //             }
-                            //         )
-                            //     );
-                            //     Get.offAllNamed(Routes.Login);
-                            //   }
-                            // else
-                            //   Get.snackbar('${token2}','failed');
-
-                            setState(() {
-                              CurrentStep == 0
-                                  ? {
-                                if (!_formKey1.currentState!.validate())
-                                  {}
-                                else
-                                  CurrentStep = CurrentStep + 1,
-                              }
-                                  : CurrentStep == 1
-                                  ? {
-                                if (!_formKey2.currentState!.validate())
-                                  {}
-                                else
-                                  CurrentStep = CurrentStep + 1,
-                              }
-                                  : CurrentStep == 2
-                                  ? {
-                                if (!_formKey3.currentState!.validate())
-                                  {}
-                                else
-                                  CurrentStep = CurrentStep + 1,
-                              }
-                                  : CurrentStep == 3
-                                  ? {
-                                if (!_formKey4.currentState!
-                                    .validate())
-                                  {}
-                                else
-                                  CurrentStep = CurrentStep + 1,
-                              }
-                                  : CurrentStep == 4
-                                  ? {
-                                if (!_formKey5.currentState!
-                                    .validate())
-                                  {}
-                                else
-                                  CurrentStep =
-                                      CurrentStep + 1,
-                              }
-                                  : CurrentStep == 5
-                                  ? {
-                                if (!_formKey6
-                                    .currentState!
-                                    .validate())
-                                  {}
-                              }
-
-                                  : {
-                              };
-                            });
+                        onStepContinue: () {
+                          setState(()  {
+                            CurrentStep == 0
+                                ? {
+                                    if (!_formKey1.currentState!.validate())
+                                      {}
+                                    else
+                                      CurrentStep = CurrentStep + 1,
+                                  }
+                                : CurrentStep == 1
+                                    ? {
+                                        if (!_formKey2.currentState!.validate())
+                                          {}
+                                        else
+                                          CurrentStep = CurrentStep + 1,
+                                      }
+                                    : CurrentStep == 2
+                                        ? {
+                                            if (!_formKey3.currentState!
+                                                .validate())
+                                              {}
+                                            else
+                                              {
+                                                CurrentStep = CurrentStep + 1,
+                                                // Get.dialog(WillPopScope(
+                                                // child: Center(
+                                                // child: CircularProgressIndicator(),
+                                                // ),
+                                                // onWillPop: () async {
+                                                // return true;
+                                                // })),
+                                                token2 =
+                                                    AuthController.addExpert(
+                                                  username:
+                                                      userNameController.text,
+                                                  email: emailController.text,
+                                                  password:
+                                                      passwordController.text,
+                                                  image: _path,
+                                                  name: nameController.text,
+                                                  phone: phoneController.text,
+                                                  address:
+                                                      addressController.text,
+                                                  price: priceController.text,
+                                                  consulting:
+                                                      experiance[current],
+                                                ),
+                                                if (token2 == 200)
+                                                  {
+                                                    CurrentStep =
+                                                        CurrentStep + 1,
+                                                    Get.snackbar(
+                                                        'register Succsess',
+                                                        'ok'),
+                                                  }
+                                                else
+                                                  print(
+                                                      '${userNameController.text},'
+                                                      '${emailController.text},'
+                                                      '${passwordController.text}'
+                                                      '${_path}'
+                                                      '${nameController.text}'
+                                                      '${phoneController.text}'
+                                                      '${addressController.text}'
+                                                      '${priceController.text}'
+                                                      '${experiance[current]}'),
+                                              }
+                                          }
+                                        : CurrentStep == 3
+                                            ? {
+                                                if (!_formKey4.currentState!
+                                                    .validate())
+                                                  {}
+                                                else
+                                                  {
+                                                    nextaddexperiance(),
+                                                    CurrentStep =
+                                                        CurrentStep + 1,
+                                                  }
+                                              }
+                                            : CurrentStep == 4
+                                                ? {
+                                                    if (!_formKey5.currentState!
+                                                        .validate())
+                                                      {}
+                                                    else
+                                                      CurrentStep =
+                                                          CurrentStep + 1,
+                                                  }
+                                                : CurrentStep == 5
+                                                    ? {
+                                                        if (!_formKey6
+                                                            .currentState!
+                                                            .validate())
+                                                          {}
+                                                        else
+                                                          {
+                                                            creditaddexperiance(),
+                                                            Get.toNamed(Routes.Login),
+                                                          }
+                                                      }
+                                                    : {};
+                          });
                         },
                         onStepCancel: () {
                           setState(() {
@@ -872,6 +953,7 @@ class _RegisterState extends State<Register> {
                         trailingSpace: false,
                         setSelectorButtonAsPrefixIcon: true,
                       ),
+                      textFieldController: phoneController,
                       formatInput: true,
                       spaceBetweenSelectorAndTextField: 0,
                       onInputChanged: (PhoneNumber value) {},
@@ -1035,6 +1117,11 @@ class _RegisterState extends State<Register> {
                               height: 3.h,
                               width: 25.w,
                               child: PageView.builder(
+                                onPageChanged: (index) {
+                                  setState(() {
+                                    current = index;
+                                  });
+                                },
                                 controller: consoltingController,
                                 scrollDirection: Axis.vertical,
                                 itemCount: experiance.length,
@@ -1197,6 +1284,62 @@ class _RegisterState extends State<Register> {
                       label: 'details',
                     ),
                   ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(
+                  //     top: 5.h,
+                  //     left: 1.w,
+                  //     right: 5.w,
+                  //   ),
+                  //   child: InkWell(
+                  //     onTap: () async {
+                  //       var loginexpert = await AuthController.login(
+                  //           emailController.text,
+                  //           passwordController.text
+                  //       );
+                  //
+                  //       var addexperiance = await AuthController.addExperience(
+                  //         token: '$loginexpert',
+                  //         experiences:
+                  //         experienceController
+                  //             .text,
+                  //         details: detailsController
+                  //             .text,
+                  //       );
+                  //       if (addexperiance == 200)
+                  //       {
+                  //         CurrentStep =
+                  //             CurrentStep + 1;
+                  //       Get.snackbar(
+                  //       'register Succsess',
+                  //       'ok');
+                  //       }
+                  //       else
+                  //       print(
+                  //       '${loginexpert.toString()},'
+                  //       '${experienceController.text},'
+                  //       '${detailsController.text},');
+                  //
+                  //     },
+                  //     child: Container(
+                  //       alignment: Alignment.center,
+                  //       height: 8.h,
+                  //       width: 85.w,
+                  //       decoration: BoxDecoration(
+                  //         color: Color(color.blue),
+                  //         borderRadius:
+                  //         BorderRadius.circular(25),
+                  //       ),
+                  //       child: Text(
+                  //         'Login',
+                  //         style: TextStyle(
+                  //           color: Color(0xffffffff),
+                  //           fontSize: 20.sp,
+                  //           fontFamily: Fonts.g,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -1278,7 +1421,7 @@ class _RegisterState extends State<Register> {
                       isExperiance: false,
                       validator: Validators.price,
                       isAddress: false,
-                      controller: priceController,
+                      controller: periodController,
                       isTime: false,
                       isPhone: true,
                       isPass: false,
@@ -1289,7 +1432,7 @@ class _RegisterState extends State<Register> {
                           height: 1.h,
                         ),
                       ),
-                      label: 'price',
+                      label: 'period',
                     ),
                   ),
                   Padding(
@@ -1301,44 +1444,132 @@ class _RegisterState extends State<Register> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: CustomFields(
-                            isExperiance: false,
-                            validator: Validators.time,
-                            isAddress: false,
-                            controller: date,
-                            isTime: true,
-                            isPhone: false,
-                            isPass: false,
-                            icon: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: Image.asset(
-                                Images.time,
+                          child: TextFormField(
+                            cursorWidth: 0,
+                            keyboardType: TextInputType.none,
+                            // validator: Validators.time,
+                            //controller: creditnumController,
+                            onTap: (){
+                              showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                            },
+                            decoration: InputDecoration(
+                              hintText:  '${startTime?.hour.toString()}:${startTime?.minute.toString()}',
+                              filled: true,
+                              fillColor: Color(0xffEAEAEA),
+                              label: Text(
+                                'Start time',
+                                style: TextStyle(
+                                  color: Color(color.blue),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: Color(0xffEAEAEA),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.orange,
+                                  ),
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.red,
+                                  ),
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.red,
+                                  ),
+                                ),
+                              ),
+                              prefixIcon: Image.asset(
+                                Images.password,
                                 height: 1.h,
                               ),
                             ),
-                            label: 'Start time',
                           ),
                         ),
                         SizedBox(
                           width: 5.w,
                         ),
                         Expanded(
-                          child: CustomFields(
-                            isExperiance: false,
-                            validator: Validators.time,
-                            isAddress: false,
-                            controller: date,
-                            isTime: true,
-                            isPhone: false,
-                            isPass: false,
-                            icon: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: Image.asset(
-                                Images.time,
+                          child: TextFormField(
+                            cursorWidth: 0,
+                            keyboardType: TextInputType.none,
+                            // validator: Validators.time,
+                            //controller: creditnumController,
+                            onTap: (){
+                              showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                            },
+                            decoration: InputDecoration(
+                              hintText:  '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+                              filled: true,
+                              fillColor: Color(0xffEAEAEA),
+                              label: Text(
+                                'End time',
+                                style: TextStyle(
+                                  color: Color(color.blue),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  color: Color(0xffEAEAEA),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.orange,
+                                  ),
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.red,
+                                  ),
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  width: 1.8,
+                                  color: Color(
+                                    color.red,
+                                  ),
+                                ),
+                              ),
+                              prefixIcon: Image.asset(
+                                Images.password,
                                 height: 1.h,
                               ),
                             ),
-                            label: 'End time',
                           ),
                         ),
                       ],
