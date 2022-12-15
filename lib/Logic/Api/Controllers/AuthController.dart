@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 
 class AuthController{
 
-
   static Future<String?> login(String email,String password) async {
     var response = await http.post(
         Uri.parse(Api.login),
@@ -91,12 +90,12 @@ class AuthController{
     request.headers.addAll({
       'Accept':'application/json'
     });
-    // if(image != null)
-    //   request.files.add(
-    //       await http.MultipartFile.fromPath(
-    //           'photo',
-    //           image)
-    //   );
+    if(image != null)
+      request.files.add(
+          await http.MultipartFile.fromPath(
+              'photo',
+              image)
+      );
 
     var response = await request.send();
 
@@ -105,9 +104,6 @@ class AuthController{
       Map<String,dynamic> json = jsonDecode(
           await response.stream.bytesToString()
       );
-      //if json['message'] != null;
-      //await storage.login(json['token']);
-      //await sharedPref?.setString('access_token',json['access_token']);
       return response.statusCode;
     }
 

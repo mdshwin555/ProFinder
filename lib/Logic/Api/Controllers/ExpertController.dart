@@ -5,12 +5,24 @@ import '../Models/expertmodel.dart';
 
 class ExpertController {
   static Future<List<expertmodel>> getexperts(id) async {
+
     var response = await http
         .get(Uri.parse("http://10.0.2.2:8000/api/viewexperts/$id"));
-    Map<String, dynamic> json = jsonDecode(response.body);
-    List<expertmodel> models = [];
-    for (var j in json['']) models.add(expertmodel.fromJson(j));
-    return models;
+
+    List<expertmodel> ulist=[];
+
+    if(response.statusCode == 200){
+      var urjson=json.decode(response.body);
+      for (var j in urjson)
+       for (var jj in urjson)
+       {
+         ulist.add(expertmodel.fromJson(jj));
+       }
+    }
+
+
+
+    return ulist;
   }
 
 }

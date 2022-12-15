@@ -213,37 +213,37 @@ class _RegisterState extends State<Register> {
                         type: StepperType.horizontal,
                         steps: getSteps(),
                         currentStep: CurrentStep,
-                        onStepContinue: () async {
+                        onStepContinue: ()  {
 
 
 
-                            var token2 = await AuthController.addExpert(
-                                username:userNameController.text,
-                                email:emailController.text,
-                                password:passwordController.text,
-                                image: _path,
-                                name:nameController.text,
-                                phone:phoneController.text,
-                                address:addressController.text,
-                                price:priceController.text,
-                                consulting:consultingController.text,
-                            );
-                            if(token2 == 200)
-                              {
-                                Get.dialog(
-                                    WillPopScope(
-                                        child: Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        onWillPop: () async {
-                                          return true;
-                                        }
-                                    )
-                                );
-                                Get.offAllNamed(Routes.Login);
-                              }
-                            else
-                              Get.snackbar('${token2}','failed');
+                            // var token2 = await AuthController.addExpert(
+                            //     username:userNameController.text,
+                            //     email:emailController.text,
+                            //     password:passwordController.text,
+                            //     image: _path,
+                            //     name:nameController.text,
+                            //     phone:phoneController.text,
+                            //     address:addressController.text,
+                            //     price:priceController.text,
+                            //     consulting:consultingController.text,
+                            // );
+                            // if(token2 == 200)
+                            //   {
+                            //     Get.dialog(
+                            //         WillPopScope(
+                            //             child: Center(
+                            //               child: CircularProgressIndicator(),
+                            //             ),
+                            //             onWillPop: () async {
+                            //               return true;
+                            //             }
+                            //         )
+                            //     );
+                            //     Get.offAllNamed(Routes.Login);
+                            //   }
+                            // else
+                            //   Get.snackbar('${token2}','failed');
 
                             setState(() {
                               CurrentStep == 0
