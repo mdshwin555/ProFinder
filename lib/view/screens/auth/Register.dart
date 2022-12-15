@@ -37,8 +37,8 @@ class _RegisterState extends State<Register> {
   TextEditingController detailsController = TextEditingController();
 
   TextEditingController periodController = TextEditingController();
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
+  TimeOfDay startTime = TimeOfDay(hour:TimeOfDay.now().hour ,minute: TimeOfDay.now().minute);
+  TimeOfDay endTime = TimeOfDay(hour:TimeOfDay.now().hour ,minute: TimeOfDay.now().minute);
 
   TextEditingController creditnumController = TextEditingController();
 
@@ -48,13 +48,16 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey4 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey5 = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
+
   String? _path;
   int CurrentStep = 0;
   var creditNum;
   var token2;
   var addexperiance;
+  var addtimes;
   var loginexpertperiance;
   var loginexpert;
+  var timesloginexpert;
 
   void updateText(val) {
     setState(() {
@@ -62,58 +65,55 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  void nextaddexperiance() async{
-     loginexpert = await AuthController.login(
-        emailController.text,
-        passwordController.text
-    );
+  void nextaddexperiance() async {
+    loginexpert = await AuthController.login(
+        emailController.text, passwordController.text);
 
-     addexperiance = await AuthController.addExperience(
+    addexperiance = await AuthController.addExperience(
       token: '$loginexpert',
-      experiences:
-      experienceController
-          .text,
-      details: detailsController
-          .text,
+      experiences: experienceController.text,
+      details: detailsController.text,
     );
-    if (addexperiance == 200)
-    {
-      CurrentStep =
-          CurrentStep + 1;
-      Get.snackbar(
-          'register Succsess',
-          'ok');
-    }
-    else
-      print(
-          '${loginexpert.toString()},'
-              '${experienceController.text},'
-              '${detailsController.text},');
+    if (addexperiance == 200) {
+      Get.snackbar('register Succsess', 'ok');
+    } else
+      print('${loginexpert.toString()},'
+          '${experienceController.text},'
+          '${detailsController.text},');
   }
 
-  void creditaddexperiance() async{
+  void creditaddexperiance() async {
     loginexpert = await AuthController.login(
-        emailController.text,
-        passwordController.text
-    );
+        emailController.text, passwordController.text);
 
     addexperiance = await AuthController.addCredit(
+        token: '$loginexpert', balance: '${creditnumController.text}');
+    if (addexperiance == 200) {
+      Get.snackbar('register Succsess', 'ok');
+    } else
+      print('${loginexpert.toString()},'
+          '${creditnumController.text},');
+  }
+
+  void timesaddexperiance() async {
+
+    addtimes = await AuthController.addtime(
       token: '$loginexpert',
-     balance: '${creditnumController.text}'
+      day: '${days[selected]}',
+      from:'${startTime.hour}',
+      to: '${endTime.hour}',
+      period: '${periodController.text}',
     );
-    if (addexperiance == 200)
-    {
-      CurrentStep =
-          CurrentStep + 1;
-      Get.snackbar(
-          'register Succsess',
-          'ok');
-    }
-    else
+    if (addtimes == 200) {
+      Get.snackbar('register Success', 'ok');
+    } else
       print(
-          '${loginexpert.toString()},'
-              '${creditnumController.text},'
-              );
+        '${loginexpert.toString()},'
+        '${days[selected]},'
+        '${startTime?.hour},'
+        '${endTime?.hour},'
+        '${periodController.text},',
+      );
   }
 
   void validateAddress(val) {
@@ -140,6 +140,7 @@ class _RegisterState extends State<Register> {
     'Thursday',
     'Friday',
   ];
+
   int selected = 0;
   int current = 0;
 
@@ -274,7 +275,7 @@ class _RegisterState extends State<Register> {
                         steps: getSteps(),
                         currentStep: CurrentStep,
                         onStepContinue: () {
-                          setState(()  {
+                          setState(() {
                             CurrentStep == 0
                                 ? {
                                     if (!_formKey1.currentState!.validate())
@@ -359,8 +360,11 @@ class _RegisterState extends State<Register> {
                                                         .validate())
                                                       {}
                                                     else
-                                                      CurrentStep =
-                                                          CurrentStep + 1,
+                                                      {
+                                                        timesaddexperiance(),
+                                                        CurrentStep =
+                                                            CurrentStep + 1,
+                                                      }
                                                   }
                                                 : CurrentStep == 5
                                                     ? {
@@ -371,7 +375,8 @@ class _RegisterState extends State<Register> {
                                                         else
                                                           {
                                                             creditaddexperiance(),
-                                                            Get.toNamed(Routes.Login),
+                                                            Get.toNamed(
+                                                                Routes.Login),
                                                           }
                                                       }
                                                     : {};
@@ -1449,14 +1454,19 @@ class _RegisterState extends State<Register> {
                             keyboardType: TextInputType.none,
                             // validator: Validators.time,
                             //controller: creditnumController,
-                            onTap: (){
-                              showTimePicker(
+                            onTap: () async {
+                              TimeOfDay? newtime = await  showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
+                              if(newtime == null) return;
+                              if(newtime !=null) setState(() {
+                                startTime=newtime;
+                              });
                             },
                             decoration: InputDecoration(
-                              hintText:  '${startTime?.hour.toString()}:${startTime?.minute.toString()}',
+                              hintText:
+                                  '${startTime?.hour.toString()}:${startTime?.minute.toString()}',
                               filled: true,
                               fillColor: Color(0xffEAEAEA),
                               label: Text(
@@ -1515,14 +1525,19 @@ class _RegisterState extends State<Register> {
                             keyboardType: TextInputType.none,
                             // validator: Validators.time,
                             //controller: creditnumController,
-                            onTap: (){
-                              showTimePicker(
+                            onTap: () async {
+                              TimeOfDay? newwtime = await   showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
+                              if(newwtime == null) return;
+                              if(newwtime !=null) setState(() {
+                                endTime=newwtime;
+                              });
                             },
                             decoration: InputDecoration(
-                              hintText:  '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}',
+                              hintText:
+                              '${endTime?.hour.toString()}:${endTime?.minute.toString()}',
                               filled: true,
                               fillColor: Color(0xffEAEAEA),
                               label: Text(

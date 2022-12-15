@@ -188,7 +188,7 @@ class AuthController{
     //String? image
   }) async{
     var request = http.MultipartRequest('POST',
-        Uri.parse(Api.addCredit));
+        Uri.parse(Api.addtime));
     request.fields.addAll({
       'token': token,
       'day': day,
