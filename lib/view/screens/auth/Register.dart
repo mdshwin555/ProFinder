@@ -319,7 +319,7 @@ class _RegisterState extends State<Register> {
                                                       addressController.text,
                                                   price: priceController.text,
                                                   consulting:
-                                                      experiance[current],
+                                                      experiance[current+1],
                                                 ),
                                                 if (token2 == 200)
                                                   {
