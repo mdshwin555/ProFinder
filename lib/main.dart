@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           GetPage(name: Routes.Register, page: () => Register()),
           GetPage(name: Routes.Home, page: () => Home()),
           GetPage(name: Routes.SplashScreen, page: () => SplachScreen()),
-          GetPage(name: Routes.expertDetails, page: () => ExpertDetails()),
+          //GetPage(name: Routes.expertDetails, page: () => ExpertDetails()),
         ],
         initialRoute: Routes.SplashScreen,
       ),

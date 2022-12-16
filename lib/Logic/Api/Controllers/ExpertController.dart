@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:project2022/main.dart';
 import '../../../constants/Api.dart';
 import '../Models/expertmodel.dart';
 
 class ExpertController {
 
-  int? index;
-  static Future getexperts(index) async {
-    var response = await http.get(Uri.parse('${Api.viewexperts}/$index'));
+
+  static Future getexperts() async {
+    var response = await http.get(Uri.parse('${Api.viewexperts}/${sharedPref?.getInt("consulting")}'));
 
 
     if (response.statusCode == 200) {
       var urjson = json.decode(response.body);
-
+     // print(index);
       // for (var j in urjson)
       //  {
       //    var urjson2 =json.decode(response.body);
