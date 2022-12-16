@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:project2022/view/screens/user/ExpertDetails.dart';
 import 'package:sizer/sizer.dart';
 import 'package:project2022/constants/colors.dart';
 import '../../../constants/fonts.dart';
@@ -300,7 +301,7 @@ class MainScreen extends StatelessWidget {
                         radius: 5.sp,
                         borderRadius: BorderRadius.circular(50.sp),
                         onTap: () {
-                          Get.toNamed(Routes.expertDetails);
+                          Get.to(ExpertDetails(i));
                         },
                         child: Container(
                           margin: EdgeInsets.only(

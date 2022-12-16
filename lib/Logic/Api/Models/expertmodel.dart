@@ -1,7 +1,6 @@
 
 class expertmodel {
 
-  static String url = '';
 
   expertmodel({
     required this.name,
