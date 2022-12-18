@@ -50,6 +50,7 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
 
   String? _path;
+  File? image;
   int CurrentStep = 0;
   var creditNum;
   var token2;
@@ -298,13 +299,6 @@ class _RegisterState extends State<Register> {
                                             else
                                               {
                                                 CurrentStep = CurrentStep + 1,
-                                                // Get.dialog(WillPopScope(
-                                                // child: Center(
-                                                // child: CircularProgressIndicator(),
-                                                // ),
-                                                // onWillPop: () async {
-                                                // return true;
-                                                // })),
                                                 token2 =
                                                     AuthController.addExpert(
                                                   username:
@@ -382,15 +376,8 @@ class _RegisterState extends State<Register> {
                                                     : {};
                           });
                         },
-                        onStepCancel: () {
-                          setState(() {
-                            CurrentStep > 0 && CurrentStep <= 3
-                                ? CurrentStep = CurrentStep - 1
-                                : Get.toNamed(Routes.Login);
-                          });
-                        },
                         controlsBuilder:
-                            (BuildContext context, ControlsDetails details) {
+                            ( context, details) {
                           return Column(
                             children: [
                               Padding(
@@ -398,7 +385,6 @@ class _RegisterState extends State<Register> {
                                   top: 2.h,
                                   left: 1.w,
                                   right: 5.w,
-                                  //bottom: 10.h
                                 ),
                                 child: InkWell(
                                   onTap: details.onStepContinue,
@@ -442,6 +428,21 @@ class _RegisterState extends State<Register> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
+                    top: 8.h,
+                    left: 5.w,
+                  ),
+                  child: Text(
+                    'Create account ',
+                    style: TextStyle(
+                      color: Color(color.orange),
+                      fontSize: 30.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Fonts.h,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
                     left: 6.w,
                     top: 15.h,
                   ),
@@ -459,18 +460,11 @@ class _RegisterState extends State<Register> {
                       ),
                       child: SingleChildScrollView(
                         child: Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           key: _formKey2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Register',
-                                style: TextStyle(
-                                  color: Color(color.blue),
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                               Padding(
                                 padding: EdgeInsets.only(
                                   top: 1.h,
@@ -483,50 +477,53 @@ class _RegisterState extends State<Register> {
                                       alignment: Alignment.bottomRight,
                                       children: [
                                         CircleAvatar(
-                                          radius: 60.sp,
+                                          radius: 50.sp,
                                           backgroundColor: Color(color.orange),
                                           foregroundImage: _path == null
                                               ? null
                                               : FileImage(File(_path!)),
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 60.sp,
-                                            color: Color(color.blue),
+                                          child: Image.asset(
+                                            Images.expert,
+                                            height: 12.h,
                                           ),
                                         ),
                                         Positioned(
-                                          top: 87.sp,
-                                          left: 77.sp,
+                                          top: 70.sp,
+                                          left: 70.sp,
                                           child: CircleAvatar(
                                             backgroundColor: Color(color.white),
-                                            radius: 25,
+                                            radius: 23,
                                             child: CircleAvatar(
-                                              backgroundColor:
-                                                  Color(color.blue),
+                                              radius: 18,
+                                              backgroundColor: Color(color.blue),
                                               child: IconButton(
                                                 onPressed: () async {
-                                                  var imagePicker =
-                                                      ImagePicker();
+                                                  var imagePicker = ImagePicker();
                                                   var xfile = _path == null
-                                                      ? await imagePicker
-                                                          .pickImage(
-                                                              source:
-                                                                  ImageSource
-                                                                      .gallery)
+                                                      ? await imagePicker.pickImage(
+                                                      source: ImageSource.gallery)
                                                       : _path = null;
                                                   if (xfile != null) {
                                                     setState(() {
                                                       _path = xfile.path;
+                                                      sharedPref?.setString("path", _path!);
                                                     });
                                                   } else {
                                                     setState(() {
                                                       _path = null;
+                                                      sharedPref?.setString("path", _path!);
                                                     });
                                                   }
                                                 },
                                                 icon: _path == null
-                                                    ? Icon(Icons.add)
-                                                    : Icon(Icons.delete),
+                                                    ? Icon(
+                                                  Icons.edit,
+                                                  size: 15.sp,
+                                                )
+                                                    : Icon(
+                                                  Icons.delete,
+                                                  size: 15.sp,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -550,8 +547,14 @@ class _RegisterState extends State<Register> {
                                   isTime: false,
                                   isPhone: false,
                                   isPass: false,
-                                  icon: Icon(Icons.drive_file_rename_outline),
-                                  label: 'User',
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      Images.username,
+                                      height: 1.h,
+                                    ),
+                                  ),
+                                  label: 'Name',
                                 ),
                               ),
                               Padding(
@@ -568,7 +571,13 @@ class _RegisterState extends State<Register> {
                                   isTime: false,
                                   isPhone: false,
                                   isPass: false,
-                                  icon: Icon(Icons.email_outlined),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      Images.email,
+                                      height: 1.h,
+                                    ),
+                                  ),
                                   label: 'E-mail',
                                 ),
                               ),
@@ -586,7 +595,13 @@ class _RegisterState extends State<Register> {
                                   isTime: false,
                                   isPhone: false,
                                   isPass: true,
-                                  icon: Icon(Icons.password),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      Images.password,
+                                      height: 5.h,
+                                    ),
+                                  ),
                                   label: 'Password',
                                 ),
                               ),
@@ -618,9 +633,10 @@ class _RegisterState extends State<Register> {
                                         // image: _path
                                       );
                                       Get.back();
-                                      if (token == true)
+                                      if (token == true) {
                                         Get.offAllNamed(Routes.Login);
-                                      else
+                                        sharedPref?.setString("name", userNameController.text);
+                                      } else
                                         Get.snackbar(
                                             'register faild', 'Error in data');
                                     }

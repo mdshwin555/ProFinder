@@ -39,9 +39,9 @@ class Home extends StatelessWidget {
                 bottom: Radius.circular(30.sp),
               ),
               padding: EdgeInsets.only(
-                bottom: 2.h,
-                left: 3.w,
-                right: 3.w
+                bottom: 3.h,
+                left: 6.w,
+                right: 6.w
               ),
               circleColor: Color(color.orange),
               activeIcons: [

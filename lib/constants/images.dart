@@ -30,4 +30,10 @@ class Images{
   static const String think='$source/think.json';
   static const String ballon='$source/ballon.png';
   static const String credit='$source/credit.jpg';
+  static const String noitems='$source/noitems.json';
+  static const String loading='$source/loading.json';
+  static const String darkmood='$source/darkmood.png';
+  static const String lang='$source/lang.png';
+  static const String notification='$source/notification.png';
+  static const String logout='$source/logout.png';
 }
