@@ -314,6 +314,7 @@ class _RegisterState extends State<Register> {
                                                   price: priceController.text,
                                                   consulting:
                                                       experiance[current+1],
+                                                      role:'expert',
                                                 ),
                                                 if (token2 == 200)
                                                   {

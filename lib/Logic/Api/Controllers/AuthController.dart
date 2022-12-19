@@ -72,6 +72,7 @@ class AuthController{
     required String address,
     required String price,
     required String consulting,
+    required String role,
 
   }) async{
     var request = http.MultipartRequest('POST',
@@ -86,6 +87,7 @@ class AuthController{
       'address': address,
       'price': price,
       'consuiting': consulting,
+      'role': role,
     });
     request.headers.addAll({
       'Accept':'application/json'
