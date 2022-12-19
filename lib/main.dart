@@ -29,7 +29,7 @@ void main() async {
     Get.changeTheme(ThemeData.light()),
     sharedPref?.setBool("val", false),
   };
-  //sharedPref?.clear();                    // DON'T FORGET REMOVE IT 😒
+  sharedPref?.clear();                    // DON'T FORGET REMOVE IT 😒
   runApp(MyApp());
 }
 

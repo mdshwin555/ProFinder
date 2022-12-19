@@ -111,8 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             Positioned(
-              top: 32.h,
-              left: 45.w,
+              top: 31.h,
+              left: 37.w,
               child: Text(
                 '${sharedPref?.getString("name")}',
                 style: TextStyle(
@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top: 37.h,
+              top: 36.h,
               left: 7.w,
               child: Container(
                 width: 85.w,
@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                       left: 19.w,
                       child:Text(
-                        'Dark mood',
+                        "light".tr,
                         style: TextStyle(
                           letterSpacing: 0.8,
                           fontWeight: FontWeight.bold,
@@ -192,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top: 49.h,
+              top: 48.h,
               left: 7.w,
               child: Container(
                 width: 85.w,
@@ -265,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top: 61.h,
+              top: 60.h,
               left: 7.w,
               child: Container(
                 width: 85.w,
@@ -332,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Positioned(
-              top: 73.h,
+              top: 72.h,
               left: 7.w,
               child: Container(
                 width: 85.w,
@@ -363,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                       left: 19.w,
                       child:Text(
-                        'Notification',
+                        'Log out',
                         style: TextStyle(
                           letterSpacing: 0.8,
                           fontWeight: FontWeight.bold,

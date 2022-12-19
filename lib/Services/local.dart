@@ -7,14 +7,14 @@ class MyLocal implements Translations {
     "en": {
       "login-title": "Login",
       "type-1": "User",
-      "type-2": "Admin",
+      "light": "Dark mood",
       "arabic": "🇸🇦",
       "english": "🇱🇷",
     },
     "ar": {
       "login-title": "تسجيل الدخول",
       "type-1": "مستخدم عادي",
-      "type-2": "أدمن",
+      "light": "الوضع الليلي",
       "arabic": "🇸🇦",
       "english": "🇱🇷",
     }
