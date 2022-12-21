@@ -285,122 +285,81 @@ class MainScreen extends StatelessWidget {
                                 top: 0.5.h,
                               ),
                               height: 32.h,
-                              child:  StatefulBuilder(
-                                builder: (context, setState) {
-                                  return  FutureBuilder<dynamic>(
-                                    future: ExpertController.getexperts(),
-                                    builder:
-                                        (context, AsyncSnapshot<dynamic> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else {
-                                        return GridView.builder(
-                                          itemCount: snapshot.data[0].length,
-                                          padding: EdgeInsets.only(
-                                            top: 2.h,
-                                            left: 3.w,
-                                            right: 3.w,
+                              child: GridView.custom(
+                                padding: EdgeInsets.only(
+                                  top: 2.h,
+                                  left: 3.w,
+                                  right: 3.w,
+                                ),
+                                gridDelegate: SliverWovenGridDelegate.count(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 8,
+                                  crossAxisSpacing: 8,
+                                  pattern: [
+                                    WovenGridTile(1),
+                                    WovenGridTile(
+                                      5 / 7,
+                                      crossAxisRatio: 0.9,
+                                      alignment: AlignmentDirectional.centerEnd,
+                                    ),
+                                  ],
+                                ),
+                                childrenDelegate: SliverChildBuilderDelegate(
+                                      (context, index) => ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            Images.exwall,
                                           ),
-                                          gridDelegate:
-                                          SliverWovenGridDelegate.count(
-                                            crossAxisCount: 2,
-                                            mainAxisSpacing: 8,
-                                            crossAxisSpacing: 8,
-                                            pattern: [
-                                              WovenGridTile(1),
-                                              WovenGridTile(
-                                                5 / 7,
-                                                crossAxisRatio: 0.9,
-                                                alignment:
-                                                AlignmentDirectional.centerEnd,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.transparent,
+                                              Colors.black.withOpacity(0.75),
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius: BorderRadius.circular(10.sp),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            bottom: 2.5.h,
+                                            right: 25.w,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+
+                                              Text(
+                                                'Hello',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15.sp,
+                                                  fontFamily: Fonts.a,
+                                                ),
+                                              ),
+                                              Text(
+                                                '7/10 ⭐️',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10.sp,
+                                                ),
                                               ),
                                             ],
                                           ),
-                                          itemBuilder: (context, index) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      "https://picsum.photos/${Random().nextInt(20) + 100}/${Random().nextInt(30) + 80}",
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      colors: [
-                                                        Colors.transparent,
-                                                        Colors.black
-                                                            .withOpacity(0.75),
-                                                      ],
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
-                                                    ),
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.sp),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 5.w,
-                                                      bottom: 2.h,
-                                                    ),
-                                                    child: Stack(
-                                                      alignment:
-                                                      Alignment.bottomLeft,
-                                                      children: [
-                                                        Positioned(
-                                                          top: 2.h,
-                                                          right: 4.w,
-                                                          child: Icon(
-                                                            Icons.favorite,
-                                                            color: Color(color.red),
-                                                            size: 20.sp,
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          bottom: 2.5.h,
-                                                          right: 16.w,
-                                                          child: Text(
-                                                            '${snapshot.data[0][index]["name"]}',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 15.sp,
-                                                              fontFamily: Fonts.a,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Positioned(
-                                                          right: 16.w,
-                                                          child: Text(
-                                                            '${snapshot.data[0][index]['address']}',
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 10.sp,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
-                                    },
-                                  );
-                                },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-
                             ),
                           ],
                         );

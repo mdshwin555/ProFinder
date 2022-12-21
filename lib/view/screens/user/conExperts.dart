@@ -61,10 +61,10 @@ class ConExperts extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                            "https://picsum.photos/${Random().nextInt(20) + 100}/${Random().nextInt(30) + 80}",
+                          image: AssetImage(
+                            Images.exwall,
                           ),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       child: Container(

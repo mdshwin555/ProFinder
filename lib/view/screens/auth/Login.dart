@@ -185,8 +185,10 @@ class Login extends StatelessWidget {
                                           } else {
                                             Get.dialog(WillPopScope(
                                                 child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                  child: Lottie.asset(
+                                                    Images.loading,
+                                                    height: 10.h,
+                                                  ),
                                                 ),
                                                 onWillPop: () async {
                                                   return true;
@@ -568,8 +570,10 @@ class Login extends StatelessWidget {
                                           } else {
                                             Get.dialog(WillPopScope(
                                                 child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                  child: Lottie.asset(
+                                                    Images.loading,
+                                                    height: 10.h,
+                                                  ),
                                                 ),
                                                 onWillPop: () async {
                                                   return true;

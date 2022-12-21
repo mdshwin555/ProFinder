@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project2022/view/screens/auth/Login.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../constants/fonts.dart';
@@ -37,8 +38,10 @@ class _RegisterState extends State<Register> {
   TextEditingController detailsController = TextEditingController();
 
   TextEditingController periodController = TextEditingController();
-  TimeOfDay startTime = TimeOfDay(hour:TimeOfDay.now().hour ,minute: TimeOfDay.now().minute);
-  TimeOfDay endTime = TimeOfDay(hour:TimeOfDay.now().hour ,minute: TimeOfDay.now().minute);
+  TimeOfDay startTime =
+      TimeOfDay(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute);
+  TimeOfDay endTime =
+      TimeOfDay(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute);
 
   TextEditingController creditnumController = TextEditingController();
 
@@ -68,7 +71,7 @@ class _RegisterState extends State<Register> {
 
   void nextaddexperiance() async {
     loginexpert = await AuthController.login(
-        emailController.text, passwordController.text,'expert');
+        emailController.text, passwordController.text, 'expert');
 
     addexperiance = await AuthController.addExperience(
       token: '$loginexpert',
@@ -76,7 +79,6 @@ class _RegisterState extends State<Register> {
       details: detailsController.text,
     );
     if (addexperiance == 200) {
-
     } else
       print('${loginexpert.toString()},'
           '${experienceController.text},'
@@ -85,7 +87,7 @@ class _RegisterState extends State<Register> {
 
   void creditaddexperiance() async {
     loginexpert = await AuthController.login(
-        emailController.text, passwordController.text,'expert');
+        emailController.text, passwordController.text, 'expert');
 
     addexperiance = await AuthController.addCredit(
         token: '$loginexpert', balance: '${creditnumController.text}');
@@ -97,7 +99,6 @@ class _RegisterState extends State<Register> {
             left: 5.w,
             right: 5.w,
           ),
-
           height: 50.h,
           width: 90.w,
           child: Stack(
@@ -108,41 +109,25 @@ class _RegisterState extends State<Register> {
                 child: Container(
                   height: 35.h,
                   width: 90.w,
-                  decoration:
-                  BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                    BorderRadius
-                        .circular(
-                        25.sp),
+                    borderRadius: BorderRadius.circular(25.sp),
                   ),
                   child: Container(
-                    padding:
-                    EdgeInsets.only(
-                        top: 11.h),
+                    padding: EdgeInsets.only(top: 11.h),
                     child: Column(
                       children: [
                         SizedBox(
                           height: 3.h,
                         ),
                         Text(
-                          textAlign:
-                          TextAlign
-                              .center,
+                          textAlign: TextAlign.center,
                           'Register complete Successfully \n,Please login now !! ',
-                          style:
-                          TextStyle(
-                            fontSize:
-                            13.sp,
-                            fontWeight:
-                            FontWeight
-                                .bold,
-                            decoration:
-                            TextDecoration
-                                .none,
-                            color: Color(
-                                color
-                                    .blue),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.none,
+                            color: Color(color.blue),
                           ),
                         ),
                         SizedBox(
@@ -152,41 +137,25 @@ class _RegisterState extends State<Register> {
                           onTap: () {
                             Get.back();
                           },
-                          child:
-                          Container(
-                            padding:
-                            EdgeInsets
-                                .only(
+                          child: Container(
+                            padding: EdgeInsets.only(
                               left: 7.w,
-                              right:
-                              7.w,
+                              right: 7.w,
                             ),
-                            alignment:
-                            Alignment
-                                .center,
+                            alignment: Alignment.center,
                             height: 8.h,
                             width: 78.w,
-                            decoration:
-                            BoxDecoration(
-                              color: Color(
-                                  color
-                                      .blue),
-                              borderRadius:
-                              BorderRadius.circular(
-                                  25),
+                            decoration: BoxDecoration(
+                              color: Color(color.blue),
+                              borderRadius: BorderRadius.circular(25),
                             ),
                             child: Text(
                               'ok',
-                              style:
-                              TextStyle(
-                                color: Color(
-                                    0xffffffff),
-                                fontSize:
-                                20.sp,
-                                fontFamily:
-                                Fonts.a,
-                                decoration:
-                                TextDecoration.none,
+                              style: TextStyle(
+                                color: Color(0xffffffff),
+                                fontSize: 20.sp,
+                                fontFamily: Fonts.a,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           ),
@@ -198,17 +167,13 @@ class _RegisterState extends State<Register> {
               ),
               CircleAvatar(
                 radius: 50.sp,
-                backgroundColor:
-                Colors.green,
+                backgroundColor: Colors.green,
                 child: Text(
                   '🥳',
                   style: TextStyle(
                       fontSize: 50.sp,
-                      fontWeight:
-                      FontWeight
-                          .bold,
-                      color: Color(
-                          color.white)),
+                      fontWeight: FontWeight.bold,
+                      color: Color(color.white)),
                 ),
               ),
             ],
@@ -221,16 +186,14 @@ class _RegisterState extends State<Register> {
   }
 
   void timesaddexperiance() async {
-
     addtimes = await AuthController.addtime(
       token: '$loginexpert',
       day: '${days[selected]}',
-      from:'${startTime.hour}',
+      from: '${startTime.hour}',
       to: '${endTime.hour}',
       period: '${periodController.text}',
     );
     if (addtimes == 200) {
-
     } else
       print(
         '${loginexpert.toString()},'
@@ -437,8 +400,8 @@ class _RegisterState extends State<Register> {
                                                       addressController.text,
                                                   price: priceController.text,
                                                   consulting:
-                                                      experiance[current+1],
-                                                      role:'expert',
+                                                      experiance[current + 1],
+                                                  role: 'expert',
                                                 ),
                                                 if (token2 == 200)
                                                   {
@@ -494,6 +457,10 @@ class _RegisterState extends State<Register> {
                                                         else
                                                           {
                                                             creditaddexperiance(),
+                                                            sharedPref?.setString(
+                                                                "name",
+                                                                userNameController
+                                                                    .text),
                                                             Get.toNamed(
                                                                 Routes.Login),
                                                           }
@@ -501,8 +468,7 @@ class _RegisterState extends State<Register> {
                                                     : {};
                           });
                         },
-                        controlsBuilder:
-                            ( context, details) {
+                        controlsBuilder: (context, details) {
                           return Column(
                             children: [
                               Padding(
@@ -620,35 +586,42 @@ class _RegisterState extends State<Register> {
                                             radius: 23,
                                             child: CircleAvatar(
                                               radius: 18,
-                                              backgroundColor: Color(color.blue),
+                                              backgroundColor:
+                                                  Color(color.blue),
                                               child: IconButton(
                                                 onPressed: () async {
-                                                  var imagePicker = ImagePicker();
+                                                  var imagePicker =
+                                                      ImagePicker();
                                                   var xfile = _path == null
-                                                      ? await imagePicker.pickImage(
-                                                      source: ImageSource.gallery)
+                                                      ? await imagePicker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .gallery)
                                                       : _path = null;
                                                   if (xfile != null) {
                                                     setState(() {
                                                       _path = xfile.path;
-                                                      sharedPref?.setString("path", _path!);
+                                                      sharedPref?.setString(
+                                                          "path", _path!);
                                                     });
                                                   } else {
                                                     setState(() {
                                                       _path = null;
-                                                      sharedPref?.setString("path", _path!);
+                                                      sharedPref?.setString(
+                                                          "path", _path!);
                                                     });
                                                   }
                                                 },
                                                 icon: _path == null
                                                     ? Icon(
-                                                  Icons.edit,
-                                                  size: 15.sp,
-                                                )
+                                                        Icons.edit,
+                                                        size: 15.sp,
+                                                      )
                                                     : Icon(
-                                                  Icons.delete,
-                                                  size: 15.sp,
-                                                ),
+                                                        Icons.delete,
+                                                        size: 15.sp,
+                                                      ),
                                               ),
                                             ),
                                           ),
@@ -739,13 +712,13 @@ class _RegisterState extends State<Register> {
                                 child: InkWell(
                                   onTap: () async {
                                     if (!_formKey2.currentState!.validate()) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text('data error')));
                                     } else {
                                       Get.dialog(WillPopScope(
                                           child: Center(
-                                            child: CircularProgressIndicator(),
+                                            child: Lottie.asset(
+                                              Images.loading,
+                                              height: 10.h,
+                                            ),
                                           ),
                                           onWillPop: () async {
                                             return true;
@@ -755,16 +728,352 @@ class _RegisterState extends State<Register> {
                                         name: userNameController.text,
                                         email: emailController.text,
                                         password: passwordController.text,
-                                        role:'${sharedPref?.getString("role")}',
+                                        role:
+                                            '${sharedPref?.getString("role")}',
                                         // image: _path
                                       );
-                                      Get.back();
+                                      Get.dialog(
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                            bottom: 16.h,
+                                            left: 5.w,
+                                            right: 5.w,
+                                          ),
+                                          height: 50.h,
+                                          width: 90.w,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              Positioned(
+                                                top: 38.h,
+                                                child: Container(
+                                                  height: 35.h,
+                                                  width: 90.w,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25.sp),
+                                                  ),
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 11.h),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 3.h,
+                                                        ),
+                                                        Text(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          'Register complete Successfully \n,Please login now !! ',
+                                                          style: TextStyle(
+                                                            fontSize: 13.sp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .none,
+                                                            color: Color(
+                                                                color.blue),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 4.h,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Get.back();
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left: 7.w,
+                                                              right: 7.w,
+                                                            ),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            height: 8.h,
+                                                            width: 78.w,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  color.blue),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          25),
+                                                            ),
+                                                            child: Text(
+                                                              'ok',
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xffffffff),
+                                                                fontSize: 20.sp,
+                                                                fontFamily:
+                                                                    Fonts.a,
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              CircleAvatar(
+                                                radius: 50.sp,
+                                                backgroundColor: Colors.green,
+                                                child: Text(
+                                                  '🥳',
+                                                  style: TextStyle(
+                                                      fontSize: 50.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          Color(color.white)),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
                                       if (token == true) {
+                                        Get.dialog(
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              bottom: 16.h,
+                                              left: 5.w,
+                                              right: 5.w,
+                                            ),
+                                            height: 50.h,
+                                            width: 90.w,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Positioned(
+                                                  top: 38.h,
+                                                  child: Container(
+                                                    height: 35.h,
+                                                    width: 90.w,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.sp),
+                                                    ),
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          top: 11.h),
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 3.h,
+                                                          ),
+                                                          Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            'Register complete Successfully \n,Please login now !! ',
+                                                            style: TextStyle(
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color: Color(
+                                                                  color.blue),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 4.h,
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left: 7.w,
+                                                                right: 7.w,
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              height: 8.h,
+                                                              width: 78.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    color.blue),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
+                                                              ),
+                                                              child: Text(
+                                                                'ok',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xffffffff),
+                                                                  fontSize:
+                                                                      20.sp,
+                                                                  fontFamily:
+                                                                      Fonts.a,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                CircleAvatar(
+                                                  radius: 50.sp,
+                                                  backgroundColor: Colors.green,
+                                                  child: Text(
+                                                    '🥳',
+                                                    style: TextStyle(
+                                                        fontSize: 50.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Color(color.white)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                         Get.offAllNamed(Routes.Login);
-                                        sharedPref?.setString("name", userNameController.text);
+                                        sharedPref?.setString(
+                                            "name", userNameController.text);
                                       } else
-                                        Get.snackbar(
-                                            'register faild', 'Error in data');
+                                        Get.dialog(
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              bottom: 16.h,
+                                              left: 5.w,
+                                              right: 5.w,
+                                            ),
+                                            height: 50.h,
+                                            width: 90.w,
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                Positioned(
+                                                  top: 38.h,
+                                                  child: Container(
+                                                    height: 35.h,
+                                                    width: 90.w,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25.sp),
+                                                    ),
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          top: 11.h),
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 3.h,
+                                                          ),
+                                                          Text(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            'Please check your information \n,and login again !! ',
+                                                            style: TextStyle(
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              color: Color(
+                                                                  color.blue),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 4.h,
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left: 7.w,
+                                                                right: 7.w,
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              height: 8.h,
+                                                              width: 78.w,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    color.blue),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
+                                                              ),
+                                                              child: Text(
+                                                                'ok',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xffffffff),
+                                                                  fontSize:
+                                                                      20.sp,
+                                                                  fontFamily:
+                                                                      Fonts.a,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                CircleAvatar(
+                                                  radius: 50.sp,
+                                                  backgroundColor: Colors.red,
+                                                  child: Text(
+                                                    '😔',
+                                                    style: TextStyle(
+                                                        fontSize: 40.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Color(color.white)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                     }
                                   },
                                   child: Container(
@@ -1265,6 +1574,7 @@ class _RegisterState extends State<Register> {
                               width: 25.w,
                               child: PageView.builder(
                                 onPageChanged: (index) {
+                                  print(index);
                                   setState(() {
                                     current = index;
                                   });
@@ -1597,14 +1907,15 @@ class _RegisterState extends State<Register> {
                             // validator: Validators.time,
                             //controller: creditnumController,
                             onTap: () async {
-                              TimeOfDay? newtime = await  showTimePicker(
+                              TimeOfDay? newtime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
-                              if(newtime == null) return;
-                              if(newtime !=null) setState(() {
-                                startTime=newtime;
-                              });
+                              if (newtime == null) return;
+                              if (newtime != null)
+                                setState(() {
+                                  startTime = newtime;
+                                });
                             },
                             decoration: InputDecoration(
                               hintText:
@@ -1668,18 +1979,19 @@ class _RegisterState extends State<Register> {
                             // validator: Validators.time,
                             //controller: creditnumController,
                             onTap: () async {
-                              TimeOfDay? newwtime = await   showTimePicker(
+                              TimeOfDay? newwtime = await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
-                              if(newwtime == null) return;
-                              if(newwtime !=null) setState(() {
-                                endTime=newwtime;
-                              });
+                              if (newwtime == null) return;
+                              if (newwtime != null)
+                                setState(() {
+                                  endTime = newwtime;
+                                });
                             },
                             decoration: InputDecoration(
                               hintText:
-                              '${endTime?.hour.toString()}:${endTime?.minute.toString()}',
+                                  '${endTime?.hour.toString()}:${endTime?.minute.toString()}',
                               filled: true,
                               fillColor: Color(0xffEAEAEA),
                               label: Text(
