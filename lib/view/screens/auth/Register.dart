@@ -68,7 +68,7 @@ class _RegisterState extends State<Register> {
 
   void nextaddexperiance() async {
     loginexpert = await AuthController.login(
-        emailController.text, passwordController.text);
+        emailController.text, passwordController.text,'expert');
 
     addexperiance = await AuthController.addExperience(
       token: '$loginexpert',
@@ -76,7 +76,7 @@ class _RegisterState extends State<Register> {
       details: detailsController.text,
     );
     if (addexperiance == 200) {
-      Get.snackbar('register Succsess', 'ok');
+
     } else
       print('${loginexpert.toString()},'
           '${experienceController.text},'
@@ -85,12 +85,136 @@ class _RegisterState extends State<Register> {
 
   void creditaddexperiance() async {
     loginexpert = await AuthController.login(
-        emailController.text, passwordController.text);
+        emailController.text, passwordController.text,'expert');
 
     addexperiance = await AuthController.addCredit(
         token: '$loginexpert', balance: '${creditnumController.text}');
     if (addexperiance == 200) {
-      Get.snackbar('register Succsess', 'ok');
+      Get.dialog(
+        Container(
+          padding: EdgeInsets.only(
+            bottom: 16.h,
+            left: 5.w,
+            right: 5.w,
+          ),
+
+          height: 50.h,
+          width: 90.w,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                top: 38.h,
+                child: Container(
+                  height: 35.h,
+                  width: 90.w,
+                  decoration:
+                  BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                    BorderRadius
+                        .circular(
+                        25.sp),
+                  ),
+                  child: Container(
+                    padding:
+                    EdgeInsets.only(
+                        top: 11.h),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Text(
+                          textAlign:
+                          TextAlign
+                              .center,
+                          'Register complete Successfully \n,Please login now !! ',
+                          style:
+                          TextStyle(
+                            fontSize:
+                            13.sp,
+                            fontWeight:
+                            FontWeight
+                                .bold,
+                            decoration:
+                            TextDecoration
+                                .none,
+                            color: Color(
+                                color
+                                    .blue),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child:
+                          Container(
+                            padding:
+                            EdgeInsets
+                                .only(
+                              left: 7.w,
+                              right:
+                              7.w,
+                            ),
+                            alignment:
+                            Alignment
+                                .center,
+                            height: 8.h,
+                            width: 78.w,
+                            decoration:
+                            BoxDecoration(
+                              color: Color(
+                                  color
+                                      .blue),
+                              borderRadius:
+                              BorderRadius.circular(
+                                  25),
+                            ),
+                            child: Text(
+                              'ok',
+                              style:
+                              TextStyle(
+                                color: Color(
+                                    0xffffffff),
+                                fontSize:
+                                20.sp,
+                                fontFamily:
+                                Fonts.a,
+                                decoration:
+                                TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              CircleAvatar(
+                radius: 50.sp,
+                backgroundColor:
+                Colors.green,
+                child: Text(
+                  '🥳',
+                  style: TextStyle(
+                      fontSize: 50.sp,
+                      fontWeight:
+                      FontWeight
+                          .bold,
+                      color: Color(
+                          color.white)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     } else
       print('${loginexpert.toString()},'
           '${creditnumController.text},');
@@ -106,7 +230,7 @@ class _RegisterState extends State<Register> {
       period: '${periodController.text}',
     );
     if (addtimes == 200) {
-      Get.snackbar('register Success', 'ok');
+
     } else
       print(
         '${loginexpert.toString()},'
@@ -631,6 +755,7 @@ class _RegisterState extends State<Register> {
                                         name: userNameController.text,
                                         email: emailController.text,
                                         password: passwordController.text,
+                                        role:'${sharedPref?.getString("role")}',
                                         // image: _path
                                       );
                                       Get.back();
@@ -1690,7 +1815,6 @@ class _RegisterState extends State<Register> {
                       },
                       validator: Validators.price,
                       controller: creditnumController,
-                      obscureText: true,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         filled: true,

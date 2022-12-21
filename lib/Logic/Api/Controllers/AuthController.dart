@@ -8,12 +8,13 @@ import 'package:http/http.dart' as http;
 
 class AuthController{
 
-  static Future<String?> login(String email,String password) async {
+  static Future<String?> login(String email,String password,String role) async {
     var response = await http.post(
         Uri.parse(Api.login),
         body: jsonEncode({
           'email':email,
-          'password':password
+          'password':password,
+          'role':role,
         }),
         headers: {
           'Content-Type':'application/json',
@@ -21,9 +22,9 @@ class AuthController{
         }
     );
     Map<String,dynamic> json = jsonDecode(response.body);
-    if(response.statusCode == 200) { // json['token'] != null
+    if(response.statusCode == 200) {
       await sharedPref?.setString('access_token',json['access_token']);
-      return json['access_token'];
+       return role==json['user']['role']?json['access_token']:false;
     }
   }
 
@@ -32,6 +33,7 @@ class AuthController{
     required String name,
     required String email,
     required String password,
+    required String role,
     //String? image
   }) async{
     var request = http.MultipartRequest('POST',
@@ -40,6 +42,7 @@ class AuthController{
       'email': email,
       'password': password,
       'user_name': name,
+      'role': role,
     });
     request.headers.addAll({
       'Accept':'application/json'
@@ -52,9 +55,7 @@ class AuthController{
       Map<String,dynamic> json = jsonDecode(
           await response.stream.bytesToString()
       );
-       //if json['message'] != null;
-      //await storage.login(json['token']);
-      //await sharedPref?.setString('access_token',json['access_token']);
+
       return true;
     }
 

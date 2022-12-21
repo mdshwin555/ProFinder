@@ -97,7 +97,8 @@ class Login extends StatelessWidget {
                             ),
                             child: SingleChildScrollView(
                               child: Form(
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 key: _formKey1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,32 +180,154 @@ class Login extends StatelessWidget {
                                       ),
                                       child: InkWell(
                                         onTap: () async {
-                                          if(!_formKey1.currentState!.validate()) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(content: Text('data error')));
-                                          }
-                                          else{
-                                            Get.dialog(
-                                                WillPopScope(
-                                                    child: Center(
-                                                      child: CircularProgressIndicator(),
-                                                    ),
-                                                    onWillPop: () async {
-                                                      return true;
-                                                    }
-                                                )
-                                            );
-                                            var token = await AuthController.login(
-                                                emailController.text,
-                                                passwordController.text
-                                            );
+                                          if (!_formKey1.currentState!
+                                              .validate()) {
+                                          } else {
+                                            Get.dialog(WillPopScope(
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
+                                                onWillPop: () async {
+                                                  return true;
+                                                }));
+                                            var token =
+                                                await AuthController.login(
+                                                    emailController.text,
+                                                    passwordController.text,
+                                                    'expert');
 
                                             Get.back();
-                                            if(token!=null)
+                                            if (token != null)
                                               Get.offAllNamed(Routes.Home);
+                                            else
+                                              Get.dialog(
+                                                Container(
+                                                  padding: EdgeInsets.only(
+                                                    bottom: 16.h,
+                                                    left: 5.w,
+                                                    right: 5.w,
+                                                  ),
+
+                                                  height: 50.h,
+                                                  width: 90.w,
+                                                  child: Stack(
+                                                    alignment: Alignment.center,
+                                                    children: [
+                                                      Positioned(
+                                                        top: 38.h,
+                                                        child: Container(
+                                                          height: 35.h,
+                                                          width: 90.w,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        25.sp),
+                                                          ),
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 11.h),
+                                                            child: Column(
+                                                              children: [
+                                                                SizedBox(
+                                                                  height: 3.h,
+                                                                ),
+                                                                Text(
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  'email or password is  \n incorrect,Please change them \n !! ',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                    color: Color(
+                                                                        color
+                                                                            .blue),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 4.h,
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Get.back();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      left: 7.w,
+                                                                      right:
+                                                                          7.w,
+                                                                    ),
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    height: 8.h,
+                                                                    width: 78.w,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Color(
+                                                                          color
+                                                                              .blue),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              25),
+                                                                    ),
+                                                                    child: Text(
+                                                                      'ok',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: Color(
+                                                                            0xffffffff),
+                                                                        fontSize:
+                                                                            20.sp,
+                                                                        fontFamily:
+                                                                            Fonts.a,
+                                                                        decoration:
+                                                                            TextDecoration.none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      CircleAvatar(
+                                                        radius: 50.sp,
+                                                        backgroundColor:
+                                                            Color(color.red),
+                                                        child: Text(
+                                                          '!',
+                                                          style: TextStyle(
+                                                              fontSize: 50.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Color(
+                                                                  color.white)),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
                                           }
                                         },
-
                                         child: Container(
                                           alignment: Alignment.center,
                                           height: 8.h,
@@ -280,7 +403,7 @@ class Login extends StatelessWidget {
             ),
           )
         : SafeArea(
-          child: Scaffold(
+            child: Scaffold(
               resizeToAvoidBottomInset: false,
               body: Stack(
                 children: [
@@ -353,7 +476,8 @@ class Login extends StatelessWidget {
                             ),
                             child: SingleChildScrollView(
                               child: Form(
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 key: _formKey1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,30 +559,30 @@ class Login extends StatelessWidget {
                                       ),
                                       child: InkWell(
                                         onTap: () async {
-                                          if(!_formKey1.currentState!.validate()) {
+                                          if (!_formKey1.currentState!
+                                              .validate()) {
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(content: Text('data error')));
-                                          }
-                                          else{
-                                            Get.dialog(
-                                                WillPopScope(
-                                                    child: Center(
-                                                      child: CircularProgressIndicator(),
-                                                    ),
-                                                    onWillPop: () async {
-                                                      return true;
-                                                    }
-                                                )
-                                            );
-                                            var token = await AuthController.login(
-                                                emailController.text,
-                                                passwordController.text
-                                            );
+                                                .showSnackBar(SnackBar(
+                                                    content:
+                                                        Text('data error')));
+                                          } else {
+                                            Get.dialog(WillPopScope(
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
+                                                onWillPop: () async {
+                                                  return true;
+                                                }));
+                                            var token =
+                                                await AuthController.login(
+                                                    emailController.text,
+                                                    passwordController.text,
+                                                    'User');
 
                                             Get.back();
-                                            if(token!=null)
+                                            if (token != null)
                                               Get.offAllNamed(Routes.Home);
-
                                           }
                                         },
                                         child: Container(
@@ -468,7 +592,7 @@ class Login extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color: Color(color.blue),
                                             borderRadius:
-                                            BorderRadius.circular(25),
+                                                BorderRadius.circular(25),
                                           ),
                                           child: Text(
                                             'Login',
@@ -534,6 +658,6 @@ class Login extends StatelessWidget {
                 ],
               ),
             ),
-        );
+          );
   }
 }

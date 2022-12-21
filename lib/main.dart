@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     localController controller=Get.put(localController());
     return Sizer(
-      builder: (BuildContext, Orientation, DeviceType) => GetMaterialApp(
+      builder: (BuildContext, Orientation, DeviceType) =>  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         getPages: [
           GetPage(
