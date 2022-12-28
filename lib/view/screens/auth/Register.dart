@@ -53,7 +53,6 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey6 = GlobalKey<FormState>();
 
   String? _path;
-  File? image;
   int CurrentStep = 0;
   var creditNum;
   var token2;
@@ -359,7 +358,7 @@ class _RegisterState extends State<Register> {
                           });
                         },
                         elevation: 0,
-                        type: StepperType.horizontal,
+                        type: StepperType.vertical,
                         steps: getSteps(),
                         currentStep: CurrentStep,
                         onStepContinue: () {
@@ -469,37 +468,70 @@ class _RegisterState extends State<Register> {
                           });
                         },
                         controlsBuilder: (context, details) {
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 2.h,
-                                  left: 1.w,
-                                  right: 5.w,
-                                ),
-                                child: InkWell(
-                                  onTap: details.onStepContinue,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 8.h,
-                                    width: 85.w,
-                                    decoration: BoxDecoration(
-                                      color: Color(color.blue),
-                                      borderRadius: BorderRadius.circular(25),
+                          return Container(
+                            padding: EdgeInsets.only(
+                              top: 1.h,
+                              right: 9.w,
+                            ),
+                            height: 12.h,
+                            child: InkWell(
+                              onTap: details.onStepContinue,
+                              child: Stack(
+                                alignment: Alignment.topCenter,
+                                children: [
+                                  Transform.scale(
+                                    scale:3,
+                                    child: Lottie.asset(
+                                      Images.button,
+                                      height: 100.h,
+                                      width: 100.w
                                     ),
+                                  ),
+                                  Positioned(
+                                    top: 3.5.h,
+                                    left: 25.w,
                                     child: Text(
                                       CurrentStep < 5 ? 'Continue' : 'Register',
                                       style: TextStyle(
-                                        color: Color(0xffffffff),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 20.sp,
-                                        fontFamily: Fonts.g,
+                                        fontFamily: Fonts.a,
+                                        letterSpacing: 1,
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           );
+                          //   Padding(
+                          //   padding: EdgeInsets.only(
+                          //     top: 2.h,
+                          //     left: 1.w,
+                          //     right: 5.w,
+                          //   ),
+                          //   child: InkWell(
+                          //     onTap: details.onStepContinue,
+                          //     child: Container(
+                          //       alignment: Alignment.center,
+                          //       height: 8.h,
+                          //       width: 85.w,
+                          //       decoration: BoxDecoration(
+                          //         color: Color(color.blue),
+                          //         borderRadius: BorderRadius.circular(25),
+                          //       ),
+                          //       child: Text(
+                          //         CurrentStep < 5 ? 'Continue' : 'Register',
+                          //         style: TextStyle(
+                          //           color: Color(0xffffffff),
+                          //           fontSize: 20.sp,
+                          //           fontFamily: Fonts.g,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // );
                         },
                       ),
                     ),
@@ -1151,9 +1183,9 @@ class _RegisterState extends State<Register> {
           state: CurrentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: CurrentStep >= 0,
           title: Text(
-            "",
+            " personal Information",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: Color(color.blue),
             ),
@@ -1163,6 +1195,7 @@ class _RegisterState extends State<Register> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey1,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
@@ -1266,14 +1299,8 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).viewInsets.bottom,
-                        ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 6.h,
                   ),
                 ],
               ),
@@ -1286,9 +1313,9 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 1,
           title: Text(
-            "",
+            "address",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: CurrentStep < 1 ? Color(color.gray) : Color(color.blue),
             ),
@@ -1302,9 +1329,9 @@ class _RegisterState extends State<Register> {
                   Container(
                     alignment: Alignment.topCenter,
                     width: 100.w,
-                    height: 16.h,
+                    height: 15.h,
                     padding: EdgeInsets.only(
-                      left: 20.w,
+                      left: 15.w,
                       right: 20.w,
                     ),
                     child: StatefulBuilder(
@@ -1490,9 +1517,6 @@ class _RegisterState extends State<Register> {
                       label: 'Address',
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
-                  ),
                 ],
               ),
             ),
@@ -1504,9 +1528,9 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 2,
           title: Text(
-            "",
+            "Consultings",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
             ),
@@ -1555,7 +1579,7 @@ class _RegisterState extends State<Register> {
                       width: 100.w,
                       height: 7.h,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 9.w),
+                        padding: EdgeInsets.only(left: 5.w),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -1567,7 +1591,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             SizedBox(
-                              width: 7.w,
+                              width: 5.w,
                             ),
                             SizedBox(
                               height: 3.h,
@@ -1626,12 +1650,6 @@ class _RegisterState extends State<Register> {
                       label: 'price',
                     ),
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
-                  ),
                 ],
               ),
             ),
@@ -1643,9 +1661,9 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 3,
           title: Text(
-            "",
+            "Experiances",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
             ),
@@ -1797,12 +1815,6 @@ class _RegisterState extends State<Register> {
                   //     ),
                   //   ),
                   // ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
-                  ),
                 ],
               ),
             ),
@@ -1814,9 +1826,9 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 4,
           title: Text(
-            "",
+            "Times",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
             ),
@@ -2044,12 +2056,6 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
-                  ),
                 ],
               ),
             ),
@@ -2061,9 +2067,9 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 5,
           title: Text(
-            "",
+            "credit card",
             style: TextStyle(
-              fontFamily: Fonts.g,
+              fontFamily: Fonts.a,
               fontSize: 15.sp,
               color: CurrentStep < 2 ? Color(color.gray) : Color(color.blue),
             ),
@@ -2193,12 +2199,6 @@ class _RegisterState extends State<Register> {
                     //   ),
                     //   label: 'price',
                     // ),
-                  ),
-                  SizedBox(
-                    height: 7.h,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).viewInsets.bottom,
                   ),
                 ],
               ),

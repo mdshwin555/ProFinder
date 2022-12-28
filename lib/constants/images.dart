@@ -37,4 +37,8 @@ class Images {
   static const String notification = '$source/notification.png';
   static const String logout = '$source/logout.png';
   static const String exwall = '$source/exwall.png';
+  static const String header2 = '$source/header2.json';
+  static const String footer = '$source/footer.json';
+  static const String button = '$source/button.json';
+  static const String creditcard = '$source/credit.json';
 }
