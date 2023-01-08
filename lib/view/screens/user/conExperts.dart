@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
@@ -9,7 +8,6 @@ import '../../../constants/fonts.dart';
 import 'package:project2022/constants/colors.dart';
 import '../../../constants/images.dart';
 import 'package:get/get.dart';
-
 import 'ExpertsDetails.dart';
 
 class ConExperts extends StatelessWidget {
@@ -25,14 +23,29 @@ class ConExperts extends StatelessWidget {
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: Lottie.asset(
-                Images.loading,
-                height: 10.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    Images.loading,
+                    height: 10.h,
+                  ),
+                  Text(
+                    'Loading',
+                    style: TextStyle(
+                      fontFamily: Fonts.h,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.sp,
+                      color: Color(color.blue),
+                    ),
+                  ),
+                ],
               ),
             );
-          } else if (snapshot.hasData) {
+          }
+           if (snapshot.data.length!=0) {
             return GridView.builder(
-              itemCount: snapshot.data[0].length,
+              itemCount:snapshot.data.length==0?0:snapshot.data[0]['expert'].length,
               padding: EdgeInsets.only(
                 top: 2.h,
                 left: 3.w,
@@ -44,17 +57,14 @@ class ConExperts extends StatelessWidget {
                 crossAxisSpacing: 8,
                 pattern: [
                   WovenGridTile(1),
-                  WovenGridTile(
-                    5 / 7,
-                    crossAxisRatio: 0.9,
-                    alignment: AlignmentDirectional.centerEnd,
-                  ),
+
                 ],
               ),
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: (){
                     Get.to(ExpertsDtails());
+                    sharedPref?.setInt("id", snapshot.data[0]['expert'][index]['id']);
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.sp),
@@ -62,7 +72,8 @@ class ConExperts extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            Images.exwall,
+                          'Platform/public/images/expert/${snapshot.data[0]['expert'][index]['photo']}',
+
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -84,38 +95,37 @@ class ConExperts extends StatelessWidget {
                             left: 5.w,
                             bottom: 2.h,
                           ),
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
+                          child: Column(
                             children: [
-                              Positioned(
-                                top: 2.h,
-                                right: 4.w,
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 25.w,
+                                  top: 2.h,
+                                ),
                                 child: Icon(
-                                  Icons.favorite,
-                                  color: Color(color.red),
+                                  Icons.favorite_border,
+                                  color: Colors.red,
                                   size: 20.sp,
                                 ),
                               ),
-                              Positioned(
-                                bottom: 2.5.h,
-                                right: 16.w,
-                                child: Text(
-                                  '${snapshot.data[0][index]["name"]}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.sp,
-                                    fontFamily: Fonts.a,
-                                  ),
+                              SizedBox(
+                                height: 8.5.h,
+                              ),
+                              Text(
+                                '${snapshot.data[0]['expert'][index]['name']}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
                                 ),
                               ),
-                              Positioned(
-                                right: 16.w,
-                                child: Text(
-                                  '${snapshot.data[0][index]['address']}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                  ),
+                              SizedBox(
+                                height: 0.5.h,
+                              ),
+                              Text(
+                                '${snapshot.data[0]['expert'][index]['address']}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.sp,
                                 ),
                               ),
                             ],
@@ -127,30 +137,31 @@ class ConExperts extends StatelessWidget {
                 );
               },
             );
-          } else {
-            return Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 25.h,
-                  ),
-                  Lottie.asset(
-                    Images.noitems,
-                    height: 30.h,
-                  ),
-                  Text(
-                    'No items yet in this consulting ',
-                    style: TextStyle(
-                      fontFamily: Fonts.h,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.sp,
-                      color: Color(color.blue),
-                    ),
-                  ),
-                ],
-              ),
-            );
           }
+           else  {
+             return Center(
+               child: Column(
+                 children: [
+                   SizedBox(
+                     height: 25.h,
+                   ),
+                   Lottie.asset(
+                     Images.noitems,
+                     height: 30.h,
+                   ),
+                   Text(
+                     'No items yet in this consulting ',
+                     style: TextStyle(
+                       fontFamily: Fonts.h,
+                       fontWeight: FontWeight.bold,
+                       fontSize: 15.sp,
+                       color: Color(color.blue),
+                     ),
+                   ),
+                 ],
+               ),
+             );
+           }
         },
       ),
     );

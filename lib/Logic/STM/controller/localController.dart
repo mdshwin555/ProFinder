@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 
 import '../../../main.dart';
 
-
-
-
 class localController extends GetxController {
 
   Locale initialLang =

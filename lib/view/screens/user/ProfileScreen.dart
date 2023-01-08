@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -6,23 +7,24 @@ import 'package:lottie/lottie.dart';
 import 'package:project2022/main.dart';
 import 'package:sizer/sizer.dart';
 import 'dart:io';
+import '../../../Logic/Api/Controllers/AuthController.dart';
+import '../../../Logic/Api/Controllers/ExpertController.dart';
 import '../../../constants/fonts.dart';
 import '../../../constants/images.dart';
 import 'package:project2022/constants/colors.dart';
-
 import '../../../constants/routes.dart';
+import 'package:project2022/view/screens/auth/Type.dart';
 
 class ProfileScreen extends StatefulWidget {
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   String? path = sharedPref?.getString("path");
   bool val = sharedPref?.getBool("val") == false ? false : true;
   var SelectedLang = sharedPref?.getString("lang") == "ar" ? "🇸🇦" : "🇱🇷";
+  bool value = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +113,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             Positioned(
-              top: 31.h,
-              left: 37.w,
-              child: Text(
-                '${sharedPref?.getString("name")}',
-                style: TextStyle(
-                  letterSpacing: 0.8,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: Fonts.g,
-                  fontSize: 20.sp,
-                  color: Color(color.blue),
-                ),
+              top: 30.h,
+              left: 35.w,
+              child: FutureBuilder<dynamic>(
+                future: AuthController.userProfile(token: '${sharedPref?.getString('access_token')}'),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text('${sharedPref?.getString("name")}', style: TextStyle(
+                      letterSpacing: 0.8,
+                      fontFamily: Fonts.c,
+                      fontSize: 30.sp,
+                      color: Color(color.blue),
+                    ),);
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    sharedPref?.setString("name", "${snapshot.data['user_name']}");
+                    return Text(
+                      '${snapshot.data['user_name']}',
+                      style: TextStyle(
+                        letterSpacing: 0.8,
+                        fontFamily: Fonts.c,
+                        fontSize: 30.sp,
+                        color: Color(color.blue),
+                      ),
+                    );
+
+                  }
+                  else  {
+                    return Text('${sharedPref?.getString("name")}', style: TextStyle(
+                      letterSpacing: 0.8,
+                      fontFamily: Fonts.c,
+                      fontSize: 30.sp,
+                      color: Color(color.blue),
+                    ),);
+                  }
+
+                },
               ),
             ),
             Positioned(
@@ -155,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Positioned(
                       left: 19.w,
-                      child:Text(
+                      child: Text(
                         "light".tr,
                         style: TextStyle(
                           letterSpacing: 0.8,
@@ -168,24 +195,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Positioned(
                       right: 5.w,
-                      child:Switch(
-                        activeColor: Color(color.orange),
+                      child: Switch(
+                          activeColor: Color(color.orange),
                           value: val,
                           onChanged: (value) {
                             setState(() {
                               val = value;
                               value
                                   ? {
-                                sharedPref?.setString("theme", "dark"),
-                                Get.changeTheme(ThemeData.dark()),
-                              }
+                                      sharedPref?.setString("theme", "dark"),
+                                      Get.changeTheme(ThemeData.dark()),
+                                    }
                                   : {
-                                sharedPref?.setString("theme", "light"),
-                                Get.changeTheme(ThemeData.light()),
-                              };
+                                      sharedPref?.setString("theme", "light"),
+                                      Get.changeTheme(ThemeData.light()),
+                                    };
                             });
                           }),
-
                     ),
                   ],
                 ),
@@ -222,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Positioned(
                       left: 19.w,
-                      child:Text(
+                      child: Text(
                         'Language',
                         style: TextStyle(
                           letterSpacing: 0.8,
@@ -234,31 +260,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Positioned(
-                      right: 5.w,
-                      child:DropdownButton<String>(
-                        underline: SizedBox(),
-                        value: SelectedLang,
-                        onChanged: (e) {
-                          setState(() {
-                            SelectedLang = (e as String?)!;
-                            e == "arabic".tr
-                                ? {
-                              controller.changeLang("ar"),
-                            }
-                                : {
-                              controller.changeLang("en"),
-                            };
-                          });
-                        },
-                        items: ["arabic".tr, "english".tr]
-                            .map((e) => DropdownMenuItem<String>(
-                          child: Text(e),
-                          value: e,
-                        ))
-                            .toList(),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                      right: 3.w,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: AnimatedToggleSwitch<bool>.dual(
+                          loading: false,
+                          current: value,
+                          first: false,
+                          second: true,
+                          dif: 2.w,
+                          borderColor: Colors.transparent,
+                          borderWidth: 5.0,
+                          height: 55,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 1.5),
+                            ),
+                          ],
+                          onChanged: (b) {
+                            setState(() {
+                              value = b;
+                              b == false
+                                  ? {
+                                controller.changeLang("ar"),
+                              }
+                                  : {
+                                controller.changeLang("en"),
+                              };
 
+                            });
+                            return Future.delayed(Duration(seconds: 2));
+                          },
+                          colorBuilder: (b) => b ? Colors.orange : Colors.orange,
+                          iconBuilder: (value) => value
+                              ? CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.uk,
+                            ),
+                          )
+                              :CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.sa,
+                            ),
+                          ),
+                          textBuilder: (value) => value
+                              ? CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.sa,
+                            ),
+                          )
+                              : CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.uk,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -289,80 +349,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                       left: 5.w,
                       child: Image.asset(
-                        Images.notification,
-                        height: 33.sp,
-                      ),
-                    ),
-                    Positioned(
-                      left: 19.w,
-                      child:Text(
-                        'Notification',
-                        style: TextStyle(
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: Fonts.b,
-                          fontSize: 15.sp,
-                          color: Color(color.blue),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 5.w,
-                      child:Switch(
-                          activeColor: Color(color.orange),
-                          value: val,
-                          onChanged: (value) {
-                            setState(() {
-                              val = value;
-                              value
-                                  ? {
-                                sharedPref?.setString("theme", "dark"),
-                                Get.changeTheme(ThemeData.dark()),
-                              }
-                                  : {
-                                sharedPref?.setString("theme", "light"),
-                                Get.changeTheme(ThemeData.light()),
-                              };
-                            });
-                          }),
-
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 72.h,
-              left: 7.w,
-              child: Container(
-                width: 85.w,
-                height: 9.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    15.sp,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.20),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                  color: Color(color.white),
-                ),
-                child: Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Positioned(
-                      left: 5.w,
-                      child: Image.asset(
                         Images.logout,
                         height: 33.sp,
                       ),
                     ),
                     Positioned(
                       left: 19.w,
-                      child:Text(
+                      child: Text(
                         'Log out',
                         style: TextStyle(
                           letterSpacing: 0.8,
@@ -378,7 +371,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: IconButton(
                         color: Color(color.yellow),
                         onPressed: () {
-                          sharedPref?.clear();
                           Get.dialog(
                             Container(
                               padding: EdgeInsets.only(bottom: 16.h),
@@ -395,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                        BorderRadius.circular(25.sp),
+                                            BorderRadius.circular(25.sp),
                                       ),
                                       child: Container(
                                         padding: EdgeInsets.only(top: 11.h),
@@ -407,8 +399,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               style: TextStyle(
                                                 fontSize: 15.sp,
                                                 fontWeight: FontWeight.bold,
-                                                decoration:
-                                                TextDecoration.none,
+                                                decoration: TextDecoration.none,
                                                 color: Color(color.blue),
                                               ),
                                             ),
@@ -417,15 +408,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                sharedPref?.getString(
-                                                    "role") ==
-                                                    "userhome"
-                                                    ? sharedPref?.setString(
-                                                    "role", "User")
-                                                    : sharedPref?.setString(
-                                                    "role", "Expert");
-                                                Get.toNamed(Routes.typeScreen);
-                                                sharedPref?.clear();
+
+                                                Get.to(Type());
+                                                //sharedPref?.clear();
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(
@@ -438,8 +423,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 decoration: BoxDecoration(
                                                   color: Color(color.orange),
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      25),
+                                                      BorderRadius.circular(25),
                                                 ),
                                                 child: Text(
                                                   'Yes, Log me out',
@@ -448,7 +432,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     fontSize: 20.sp,
                                                     fontFamily: Fonts.a,
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                   ),
                                                 ),
                                               ),
@@ -471,8 +455,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 decoration: BoxDecoration(
                                                   color: Color(color.blue),
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      25),
+                                                      BorderRadius.circular(25),
                                                 ),
                                                 child: Text(
                                                   'No, just kidding',
@@ -481,7 +464,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     fontSize: 20.sp,
                                                     fontFamily: Fonts.a,
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                   ),
                                                 ),
                                               ),
@@ -513,7 +496,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 17.sp,
                         ),
                       ),
-
                     ),
                   ],
                 ),

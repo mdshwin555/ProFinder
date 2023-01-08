@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:project2022/constants/colors.dart';
 import '../../../Logic/STM/controller/HomeController.dart';
+import '../../../main.dart';
 import 'FavoriteScreen.dart';
 import 'ProfileScreen.dart';
 import 'mainscreen.dart';
@@ -44,12 +45,16 @@ class Home extends StatelessWidget {
                 right: 6.w
               ),
               circleColor: Color(color.orange),
-              activeIcons: [
+              activeIcons:  sharedPref?.getString("lang") == "ar"?[
                 Icon(Icons.settings),
                 Icon(CupertinoIcons.house_fill),
                 Icon(CupertinoIcons.heart_fill)
+              ]:[
+                Icon(Icons.settings),
+                Icon(CupertinoIcons.house_fill),
+                Icon(CupertinoIcons.heart_fill),
               ],
-              inactiveIcons: const [
+              inactiveIcons: sharedPref?.getString("lang") == "ar"? [
                 Icon(
                   Icons.settings_outlined,
                   color: Color(color.blue),
@@ -62,6 +67,21 @@ class Home extends StatelessWidget {
                   CupertinoIcons.heart,
                   color: Color(color.blue),
                 )
+              ]: [
+
+                Icon(
+                  Icons.settings_outlined,
+                  color: Color(color.blue),
+                ),
+                Icon(
+                  CupertinoIcons.house,
+                  color: Color(color.blue),
+                ),
+
+                Icon(
+                  CupertinoIcons.heart,
+                  color: Color(color.blue),
+                ),
               ],
               color: Color(color.orange),
               height: 8.h,

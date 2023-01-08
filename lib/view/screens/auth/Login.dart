@@ -181,205 +181,308 @@ class Login extends StatelessWidget {
                                         label: 'Password',
                                       ),
                                     ),
-                                    Transform.translate(
-                                      offset: Offset(-2.w, -10.h),
-                                      child: InkWell(
-                                          onTap: () async {
-                                            if (!_formKey1.currentState!
-                                                .validate()) {
-                                            } else {
-                                              Get.dialog(WillPopScope(
-                                                  child: Center(
-                                                    child: Lottie.asset(
-                                                      Images.loading,
-                                                      height: 10.h,
-                                                    ),
-                                                  ),
-                                                  onWillPop: () async {
-                                                    return true;
-                                                  }));
-                                              var token =
-                                                  await AuthController.login(
-                                                      emailController.text,
-                                                      passwordController.text,
-                                                      'expert');
-
-                                              Get.back();
-                                              if (token != null)
-                                                Get.offAllNamed(Routes.Home);
-                                              else
-                                                Get.dialog(
-                                                  Container(
-                                                    padding: EdgeInsets.only(
-                                                      bottom: 16.h,
-                                                      left: 5.w,
-                                                      right: 5.w,
-                                                    ),
-                                                    height: 50.h,
-                                                    width: 90.w,
-                                                    child: Stack(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      children: [
-                                                        Positioned(
-                                                          top: 38.h,
-                                                          child: Container(
-                                                            height: 35.h,
-                                                            width: 90.w,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          25.sp),
-                                                            ),
-                                                            child: Container(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top:
-                                                                          11.h),
-                                                              child: Column(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    height: 3.h,
-                                                                  ),
-                                                                  Text(
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    'email or password is  \n incorrect,Please change them \n !! ',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          13.sp,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none,
-                                                                      color: Color(
-                                                                          color
-                                                                              .blue),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 4.h,
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onTap: () {
-                                                                      Get.back();
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets
-                                                                              .only(
-                                                                        left:
-                                                                            7.w,
-                                                                        right:
-                                                                            7.w,
-                                                                      ),
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      height:
-                                                                          8.h,
-                                                                      width:
-                                                                          78.w,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Color(
-                                                                            color.blue),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(25),
-                                                                      ),
-                                                                      child:
-                                                                          Text(
-                                                                        'ok',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Color(0xffffffff),
-                                                                          fontSize:
-                                                                              20.sp,
-                                                                          fontFamily:
-                                                                              Fonts.a,
-                                                                          decoration:
-                                                                              TextDecoration.none,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        CircleAvatar(
-                                                          radius: 50.sp,
-                                                          backgroundColor:
-                                                              Color(color.red),
-                                                          child: Text(
-                                                            '!',
-                                                            style: TextStyle(
-                                                                fontSize: 50.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Color(
-                                                                    color
-                                                                        .white)),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                            }
-                                          },
-                                          child: Stack(
-                                            children: [
-                                              Lottie.asset(Images.button,
-                                                  height: 45.h),
-                                              Positioned(
-                                                top: 20.5.h,
-                                                left: 36.w,
-                                                child: Text(
-                                                  'Login',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 21.sp,
-                                                    fontFamily: Fonts.a,
-                                                    letterSpacing: 1,
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 5.h,
+                                        left: 1.w,
+                                        right: 5.w,
+                                      ),
+                                      child:InkWell(
+                                        onTap: () async {
+                                          if (!_formKey1.currentState!
+                                              .validate()) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text('data error'),
+                                              ),
+                                            );
+                                          } else {
+                                            Get.dialog(WillPopScope(
+                                                child: Center(
+                                                  child: Lottie.asset(
+                                                    Images.loading,
+                                                    height: 10.h,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                onWillPop: () async {
+                                                  return true;
+                                                }));
+                                            var token =
+                                            await AuthController.login(
+                                                emailController.text,
+                                                passwordController.text,
+                                                'expert');
+
+                                            Get.back();
+                                            if (token != null)
+                                              Get.offAllNamed(Routes.Home);
+                                          }
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          height: 8.h,
+                                          width: 85.w,
+                                          decoration: BoxDecoration(
+                                            color: Color(color.blue),
+                                            borderRadius:
+                                            BorderRadius.circular(25),
                                           ),
-                                          // Container(
-                                          //   alignment: Alignment.center,
-                                          //   height: 8.h,
-                                          //   width: 85.w,
-                                          //   decoration: BoxDecoration(
-                                          //     color: Color(color.orange),
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(25),
-                                          //   ),
-                                          //   child: Text(
-                                          //     'Login',
-                                          //     style: TextStyle(
-                                          //       color: Color(color.blue),
-                                          //       fontSize: 20.sp,
-                                          //       fontFamily: Fonts.b,
-                                          //     ),
-                                          //   ),
-                                          // ),
+                                          child: Text(
+                                            'Login',
+                                            style: TextStyle(
+                                              color: Color(0xffffffff),
+                                              fontSize: 20.sp,
+                                              fontFamily: Fonts.g,
+                                            ),
                                           ),
+                                        ),
+                                      ),
                                     ),
+                                    // Transform.translate(
+                                    //   offset: Offset(-2.w, -10.h),
+                                    //   child:InkWell(
+                                    //     onTap: () async {
+                                    //       if (!_formKey1.currentState!
+                                    //           .validate()) {
+                                    //         ScaffoldMessenger.of(context)
+                                    //             .showSnackBar(
+                                    //           SnackBar(
+                                    //             content: Text('data error'),
+                                    //           ),
+                                    //         );
+                                    //       } else {
+                                    //         Get.dialog(WillPopScope(
+                                    //             child: Center(
+                                    //               child: Lottie.asset(
+                                    //                 Images.loading,
+                                    //                 height: 10.h,
+                                    //               ),
+                                    //             ),
+                                    //             onWillPop: () async {
+                                    //               return true;
+                                    //             }));
+                                    //         var token =
+                                    //         await AuthController.login(
+                                    //             emailController.text,
+                                    //             passwordController.text,
+                                    //             'User');
+                                    //
+                                    //         Get.back();
+                                    //         if (token != null)
+                                    //           Get.offAllNamed(Routes.Home);
+                                    //       }
+                                    //     },
+                                    //     child: Container(
+                                    //       alignment: Alignment.center,
+                                    //       height: 8.h,
+                                    //       width: 85.w,
+                                    //       decoration: BoxDecoration(
+                                    //         color: Color(color.blue),
+                                    //         borderRadius:
+                                    //         BorderRadius.circular(25),
+                                    //       ),
+                                    //       child: Text(
+                                    //         'Login',
+                                    //         style: TextStyle(
+                                    //           color: Color(0xffffffff),
+                                    //           fontSize: 20.sp,
+                                    //           fontFamily: Fonts.g,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    //   // InkWell(
+                                    //   //   onTap: () async {
+                                    //   //     if (!_formKey1.currentState!
+                                    //   //         .validate()) {
+                                    //   //     } else {
+                                    //   //       Get.dialog(WillPopScope(
+                                    //   //           child: Center(
+                                    //   //             child: Lottie.asset(
+                                    //   //               Images.loading,
+                                    //   //               height: 5.h,
+                                    //   //             ),
+                                    //   //           ),
+                                    //   //           onWillPop: () async {
+                                    //   //             return true;
+                                    //   //           }));
+                                    //   //       var token =
+                                    //   //           await AuthController.login(
+                                    //   //               emailController.text,
+                                    //   //               passwordController.text,
+                                    //   //               'expert');
+                                    //   //
+                                    //   //       Get.back();
+                                    //   //       if (token != null)
+                                    //   //         Get.offAllNamed(Routes.Home);
+                                    //   //       else
+                                    //   //         Get.dialog(
+                                    //   //           Container(
+                                    //   //             padding: EdgeInsets.only(
+                                    //   //               bottom: 16.h,
+                                    //   //               left: 5.w,
+                                    //   //               right: 5.w,
+                                    //   //             ),
+                                    //   //             height: 50.h,
+                                    //   //             width: 90.w,
+                                    //   //             child: Stack(
+                                    //   //               alignment: Alignment.center,
+                                    //   //               children: [
+                                    //   //                 Positioned(
+                                    //   //                   top: 38.h,
+                                    //   //                   child: Container(
+                                    //   //                     height: 35.h,
+                                    //   //                     width: 90.w,
+                                    //   //                     decoration:
+                                    //   //                         BoxDecoration(
+                                    //   //                       color: Colors.white,
+                                    //   //                       borderRadius:
+                                    //   //                           BorderRadius
+                                    //   //                               .circular(
+                                    //   //                                   25.sp),
+                                    //   //                     ),
+                                    //   //                     child: Container(
+                                    //   //                       padding:
+                                    //   //                           EdgeInsets.only(
+                                    //   //                               top: 11.h),
+                                    //   //                       child: Column(
+                                    //   //                         children: [
+                                    //   //                           SizedBox(
+                                    //   //                             height: 3.h,
+                                    //   //                           ),
+                                    //   //                           Text(
+                                    //   //                             textAlign:
+                                    //   //                                 TextAlign
+                                    //   //                                     .center,
+                                    //   //                             'email or password is  \n incorrect,Please change them \n !! ',
+                                    //   //                             style:
+                                    //   //                                 TextStyle(
+                                    //   //                               fontSize:
+                                    //   //                                   13.sp,
+                                    //   //                               fontWeight:
+                                    //   //                                   FontWeight
+                                    //   //                                       .bold,
+                                    //   //                               decoration:
+                                    //   //                                   TextDecoration
+                                    //   //                                       .none,
+                                    //   //                               color: Color(
+                                    //   //                                   color
+                                    //   //                                       .blue),
+                                    //   //                             ),
+                                    //   //                           ),
+                                    //   //                           SizedBox(
+                                    //   //                             height: 4.h,
+                                    //   //                           ),
+                                    //   //                           GestureDetector(
+                                    //   //                             onTap: () {
+                                    //   //                               Get.back();
+                                    //   //                             },
+                                    //   //                             child:
+                                    //   //                                 Container(
+                                    //   //                               padding:
+                                    //   //                                   EdgeInsets
+                                    //   //                                       .only(
+                                    //   //                                 left: 7.w,
+                                    //   //                                 right:
+                                    //   //                                     7.w,
+                                    //   //                               ),
+                                    //   //                               alignment:
+                                    //   //                                   Alignment
+                                    //   //                                       .center,
+                                    //   //                               height: 8.h,
+                                    //   //                               width: 78.w,
+                                    //   //                               decoration:
+                                    //   //                                   BoxDecoration(
+                                    //   //                                 color: Color(
+                                    //   //                                     color
+                                    //   //                                         .blue),
+                                    //   //                                 borderRadius:
+                                    //   //                                     BorderRadius.circular(
+                                    //   //                                         25),
+                                    //   //                               ),
+                                    //   //                               child: Text(
+                                    //   //                                 'ok',
+                                    //   //                                 style:
+                                    //   //                                     TextStyle(
+                                    //   //                                   color: Color(
+                                    //   //                                       0xffffffff),
+                                    //   //                                   fontSize:
+                                    //   //                                       20.sp,
+                                    //   //                                   fontFamily:
+                                    //   //                                       Fonts.a,
+                                    //   //                                   decoration:
+                                    //   //                                       TextDecoration.none,
+                                    //   //                                 ),
+                                    //   //                               ),
+                                    //   //                             ),
+                                    //   //                           ),
+                                    //   //                         ],
+                                    //   //                       ),
+                                    //   //                     ),
+                                    //   //                   ),
+                                    //   //                 ),
+                                    //   //                 CircleAvatar(
+                                    //   //                   radius: 50.sp,
+                                    //   //                   backgroundColor:
+                                    //   //                       Color(color.red),
+                                    //   //                   child: Text(
+                                    //   //                     '!',
+                                    //   //                     style: TextStyle(
+                                    //   //                         fontSize: 50.sp,
+                                    //   //                         fontWeight:
+                                    //   //                             FontWeight
+                                    //   //                                 .bold,
+                                    //   //                         color: Color(
+                                    //   //                             color.white)),
+                                    //   //                   ),
+                                    //   //                 ),
+                                    //   //               ],
+                                    //   //             ),
+                                    //   //           ),
+                                    //   //         );
+                                    //   //     }
+                                    //   //   },
+                                    //   //   child: Stack(
+                                    //   //     children: [
+                                    //   //       Lottie.asset(Images.button,
+                                    //   //           height: 45.h),
+                                    //   //       Positioned(
+                                    //   //         top: 20.5.h,
+                                    //   //         left: 36.w,
+                                    //   //         child: Text(
+                                    //   //           'Login',
+                                    //   //           style: TextStyle(
+                                    //   //             color: Colors.white,
+                                    //   //             fontWeight: FontWeight.bold,
+                                    //   //             fontSize: 21.sp,
+                                    //   //             fontFamily: Fonts.a,
+                                    //   //             letterSpacing: 1,
+                                    //   //           ),
+                                    //   //         ),
+                                    //   //       ),
+                                    //   //     ],
+                                    //   //   ),
+                                    //   //   // Container(
+                                    //   //   //   alignment: Alignment.center,
+                                    //   //   //   height: 8.h,
+                                    //   //   //   width: 85.w,
+                                    //   //   //   decoration: BoxDecoration(
+                                    //   //   //     color: Color(color.orange),
+                                    //   //   //     borderRadius:
+                                    //   //   //         BorderRadius.circular(25),
+                                    //   //   //   ),
+                                    //   //   //   child: Text(
+                                    //   //   //     'Login',
+                                    //   //   //     style: TextStyle(
+                                    //   //   //       color: Color(color.blue),
+                                    //   //   //       fontSize: 20.sp,
+                                    //   //   //       fontFamily: Fonts.b,
+                                    //   //   //     ),
+                                    //   //   //   ),
+                                    //   //   // ),
+                                    //   // ),
+                                    // ),
                                     SizedBox(
                                       height: MediaQuery.of(context)
                                           .viewInsets
@@ -589,14 +692,16 @@ class Login extends StatelessWidget {
                                         left: 1.w,
                                         right: 5.w,
                                       ),
-                                      child: InkWell(
+                                      child:InkWell(
                                         onTap: () async {
                                           if (!_formKey1.currentState!
                                               .validate()) {
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content:
-                                                        Text('data error')));
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text('data error'),
+                                              ),
+                                            );
                                           } else {
                                             Get.dialog(WillPopScope(
                                                 child: Center(

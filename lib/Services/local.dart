@@ -5,14 +5,14 @@ class MyLocal implements Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     "en": {
-      "login-title": "Login",
+      "appointment": "Appointment with \n a expert",
       "type-1": "User",
       "light": "Dark mood",
       "arabic": "🇸🇦",
       "english": "🇱🇷",
     },
     "ar": {
-      "login-title": "تسجيل الدخول",
+      "appointment": "احجز موعد مع خبير",
       "type-1": "مستخدم عادي",
       "light": "الوضع الليلي",
       "arabic": "🇸🇦",

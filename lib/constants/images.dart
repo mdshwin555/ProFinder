@@ -41,4 +41,6 @@ class Images {
   static const String footer = '$source/footer.json';
   static const String button = '$source/button.json';
   static const String creditcard = '$source/credit.json';
+  static const String uk = '$source/uk.png';
+  static const String sa = '$source/sa.png';
 }

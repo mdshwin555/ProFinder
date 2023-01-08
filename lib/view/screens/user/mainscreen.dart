@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:project2022/view/screens/user/conExperts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:project2022/constants/colors.dart';
+import '../../../Logic/Api/Controllers/AuthController.dart';
 import '../../../Logic/Api/Controllers/ExpertController.dart';
 import '../../../Logic/STM/controller/localController.dart';
 import '../../../constants/fonts.dart';
@@ -15,10 +16,11 @@ import '../../../main.dart';
 import 'package:project2022/constants/routes.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import 'SearchExpert.dart';
+
 class MainScreen extends StatelessWidget {
-
   String? path = sharedPref?.getString("path");
-
+  localController controller = Get.find();
   List titles = [
     'Medical',
     'professional',
@@ -66,6 +68,8 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           Container(
+            height: double.infinity,
+            width: double.infinity,
             padding: EdgeInsets.only(
               top: 8.h,
             ),
@@ -76,36 +80,82 @@ class MainScreen extends StatelessWidget {
                     Row(
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(left: 6.w),
-                            child: CircleAvatar(
-                              radius: 20.sp,
-                              foregroundImage:
-                              path == null ? null : FileImage(File(path!)),
-                            )),
-                        Padding(
-                          padding: EdgeInsets.only(left:3.w),
-                          child: Text(
-                            '${sharedPref?.getString("name")}',
-                            style: TextStyle(
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: Fonts.g,
-                              fontSize: 20.sp,
-                              color: Color(color.blue),
+                          padding: EdgeInsets.only(left: 6.w),
+                          child: CircleAvatar(
+                            backgroundColor: Color(color.blue),
+                            child: Text(
+                              '👋',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                              ),
                             ),
+                            radius: 20.sp,
+                            foregroundImage: path == null
+                                ? FileImage(File(
+                                    'Platform/public/images/expert/1670099395.png'))
+                                : FileImage(File(path!)),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 3.w),
+                          child: FutureBuilder<dynamic>(
+                            future: AuthController.userProfile(
+                                token:
+                                    '${sharedPref?.getString('access_token')}'),
+                            builder:
+                                (context, AsyncSnapshot<dynamic> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Text(
+                                  '${sharedPref?.getString("name")}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                sharedPref?.setString(
+                                    "name", "${snapshot.data['user_name']}");
+                                return Text(
+                                  '${snapshot.data['user_name']}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  '${sharedPref?.getString("name")}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: 3.h,),
+                SizedBox(
+                  height: 3.h,
+                ),
                 Padding(
                   padding: EdgeInsets.only(
                     right: 15.w,
                   ),
                   child: Text(
-                    'Appoitment with \n a expert',
+                    'appointment'.tr,
                     style: TextStyle(
                       letterSpacing: 0.8,
                       fontFamily: Fonts.c,
@@ -114,47 +164,95 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 2.h, left: 7.w),
-                      height: 6.5.h,
-                      width: 85.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          15.sp,
-                        ),
-                        color: Colors.white.withOpacity(0.60),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 4.w),
-                        child: Row(
+                GestureDetector(
+                  onTap: () {
+                    showSearch(context: context, delegate: SearchExpert());
+                  },
+                  child: sharedPref?.getString("lang") == "ar"
+                      ? Row(
                           children: [
-                            Icon(Icons.search),
-                            Text('Serach for experts'),
-                            SizedBox(
-                              width: 32.4.w,
-                            ),
                             Container(
+                              margin: EdgeInsets.only(top: 2.h, right: 7.w),
                               height: 6.5.h,
-                              width: 15.w,
+                              width: 85.w,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.horizontal(
-                                  right: Radius.circular(15.sp),
+                                borderRadius: BorderRadius.circular(
+                                  15.sp,
                                 ),
-                                color: Color(color.blue),
+                                color: Colors.white.withOpacity(0.60),
                               ),
-                              child: Icon(
-                                Icons.tune,
-                                size: 25.sp,
-                                color: Colors.orange,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 4.w),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.search),
+                                    Text('Serach for experts'),
+                                    SizedBox(
+                                      width: 32.4.w,
+                                    ),
+                                    Container(
+                                      height: 6.5.h,
+                                      width: 15.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.horizontal(
+                                          left: Radius.circular(15.sp),
+                                        ),
+                                        color: Color(color.blue),
+                                      ),
+                                      child: Icon(
+                                        Icons.tune,
+                                        size: 25.sp,
+                                        color: Colors.orange,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 2.h, left: 7.w),
+                              height: 6.5.h,
+                              width: 85.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  15.sp,
+                                ),
+                                color: Colors.white.withOpacity(0.60),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 4.w),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.search),
+                                    Text('Serach for experts'),
+                                    SizedBox(
+                                      width: 32.4.w,
+                                    ),
+                                    Container(
+                                      height: 6.5.h,
+                                      width: 15.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.horizontal(
+                                          right: Radius.circular(15.sp),
+                                        ),
+                                        color: Color(color.blue),
+                                      ),
+                                      child: Icon(
+                                        Icons.tune,
+                                        size: 25.sp,
+                                        color: Colors.orange,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
                 ),
                 SizedBox(
                   height: 6.h,
@@ -202,7 +300,7 @@ class MainScreen extends StatelessWidget {
                                           "consulting_name", titles[i]);
                                       sharedPref?.setInt("consulting", i + 1);
                                       Get.to(ConExperts());
-                                      print(i);
+                                      print(i + 1);
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(
@@ -305,13 +403,13 @@ class MainScreen extends StatelessWidget {
                                   ],
                                 ),
                                 childrenDelegate: SliverChildBuilderDelegate(
-                                      (context, index) => ClipRRect(
+                                  (context, index) => ClipRRect(
                                     borderRadius: BorderRadius.circular(10.sp),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            Images.exwall,
+                                            'http://127.0.0.1:8000/images/expert/1671395618.png',
                                           ),
                                           fit: BoxFit.fill,
                                         ),
@@ -326,7 +424,8 @@ class MainScreen extends StatelessWidget {
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
                                           ),
-                                          borderRadius: BorderRadius.circular(10.sp),
+                                          borderRadius:
+                                              BorderRadius.circular(10.sp),
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.only(
@@ -334,9 +433,9 @@ class MainScreen extends StatelessWidget {
                                             right: 25.w,
                                           ),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
                                             children: [
-
                                               Text(
                                                 'Hello',
                                                 style: TextStyle(

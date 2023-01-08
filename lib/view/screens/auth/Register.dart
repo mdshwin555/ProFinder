@@ -187,19 +187,21 @@ class _RegisterState extends State<Register> {
   void timesaddexperiance() async {
     addtimes = await AuthController.addtime(
       token: '$loginexpert',
-      day: '${days[selected]}',
+      day: '${month[selected]}',
       from: '${startTime.hour}',
       to: '${endTime.hour}',
       period: '${periodController.text}',
+      month: '${month[selected]}',
     );
     if (addtimes == 200) {
     } else
       print(
         '${loginexpert.toString()},'
-        '${days[selected]},'
-        '${startTime?.hour},'
-        '${endTime?.hour},'
-        '${periodController.text},',
+        '${month[selected]},'
+        '${startTime.hour},'
+        '${endTime.hour},'
+        '${periodController.text},'
+        '${DateTime.now().month},'
       );
   }
 
@@ -211,23 +213,33 @@ class _RegisterState extends State<Register> {
   }
 
   List experiance = [
-    'medical',
-    'career',
+    'Medical',
+    'Professional',
     'Mental',
-    'familial',
-    'business',
+    'Familial',
+    'Business',
   ];
+
 
   List days = [
-    'Saturday',
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thur',
+    'Fri',
+    'Sat',
+    'Sun',
   ];
 
+  List month = [
+    '${DateTime.now().day}',
+    '${DateTime.now().day+1}',
+    '${DateTime.now().day+2}',
+    '${DateTime.now().day+3}',
+    '${DateTime.now().day+4}',
+    '${DateTime.now().day+5}',
+    '${DateTime.now().day+6}',
+  ];
   int selected = 0;
   int current = 0;
 
@@ -288,7 +300,7 @@ class _RegisterState extends State<Register> {
                   child: Container(
                     height: 77.h,
                     width: 88.w,
-                    padding: EdgeInsets.only(top: 3.h),
+                   // padding: EdgeInsets.only(top: 1.h),
                     decoration: BoxDecoration(
                       color: Color(color.white),
                       borderRadius: BorderRadius.circular(25),
@@ -1200,7 +1212,6 @@ class _RegisterState extends State<Register> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 5.h,
                       left: 1.w,
                       right: 5.w,
                     ),
@@ -1329,7 +1340,7 @@ class _RegisterState extends State<Register> {
                   Container(
                     alignment: Alignment.topCenter,
                     width: 100.w,
-                    height: 15.h,
+                    height: 13.h,
                     padding: EdgeInsets.only(
                       left: 15.w,
                       right: 20.w,
@@ -1351,42 +1362,31 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             Positioned(
-                              top: 70.sp,
-                              left: 70.sp,
+                              top: 54.sp,
+                              left: 69.sp,
                               child: CircleAvatar(
                                 backgroundColor: Color(color.white),
-                                radius: 23,
+                                radius: 22,
                                 child: CircleAvatar(
                                   radius: 18,
                                   backgroundColor: Color(color.blue),
                                   child: IconButton(
                                     onPressed: () async {
                                       var imagePicker = ImagePicker();
-                                      var xfile = _path == null
-                                          ? await imagePicker.pickImage(
-                                              source: ImageSource.gallery)
-                                          : _path = null;
+                                      var xfile = await imagePicker.pickImage(
+                                              source: ImageSource.gallery);
                                       if (xfile != null) {
                                         setState(() {
                                           _path = xfile.path;
                                           sharedPref?.setString("path", _path!);
                                         });
-                                      } else {
-                                        setState(() {
-                                          _path = null;
-                                          sharedPref?.setString("path", _path!);
-                                        });
                                       }
                                     },
-                                    icon: _path == null
-                                        ? Icon(
+                                    icon:  Icon(
                                             Icons.edit,
                                             size: 15.sp,
-                                          )
-                                        : Icon(
-                                            Icons.delete,
-                                            size: 15.sp,
                                           ),
+
                                   ),
                                 ),
                               ),
@@ -1490,6 +1490,7 @@ class _RegisterState extends State<Register> {
                         ),
                         filled: true,
                         fillColor: Color(0xffEAEAEA),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                       ),
                     ),
                   ),
@@ -1537,7 +1538,7 @@ class _RegisterState extends State<Register> {
           ),
           content: Container(
             padding: EdgeInsets.only(
-              top: 10.h,
+              top: 1.h,
             ),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -1572,7 +1573,7 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: EdgeInsets.only(
                       top: 3.h,
-                      left: 1.w,
+                      left: 0.w,
                       right: 5.w,
                     ),
                     child: Container(
@@ -1595,7 +1596,7 @@ class _RegisterState extends State<Register> {
                             ),
                             SizedBox(
                               height: 3.h,
-                              width: 25.w,
+                              width: 24.w,
                               child: PageView.builder(
                                 onPageChanged: (index) {
                                   print(index);
@@ -1610,7 +1611,7 @@ class _RegisterState extends State<Register> {
                                   return Text(
                                     experiance[index],
                                     style: TextStyle(
-                                      fontSize: 15.sp,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   );
@@ -1661,7 +1662,7 @@ class _RegisterState extends State<Register> {
               : StepState.indexed,
           isActive: CurrentStep >= 3,
           title: Text(
-            "Experiances",
+            "Experiences",
             style: TextStyle(
               fontFamily: Fonts.a,
               fontSize: 15.sp,
@@ -1670,7 +1671,7 @@ class _RegisterState extends State<Register> {
           ),
           content: Container(
             padding: EdgeInsets.only(
-              top: 10.h,
+              top: 1.h,
             ),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -1869,12 +1870,23 @@ class _RegisterState extends State<Register> {
                         scrollDirection: Axis.horizontal,
                         itemCount: days.length,
                         itemBuilder: (context, index) {
-                          return Text(
-                            days[index],
-                            style: TextStyle(
-                              fontSize: selected == index ? 15.sp : 10.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
+                          return Column(
+                            children: [
+                              Text(
+                                days[index],
+                                style: TextStyle(
+                                  fontSize: selected == index ? 15.sp : 10.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                month[index],
+                                style: TextStyle(
+                                  fontSize: selected == index ? 15.sp : 10.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -1931,7 +1943,7 @@ class _RegisterState extends State<Register> {
                             },
                             decoration: InputDecoration(
                               hintText:
-                                  '${startTime?.hour.toString()}:${startTime?.minute.toString()}',
+                                  '${startTime.hour.toString()}:${startTime.minute.toString()}',
                               filled: true,
                               fillColor: Color(0xffEAEAEA),
                               label: Text(
@@ -2003,7 +2015,7 @@ class _RegisterState extends State<Register> {
                             },
                             decoration: InputDecoration(
                               hintText:
-                                  '${endTime?.hour.toString()}:${endTime?.minute.toString()}',
+                                  '${endTime.hour.toString()}:${endTime.minute.toString()}',
                               filled: true,
                               fillColor: Color(0xffEAEAEA),
                               label: Text(
@@ -2075,9 +2087,9 @@ class _RegisterState extends State<Register> {
             ),
           ),
           content: Container(
-            padding: EdgeInsets.only(
-              top: 5.h,
-            ),
+            // padding: EdgeInsets.only(
+            //   top: 5.h,
+            // ),
             child: Form(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey6,
@@ -2107,7 +2119,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         Positioned(
-                          top: 16.5.h,
+                          top: 15.h,
                           left: 8.w,
                           child: Text(
                             '${nameController.text}',

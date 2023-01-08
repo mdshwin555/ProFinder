@@ -14,7 +14,6 @@ class AuthController{
         body: jsonEncode({
           'email':email,
           'password':password,
-          'role':role,
         }),
         headers: {
           'Content-Type':'application/json',
@@ -28,6 +27,20 @@ class AuthController{
     }
   }
 
+
+
+  static Future userProfile({required String token}) async {
+    var response = await http.get(Uri.parse('${Api.userprofile}?token=$token'),
+        headers: {
+          "Connection": "Keep-Alive",
+          "Keep-Alive": "timeout=5, max=1000"
+        }
+    );
+    if (response.statusCode == 200) {
+      var urjson = json.decode(response.body);
+      return urjson;
+    }
+  }
 
   static Future<bool?> register({
     required String name,
@@ -58,8 +71,6 @@ class AuthController{
 
       return true;
     }
-
-
   }
 
 
@@ -186,9 +197,9 @@ class AuthController{
     required String from,
     required String to,
     required String period,
+    required String month,
 
 
-    //String? image
   }) async{
     var request = http.MultipartRequest('POST',
         Uri.parse(Api.addtime));
@@ -198,6 +209,7 @@ class AuthController{
       'from': from,
       'to': to,
       'period': period,
+      'month': month,
 
     });
     request.headers.addAll({
