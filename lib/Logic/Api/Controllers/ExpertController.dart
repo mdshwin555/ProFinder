@@ -23,6 +23,21 @@ class ExpertController {
     }
   }
 
+  static Future allexpert() async {
+    var response = await http.get(Uri.parse('${Api.allexpert}'),
+        headers: {
+          "Connection": "Keep-Alive",
+          "Keep-Alive": "timeout=5, max=1000"
+        }
+    );
+
+    if (response.statusCode == 200) {
+      var urjson = json.decode(response.body);
+
+      return urjson;
+    }
+  }
+
   static Future getexpert() async {
     var response = await http.get(Uri.parse('${Api.viewexpert}/${sharedPref?.getInt("id")}'),
         headers: {
@@ -36,8 +51,21 @@ class ExpertController {
     }
   }
 
+  static Future veiwReservation() async {
+    var response = await http.get(Uri.parse('${Api.veiwReservation}/1'),
+        headers: {
+          "Connection": "Keep-Alive",
+          "Keep-Alive": "timeout=5, max=1000"
+        }
+    );
+    if (response.statusCode == 200) {
+      var urjson = json.decode(response.body);
+      return urjson;
+    }
+  }
+
   static Future showfav() async {
-    var response = await http.get(Uri.parse('${Api.showfav}?user_id=2&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTY3MzA1MjIwOCwiZXhwIjoxNjczMDU1ODA4LCJuYmYiOjE2NzMwNTIyMDgsImp0aSI6IjExZHBBU0l3TkpnVzdnNUIiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.y0dl3bfzAPjyUnqar4LdvW8FyzTRkbbtZmwI7t2b7Mk'),
+    var response = await http.get(Uri.parse('${Api.showfav}?user_id=${sharedPref?.getString('user_id')}&token=${sharedPref?.getString('access_token')}'),
         headers: {
           "Connection": "Keep-Alive",
           "Keep-Alive": "timeout=5, max=1000"
@@ -51,18 +79,15 @@ class ExpertController {
 
 
   static Future<bool?> addtofav({
-    required String expert_name,
-    required String user_id,
+    required String expert_id,
     required String token,
 
 
-    //String? image
   }) async{
     var request = http.MultipartRequest('POST',
         Uri.parse(Api.addtofav));
     request.fields.addAll({
-      'expert_name': expert_name,
-      'user_id': user_id,
+      'expert_id': expert_id,
       'token': token,
 
     });

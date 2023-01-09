@@ -1,4 +1,5 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -22,9 +23,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String? path = sharedPref?.getString("path");
-  bool val = sharedPref?.getBool("val") == false ? false : true;
+  bool val = sharedPref?.getString("theme") == "dark" ? true : false;
   var SelectedLang = sharedPref?.getString("lang") == "ar" ? "🇸🇦" : "🇱🇷";
-  bool value = false;
+  bool value = sharedPref?.getString("lang")=="ar"?false:true;
 
   @override
   Widget build(BuildContext context) {
@@ -119,33 +120,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 future: AuthController.userProfile(token: '${sharedPref?.getString('access_token')}'),
                 builder: (context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text('${sharedPref?.getString("name")}', style: TextStyle(
-                      letterSpacing: 0.8,
-                      fontFamily: Fonts.c,
-                      fontSize: 30.sp,
-                      color: Color(color.blue),
-                    ),);
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    sharedPref?.setString("name", "${snapshot.data['user_name']}");
-                    return Text(
-                      '${snapshot.data['user_name']}',
-                      style: TextStyle(
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      alignment: Alignment.center,
+                      child: Text('${sharedPref?.getString("name")}', style: TextStyle(
                         letterSpacing: 0.8,
                         fontFamily: Fonts.c,
                         fontSize: 30.sp,
-                        color: Color(color.blue),
+                        color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                      ),),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    sharedPref?.setString("name", "${snapshot.data['user_name']}");
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${snapshot.data['user_name']}',
+                        style: TextStyle(
+                          letterSpacing: 0.8,
+                          fontFamily: Fonts.c,
+                          fontSize: 30.sp,
+                          color:sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                        ),
                       ),
                     );
 
                   }
                   else  {
-                    return Text('${sharedPref?.getString("name")}', style: TextStyle(
-                      letterSpacing: 0.8,
-                      fontFamily: Fonts.c,
-                      fontSize: 30.sp,
-                      color: Color(color.blue),
-                    ),);
+                    return Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      alignment: Alignment.center,
+                      child: Text('${sharedPref?.getString("name")}', style: TextStyle(
+                        letterSpacing: 0.8,
+                        fontFamily: Fonts.c,
+                        fontSize: 30.sp,
+                        color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                      ),),
+                    );
                   }
 
                 },
@@ -195,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Positioned(
                       right: 5.w,
-                      child: Switch(
+                      child: CupertinoSwitch(
                           activeColor: Color(color.orange),
                           value: val,
                           onChanged: (value) {
@@ -249,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                       left: 19.w,
                       child: Text(
-                        'Language',
+                        'lang'.tr,
                         style: TextStyle(
                           letterSpacing: 0.8,
                           fontWeight: FontWeight.bold,
@@ -356,7 +369,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                       left: 19.w,
                       child: Text(
-                        'Log out',
+                        'logout'.tr,
                         style: TextStyle(
                           letterSpacing: 0.8,
                           fontWeight: FontWeight.bold,

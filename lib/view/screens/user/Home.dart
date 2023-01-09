@@ -45,16 +45,12 @@ class Home extends StatelessWidget {
                 right: 6.w
               ),
               circleColor: Color(color.orange),
-              activeIcons:  sharedPref?.getString("lang") == "ar"?[
+              activeIcons:[
                 Icon(Icons.settings),
                 Icon(CupertinoIcons.house_fill),
-                Icon(CupertinoIcons.heart_fill)
-              ]:[
-                Icon(Icons.settings),
-                Icon(CupertinoIcons.house_fill),
-                Icon(CupertinoIcons.heart_fill),
+                sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.heart_fill):Icon(CupertinoIcons.time_solid)
               ],
-              inactiveIcons: sharedPref?.getString("lang") == "ar"? [
+              inactiveIcons:  [
                 Icon(
                   Icons.settings_outlined,
                   color: Color(color.blue),
@@ -63,25 +59,7 @@ class Home extends StatelessWidget {
                   CupertinoIcons.house,
                   color: Color(color.blue),
                 ),
-                Icon(
-                  CupertinoIcons.heart,
-                  color: Color(color.blue),
-                )
-              ]: [
-
-                Icon(
-                  Icons.settings_outlined,
-                  color: Color(color.blue),
-                ),
-                Icon(
-                  CupertinoIcons.house,
-                  color: Color(color.blue),
-                ),
-
-                Icon(
-                  CupertinoIcons.heart,
-                  color: Color(color.blue),
-                ),
+                sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.suit_heart, color: Color(color.blue),):Icon(CupertinoIcons.time, color: Color(color.blue),)
               ],
               color: Color(color.orange),
               height: 8.h,

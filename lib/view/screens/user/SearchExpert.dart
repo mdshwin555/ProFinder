@@ -170,6 +170,31 @@ class SearchExpert extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text('');
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 25.h,
+            ),
+            Lottie.asset(
+              Images.search,
+              height: 30.h,
+            ),
+            Text(
+              'No suggestion experts yet ',
+              style: TextStyle(
+                fontFamily: Fonts.h,
+                fontWeight: FontWeight.bold,
+                fontSize: 15.sp,
+                color: Color(color.blue),
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
   }
 }

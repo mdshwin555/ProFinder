@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project2022/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../constants/fonts.dart';
+
 class CustomFields extends StatefulWidget {
   final String label;
   final Widget? icon;
@@ -62,6 +64,7 @@ class _CustomFieldsState extends State<CustomFields> {
           widget.label,
           style: TextStyle(
             color: Color(color.blue),
+            fontFamily: Fonts.a,
           ),
         ),
         enabledBorder: OutlineInputBorder(

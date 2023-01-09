@@ -227,7 +227,6 @@ class AuthController{
       return response.statusCode;
     }
 
-
   }
 
 }

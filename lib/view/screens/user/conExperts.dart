@@ -43,7 +43,7 @@ class ConExperts extends StatelessWidget {
               ),
             );
           }
-           if (snapshot.data.length!=0) {
+           if (snapshot.data.length!=0 && snapshot.data[0]['expert'][0]['consulting_id']== sharedPref?.getInt("consulting")) {
             return GridView.builder(
               itemCount:snapshot.data.length==0?0:snapshot.data[0]['expert'].length,
               padding: EdgeInsets.only(
@@ -54,7 +54,7 @@ class ConExperts extends StatelessWidget {
               gridDelegate: SliverWovenGridDelegate.count(
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
+                crossAxisSpacing: 4.w,
                 pattern: [
                   WovenGridTile(1),
 
@@ -89,11 +89,19 @@ class ConExperts extends StatelessWidget {
                             end: Alignment.bottomCenter,
                           ),
                           borderRadius: BorderRadius.circular(10.sp),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                              Colors.black.withOpacity(0.50),
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                            ),
+                          ],
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
-                            left: 5.w,
-                            bottom: 2.h,
+                            left: 3.w,
+                            bottom: 1.5.h,
                           ),
                           child: Column(
                             children: [
@@ -111,21 +119,29 @@ class ConExperts extends StatelessWidget {
                               SizedBox(
                                 height: 8.5.h,
                               ),
-                              Text(
-                                '${snapshot.data[0]['expert'][index]['name']}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  '${snapshot.data[0]['expert'][index]['name']}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                      fontFamily: Fonts.d,
+                                  ),
                                 ),
                               ),
                               SizedBox(
                                 height: 0.5.h,
                               ),
-                              Text(
-                                '${snapshot.data[0]['expert'][index]['address']}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  '${snapshot.data[0]['expert'][index]['address']}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontFamily: Fonts.a,
+                                  ),
                                 ),
                               ),
                             ],

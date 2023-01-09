@@ -29,7 +29,7 @@ class Images {
   static const String logo = '$source/logo.png';
   static const String think = '$source/think.json';
   static const String ballon = '$source/ballon.png';
-  static const String credit = '$source/credit.jpg';
+  static const String credit = '$source/credit.png';
   static const String noitems = '$source/noitems.json';
   static const String loading = '$source/loading.json';
   static const String darkmood = '$source/darkmood.png';
@@ -43,4 +43,5 @@ class Images {
   static const String creditcard = '$source/credit.json';
   static const String uk = '$source/uk.png';
   static const String sa = '$source/sa.png';
+  static const String search = '$source/search.json';
 }

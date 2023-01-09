@@ -21,7 +21,7 @@ class _TypeState extends State<Type> {
       body: Stack(
         children: [
           Positioned(
-            top:1.h,
+            top:2.h,
             child: Transform.scale(
               scale: 0.2.h,
               child: Lottie.asset(
@@ -45,20 +45,22 @@ class _TypeState extends State<Type> {
           ),
           Positioned(
             top: 31.h,
-            left: 25.w,
+            left: 23.w,
             child: Text(
-              'Choose who are you ',
+              'Choose who are you please',
               style: TextStyle(
                 color: Color(color.blue),
                 fontSize: 15.sp,
-                fontFamily: Fonts.a,
+                fontFamily: Fonts.h,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
           Positioned(
             top: 43.h,
             left: 7.w,
-            child: CustomButtom(
+            child:
+            CustomButtom(
               font: Fonts.g,
               role: "Expert",
               color: color.orange,

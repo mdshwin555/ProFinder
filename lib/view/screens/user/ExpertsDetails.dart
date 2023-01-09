@@ -60,7 +60,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                 ),
               );
             }
-            if (snapshot.data.length != 0) {
+            if (snapshot.hasData) {
               return Container(
                 alignment: Alignment.center,
                 height: double.infinity,
@@ -84,7 +84,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                           child: Column(
                             children: [
                               Container(
-                                height: 150.h, //@@@@#########<<<<<<<<<
+                                height:hg==15?90.h:hg==23?100.h:hg==29?106.h: hg==36?127.h:150.h, //@@@@#########<<<<<<<<<
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -135,13 +135,12 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                       child: InkWell(
                                         onTap: () {
                                           var favr = ExpertController.addtofav(
-                                              expert_name:
-                                                  '${snapshot.data['0'][0]['name']}',
-                                              user_id: '2',
+                                              expert_id:
+                                                  '${snapshot.data['0'][0]['id']}',
                                               token:
                                                   '${sharedPref?.getString('access_token')}');
-                                          if (favr != true)
-                                            print('favorite error');
+                                          if (favr == true)
+                                            print('favorite done');
                                           setState(() {
                                             fav = true;
                                             sharedPref?.setBool("fav", fav);
@@ -380,24 +379,29 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                     ),
                                     Positioned(
                                       top: 30.h,
-                                      left: 10.w,
-                                      right: 10.w,
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        width: 90.w,
-                                        child: Text(
-                                          snapshot.data['avg'] == null
-                                              ? 'NO RATING⭐️'
-                                              : '${snapshot.data['avg'].toInt() == 1 ? '⭐️' : snapshot.data['avg'].toInt() == 2 ? '⭐️⭐️' : snapshot.data['avg'].toInt() == 3 ? '⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 4 ? '⭐️⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 5 ? '⭐️⭐️⭐️⭐️⭐️' : 'NO RATING⭐️'}',
-                                          style: TextStyle(
-                                            letterSpacing: 0.8,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: Fonts.g,
-                                            fontSize: 19.sp,
-                                            color: Color(color.blue),
-                                          ),
-                                        ),
+                                      left: 5.w,
+                                      child: StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return  Container(
+                                            padding: EdgeInsets.only(left: 25.w,right: 23.w),
+                                            alignment: Alignment.center,
+                                            width: 90.w,
+                                            child: Text(
+                                              snapshot.data['avg'] == null
+                                                  ? 'NO RATING 💔 '
+                                                  : '${snapshot.data['avg'].toInt() == 1 ? '⭐️' : snapshot.data['avg'].toInt() == 2 ? '⭐️⭐️' : snapshot.data['avg'].toInt() == 3 ? '⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 4 ? '⭐️⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 5 ? '⭐️⭐️⭐️⭐️⭐️' : 'NO RATING⭐️'}',
+                                              style: TextStyle(
+                                                letterSpacing: 0.8,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: Fonts.h,
+                                                fontSize: 19.sp,
+                                                color: Color(color.blue),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
+
                                     ),
                                     Positioned(
                                       top: 35.h,
@@ -677,8 +681,8 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                     (bool state) {
                                                   setState(() {
                                                     snapshot.data.length == 1
-                                                        ? hg = 10
-                                                        : snapshot.data
+                                                        ? hg = 15
+                                                        :snapshot.data.length == 2?hg = 23: snapshot.data
                                                                     .length ==
                                                                 3
                                                             ? hg = 29
@@ -737,7 +741,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                                   child:
                                                                       Container(
                                                                     height:
-                                                                        40.h,
+                                                                        37.h,
                                                                     width: 90.w,
                                                                     decoration:
                                                                         BoxDecoration(
@@ -811,7 +815,8 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                                 ),
                                                                 CircleAvatar(
                                                                   radius: 50.sp,
-                                                                  backgroundColor:
+                                                                  backgroundColor:reservetime ==
+                                                                      'Reservation successful'?Colors.green:
                                                                       Color(color
                                                                           .red),
                                                                   child: reservetime ==
@@ -824,14 +829,30 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                                           size:
                                                                               40.sp,
                                                                         )
-                                                                      : Icon(
+                                                                      :reservetime ==
+                                                                      'Reservation successful'? Icon(
                                                                           Icons
-                                                                              .favorite,
+                                                                              .done_all_outlined,
                                                                           color:
                                                                               Colors.white,
                                                                           size:
                                                                               40.sp,
-                                                                        ),
+                                                                        ):reservetime ==
+                                                                      'Sorry, time is taken'?Icon(
+                                                                    Icons
+                                                                        .update_disabled_outlined,
+                                                                    color:
+                                                                    Colors.white,
+                                                                    size:
+                                                                    40.sp,
+                                                                  ):Icon(
+                                                                    Icons
+                                                                        .account_balance_wallet_outlined,
+                                                                    color:
+                                                                    Colors.white,
+                                                                    size:
+                                                                    40.sp,
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -981,62 +1002,62 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
             }
           },
         ),
-        // floatingActionButton: Row(
-        //   children: [
-        //     SizedBox(
-        //       width: 8.w,
-        //     ),
-        //     Container(
-        //         alignment: Alignment.center,
-        //         height: 8.h,
-        //         width: 18.w,
-        //         decoration: BoxDecoration(
-        //           color: Color(color.orange),
-        //           borderRadius: BorderRadius.circular(25),
-        //         ),
-        //         child: Icon(
-        //           Icons.phone,
-        //           color: Colors.white,
-        //           size: 22.sp,
-        //         )),
-        //     SizedBox(
-        //       width: 3.w,
-        //     ),
-        //     Container(
-        //         alignment: Alignment.center,
-        //         height: 8.h,
-        //         width: 18.w,
-        //         decoration: BoxDecoration(
-        //           color: Color(color.orange),
-        //           borderRadius: BorderRadius.circular(25),
-        //         ),
-        //         child: Icon(
-        //           Icons.message_outlined,
-        //           color: Colors.white,
-        //           size: 22.sp,
-        //         )),
-        //     SizedBox(
-        //       width: 3.w,
-        //     ),
-        //     Container(
-        //       alignment: Alignment.center,
-        //       height: 8.h,
-        //       width: 49.w,
-        //       decoration: BoxDecoration(
-        //         color: Color(color.orange),
-        //         borderRadius: BorderRadius.circular(25),
-        //       ),
-        //       child: Text(
-        //         'Book appoitment ',
-        //         style: TextStyle(
-        //           color: Color(0xffffffff),
-        //           fontSize: 14.sp,
-        //           fontFamily: Fonts.a,
-        //         ),
-        //       ),
-        //     ),
-        //   ],
-        // ),
+        floatingActionButton: Row(
+          children: [
+            SizedBox(
+              width: 8.w,
+            ),
+            Container(
+                alignment: Alignment.center,
+                height: 8.h,
+                width: 18.w,
+                decoration: BoxDecoration(
+                  color: Color(color.orange),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Icon(
+                  Icons.phone,
+                  color: Colors.white,
+                  size: 22.sp,
+                )),
+            SizedBox(
+              width: 3.w,
+            ),
+            Container(
+                alignment: Alignment.center,
+                height: 8.h,
+                width: 18.w,
+                decoration: BoxDecoration(
+                  color: Color(color.orange),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Icon(
+                  Icons.message_outlined,
+                  color: Colors.white,
+                  size: 22.sp,
+                )),
+            SizedBox(
+              width: 3.w,
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: 8.h,
+              width: 49.w,
+              decoration: BoxDecoration(
+                color: Color(color.orange),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Text(
+                'Book appoitment ',
+                style: TextStyle(
+                  color: Color(0xffffffff),
+                  fontSize: 14.sp,
+                  fontFamily: Fonts.a,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

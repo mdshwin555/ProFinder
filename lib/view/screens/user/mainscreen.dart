@@ -16,6 +16,7 @@ import '../../../main.dart';
 import 'package:project2022/constants/routes.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import 'ExpertsDetails.dart';
 import 'SearchExpert.dart';
 
 class MainScreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class MainScreen extends StatelessWidget {
   localController controller = Get.find();
   List titles = [
     'Medical',
-    'professional',
+    'Professional',
     'Mental',
     'familial',
     'Business',
@@ -107,7 +108,7 @@ class MainScreen extends StatelessWidget {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Text(
-                                  '${sharedPref?.getString("name")}',
+                                  'Hi ${sharedPref?.getString("name")}',
                                   style: TextStyle(
                                     letterSpacing: 0.8,
                                     fontFamily: Fonts.c,
@@ -120,8 +121,11 @@ class MainScreen extends StatelessWidget {
                                   ConnectionState.done) {
                                 sharedPref?.setString(
                                     "name", "${snapshot.data['user_name']}");
+                                sharedPref?.setString(
+                                    "user_id", "${snapshot.data['id']}");
+                                print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa${snapshot.data['id']}');
                                 return Text(
-                                  '${snapshot.data['user_name']}',
+                                  'Hi ${snapshot.data['user_name']}',
                                   style: TextStyle(
                                     letterSpacing: 0.8,
                                     fontFamily: Fonts.c,
@@ -131,7 +135,7 @@ class MainScreen extends StatelessWidget {
                                 );
                               } else {
                                 return Text(
-                                  '${sharedPref?.getString("name")}',
+                                  'Hi ${sharedPref?.getString("name")}',
                                   style: TextStyle(
                                     letterSpacing: 0.8,
                                     fontFamily: Fonts.c,
@@ -152,7 +156,8 @@ class MainScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    right: 15.w,
+                    right: sharedPref?.getString("lang") == "ar"?0:15.w,
+                    left: sharedPref?.getString("lang") == "ar"?10.w:0,
                   ),
                   child: Text(
                     'appointment'.tr,
@@ -185,10 +190,9 @@ class MainScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(right: 4.w),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.search),
-                                    Text('Serach for experts'),
+                                    Text('search'.tr,style: TextStyle(color:Color(color.blue),),),
                                     SizedBox(
-                                      width: 32.4.w,
+                                      width: 48.w,
                                     ),
                                     Container(
                                       height: 6.5.h,
@@ -199,8 +203,9 @@ class MainScreen extends StatelessWidget {
                                         ),
                                         color: Color(color.blue),
                                       ),
-                                      child: Icon(
-                                        Icons.tune,
+                                      child:
+                                      Icon(
+                                        Icons.search,
                                         size: 25.sp,
                                         color: Colors.orange,
                                       ),
@@ -227,10 +232,9 @@ class MainScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 4.w),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.search),
-                                    Text('Serach for experts'),
+                                    Text('search'.tr,style: TextStyle(color:Color(color.blue),),),
                                     SizedBox(
-                                      width: 32.4.w,
+                                      width: 39.9.w,
                                     ),
                                     Container(
                                       height: 6.5.h,
@@ -242,7 +246,7 @@ class MainScreen extends StatelessWidget {
                                         color: Color(color.blue),
                                       ),
                                       child: Icon(
-                                        Icons.tune,
+                                        Icons.search,
                                         size: 25.sp,
                                         color: Colors.orange,
                                       ),
@@ -265,17 +269,18 @@ class MainScreen extends StatelessWidget {
                         return Column(
                           children: [
                             Container(
-                              alignment: Alignment.topLeft,
+                              alignment:sharedPref?.getString("lang") == "ar"? Alignment.topRight: Alignment.topLeft,
                               margin: EdgeInsets.only(
                                 left: 5.w,
+                                right: sharedPref?.getString("lang") == "ar"?5.w:0,
                               ),
                               child: Text(
-                                'How can we help you ?',
+                                'hcwhy'.tr,
                                 style: TextStyle(
                                   fontFamily: Fonts.h,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 17.sp,
-                                  color: Color(color.blue),
+                                  color:sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
                                 ),
                               ),
                             ),
@@ -357,18 +362,19 @@ class MainScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment: Alignment.topLeft,
+                              alignment:sharedPref?.getString("lang") == "ar"? Alignment.topRight: Alignment.topLeft,
                               margin: EdgeInsets.only(
                                 top: 1.h,
                                 left: 5.w,
+                                right: sharedPref?.getString("lang") == "ar"?7.w:0,
                               ),
                               child: Text(
-                                'Popular Experts ',
+                                'AllE'.tr,
                                 style: TextStyle(
                                   fontFamily: Fonts.h,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 17.sp,
-                                  color: Color(color.blue),
+                                  color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
                                 ),
                               ),
                             ),
@@ -382,82 +388,160 @@ class MainScreen extends StatelessWidget {
                                 right: 1.w,
                                 top: 0.5.h,
                               ),
-                              height: 32.h,
-                              child: GridView.custom(
-                                padding: EdgeInsets.only(
-                                  top: 2.h,
-                                  left: 3.w,
-                                  right: 3.w,
-                                ),
-                                gridDelegate: SliverWovenGridDelegate.count(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 8,
-                                  crossAxisSpacing: 8,
-                                  pattern: [
-                                    WovenGridTile(1),
-                                    WovenGridTile(
-                                      5 / 7,
-                                      crossAxisRatio: 0.9,
-                                      alignment: AlignmentDirectional.centerEnd,
-                                    ),
-                                  ],
-                                ),
-                                childrenDelegate: SliverChildBuilderDelegate(
-                                  (context, index) => ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            'http://127.0.0.1:8000/images/expert/1671395618.png',
+                              height: 100.h,
+                              child:  FutureBuilder<dynamic>(
+                                future: ExpertController.allexpert(),
+                                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Lottie.asset(
+                                            Images.loading,
+                                            height: 10.h,
                                           ),
-                                          fit: BoxFit.fill,
-                                        ),
+                                          Text(
+                                            'Loading',
+                                            style: TextStyle(
+                                              fontFamily: Fonts.h,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.sp,
+                                              color: Color(color.blue),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.transparent,
-                                              Colors.black.withOpacity(0.75),
-                                            ],
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: 2.5.h,
-                                            right: 25.w,
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                'Hello',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15.sp,
-                                                  fontFamily: Fonts.a,
+                                    );
+                                  }
+                                  if (snapshot.data.length!=0) {
+                                    return GridView.builder(
+                                      itemCount:snapshot.data.length,
+                                      padding: EdgeInsets.only(
+                                        top: 2.h,
+                                        left: 3.w,
+                                        right: 3.w,
+                                      ),
+                                      gridDelegate: SliverWovenGridDelegate.count(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 8,
+                                        crossAxisSpacing: 8,
+                                        pattern: [
+                                          WovenGridTile(1),
+
+                                        ],
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: (){
+                                            Get.to(ExpertsDtails());
+                                            sharedPref?.setInt("id", snapshot.data[index]['id']);
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(10.sp),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                    'Platform/public/images/expert/${snapshot.data[index]['photo']}',
+
+                                                  ),
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              Text(
-                                                '7/10 ⭐️',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10.sp,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.transparent,
+                                                      Colors.black.withOpacity(0.75),
+                                                    ],
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(10.sp),
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                    left: 3.w,
+                                                    bottom: 1.5.h,
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                          left: 25.w,
+                                                          top: 2.h,
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.favorite_border,
+                                                          color: Colors.red,
+                                                          size: 20.sp,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 8.h,
+                                                      ),
+                                                      Container(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Text(
+                                                          '${snapshot.data[index]['name']}',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16.sp,
+                                                            fontFamily: Fonts.d,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 0.5.h,
+                                                      ),
+                                                      Container(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Text(
+                                                          snapshot.data[index]['consulting_id']==1?'medical':snapshot.data[index]['consulting_id']==2?'Profession':snapshot.data[index]['consulting_id']==3?'Mental':snapshot.data[index]['consulting_id']==4?'Familial':'Business',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12.sp,
+                                                            fontFamily: Fonts.a,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                  else  {
+                                    return Center(
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 25.h,
+                                          ),
+                                          Lottie.asset(
+                                            Images.noitems,
+                                            height: 30.h,
+                                          ),
+                                          Text(
+                                            'No items yet in this consulting ',
+                                            style: TextStyle(
+                                              fontFamily: Fonts.h,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15.sp,
+                                              color: Color(color.blue),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           ],

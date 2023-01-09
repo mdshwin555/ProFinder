@@ -5,18 +5,22 @@ class MyLocal implements Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     "en": {
-      "appointment": "Appointment with \n a expert",
-      "type-1": "User",
+      "appointment": "Appointment with \n an expert",
+      "search": "Search for expert",
       "light": "Dark mood",
-      "arabic": "🇸🇦",
-      "english": "🇱🇷",
+      "hcwhy": "How can we help you ?",
+      "AllE": "All Experts",
+      "lang": "Language",
+      "logout": "logout",
     },
     "ar": {
       "appointment": "احجز موعد مع خبير",
-      "type-1": "مستخدم عادي",
+      "search": "إبحث عن خبير",
       "light": "الوضع الليلي",
-      "arabic": "🇸🇦",
-      "english": "🇱🇷",
+      "hcwhy": " كيف نستطيع مساعدتك ؟",
+      "AllE": "كل الخبراء",
+      "lang": "لغة التبيق",
+      "logout": "تسجيل الخروج",
     }
   };
 }

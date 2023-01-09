@@ -18,5 +18,7 @@ class Api{
   static const String userprofile = '$baseUrl/auth/user-profile';
   static const String viewTime = '$baseUrl/viewTime';
   static const String reserveTime = '$baseUrl/auth/reserveTime';
+  static const String allexpert = '$baseUrl/allexpert';
+  static const String veiwReservation = '$baseUrl/veiwReservation';
 
 }
