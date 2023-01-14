@@ -7,6 +7,7 @@ import '../../../Logic/Api/Controllers/SearchController.dart';
 import '../../../constants/fonts.dart';
 import '../../../constants/images.dart';
 import '../../../constants/colors.dart';
+import '../../../main.dart';
 import 'ExpertsDetails.dart';
 
 class SearchExpert extends SearchDelegate {
@@ -45,7 +46,7 @@ class SearchExpert extends SearchDelegate {
             ),
           );
         }
-        if(snapshot.hasData)
+        if(snapshot.data.length!=0)
           return GridView.builder(
            itemCount:snapshot.data.length,
             padding: EdgeInsets.only(
@@ -96,7 +97,7 @@ class SearchExpert extends SearchDelegate {
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(
-                          left: 5.w,
+                          left: 2.w,
                           bottom: 2.h,
                         ),
                         child: Stack(
@@ -113,22 +114,30 @@ class SearchExpert extends SearchDelegate {
                             ),
                             Positioned(
                               bottom: 2.5.h,
-                              right: 16.w,
-                              child:Text(
-                                '${snapshot.data[0]['name']}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.sp,
+                              left: 1.w,
+                              child:Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  '${snapshot.data[0]['name']}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontFamily: Fonts.d,
+                                  ),
                                 ),
                               ),
                             ),
                             Positioned(
-                              right: 16.w,
-                              child: Text(
-                                '${snapshot.data[0]['address']}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
+                              left: 1.w,
+                              child: Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  snapshot.data[index]['consulting_id']==1?'medical':snapshot.data[index]['consulting_id']==2?'Profession':snapshot.data[index]['consulting_id']==3?'Mental':snapshot.data[index]['consulting_id']==4?'Familial':'Business',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontFamily: Fonts.a,
+                                  ),
                                 ),
                               ),
                             ),
@@ -152,8 +161,16 @@ class SearchExpert extends SearchDelegate {
                   Images.noitems,
                   height: 30.h,
                 ),
-                Text(
-                  'No items yet in this consulting ',
+                sharedPref?.getString("lang") == "ar"?Text(
+                  'nosearch'.tr,
+                  style: TextStyle(
+                    fontFamily: Fonts.j,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.sp,
+                    color: Color(color.blue),
+                  ),
+                ):Text(
+                  'nosearch'.tr,
                   style: TextStyle(
                     fontFamily: Fonts.h,
                     fontWeight: FontWeight.bold,

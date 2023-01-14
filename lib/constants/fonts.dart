@@ -10,5 +10,6 @@ class Fonts{
   static const String g='Limelight';
   static const String h='Macondo';
   static const String i='MarcellusSC';
+  static const String j='cairo';
 
 }

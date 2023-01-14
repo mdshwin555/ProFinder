@@ -16,7 +16,7 @@ class ConExperts extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(color.orange),
-        title: Text('${sharedPref?.getString("consulting_name")}'),
+        title: sharedPref?.getString("lang") == "ar"?Text('${sharedPref?.getString("consulting_name")}',style: TextStyle(fontFamily: Fonts.j),):Text('${sharedPref?.getString("consulting_name")}',style: TextStyle(fontFamily: Fonts.a),),
       ),
       body: FutureBuilder<dynamic>(
         future: ExpertController.getexperts(),
@@ -165,8 +165,16 @@ class ConExperts extends StatelessWidget {
                      Images.noitems,
                      height: 30.h,
                    ),
-                   Text(
-                     'No items yet in this consulting ',
+                   sharedPref?.getString("lang") == "ar"?Text(
+                     'noitems'.tr,
+                     style: TextStyle(
+                       fontFamily: Fonts.j,
+                       fontWeight: FontWeight.bold,
+                       fontSize: 15.sp,
+                       color: Color(color.blue),
+                     ),
+                   ):Text(
+                     'noitems'.tr,
                      style: TextStyle(
                        fontFamily: Fonts.h,
                        fontWeight: FontWeight.bold,

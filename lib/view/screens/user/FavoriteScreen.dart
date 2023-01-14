@@ -116,13 +116,12 @@ class FavoriteScreen extends StatelessWidget {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
                                       return Container(
-                                        alignment: Alignment.center,
+                                        alignment: Alignment.topLeft,
                                         child: Text(
                                           '${sharedPref?.getString("ex_name")}',
                                           style: TextStyle(
-                                            letterSpacing: 0.8,
-                                            fontFamily: Fonts.b,
-                                            fontSize: 25.sp,
+                                            fontFamily: Fonts.d,
+                                            fontSize: 16.sp,
                                             color: Color(color.white),
                                           ),
                                         ),
@@ -134,26 +133,24 @@ class FavoriteScreen extends StatelessWidget {
                                           "ex_name", "${snapshot.data['0'][0]['name']}");
 
                                       return Container(
-                                        alignment: Alignment.center,
+                                        alignment: Alignment.topLeft,
                                         child: Text(
                                           '${snapshot.data['0'][0]['name']}',
                                           style: TextStyle(
-                                            letterSpacing: 0.8,
-                                            fontFamily: Fonts.b,
-                                            fontSize: 25.sp,
+                                            fontFamily: Fonts.d,
+                                            fontSize: 16.sp,
                                             color: Color(color.white),
                                           ),
                                         ),
                                       );
                                     } else {
                                       return Container(
-                                        alignment: Alignment.center,
+                                        alignment: Alignment.topLeft,
                                         child: Text(
                                           '${sharedPref?.getString("ex_name")}',
                                           style: TextStyle(
-                                            letterSpacing: 0.8,
-                                            fontFamily: Fonts.b,
-                                            fontSize: 25.sp,
+                                            fontFamily: Fonts.d,
+                                            fontSize: 16.sp,
                                             color: Color(color.white),
                                           ),
                                         ),
@@ -161,17 +158,6 @@ class FavoriteScreen extends StatelessWidget {
                                     }
                                   },
                                 ),
-                                // Container(
-                                //   width: 50.w,
-                                //   alignment: Alignment.center,
-                                //   child: Text(
-                                //     '${snapshot.data[index]['expert_id']}',
-                                //     style: TextStyle(
-                                //       color: Colors.white,
-                                //       fontSize: 15.sp,
-                                //     ),
-                                //   ),
-                                // ),
                               ),
                             ],
                           ),
@@ -232,7 +218,7 @@ class FavoriteScreen extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 40.h),
+              padding: EdgeInsets.only(top: 45.h),
               child: FutureBuilder<dynamic>(
                 future: ExpertController.veiwReservation(),
                 builder: (context, AsyncSnapshot<dynamic> snapshot) {
@@ -258,67 +244,85 @@ class FavoriteScreen extends StatelessWidget {
                       ),
                     );
                   }
-                  if (snapshot.connectionState == ConnectionState.done ) {
-                    return  ListView.separated(
+                  if (snapshot.data.length!=0) {
+                    return ListView.separated(
                       scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.length,
                       itemBuilder: (c, i) {
-                        return  Row(
-                          children: [
-                            SizedBox(
-                              width: 4.w,
+                        return Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3.w),
+                          height: 11.h,
+                          width: 80.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              15.sp,
                             ),
-                            CircleAvatar(
-                              backgroundColor:
-                              Color(color
-                                  .orange),
-                              radius: 25.sp,
-                              child: Icon(
-                                Icons
-                                    .access_time_rounded,
-                                size: 20.sp,
-                                color: Color(
-                                    color
-                                        .white),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.20),
+                                blurRadius: 10,
+                                spreadRadius: 1,
                               ),
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text(
-                              '${snapshot.data[i]['day']}/${DateTime.now().month.toString()} :',
-                              style: TextStyle(
-                                letterSpacing:
-                                0.8,
-                                fontWeight:
-                                FontWeight
-                                    .bold,
-                                fontFamily:
-                                Fonts.a,
-                                fontSize: 14.sp,
-                                color: Color(
-                                    color.gray),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 4.w,
                               ),
-                            ),
-                            SizedBox(
-                              width: 8.w,
-                            ),
-                            Text(
-                              '${snapshot.data[i]['period']}',
-                              style: TextStyle(
-                                letterSpacing:
-                                0.8,
-                                fontWeight:
-                                FontWeight
-                                    .bold,
-                                fontFamily:
-                                Fonts.d,
-                                fontSize: 15.sp,
-                                color: Color(
-                                    color.blue),
+                              CircleAvatar(
+                                backgroundColor:
+                                Color(color
+                                    .orange),
+                                radius: 25.sp,
+                                child: Icon(
+                                  Icons
+                                      .access_time_rounded,
+                                  size: 20.sp,
+                                  color: Color(
+                                      color
+                                          .white),
+                                ),
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              Text(
+                                '${snapshot.data[i]['day']}/${DateTime.now().month.toString()}/2023:',
+                                style: TextStyle(
+                                  letterSpacing:
+                                  0.8,
+                                  fontWeight:
+                                  FontWeight
+                                      .bold,
+                                  fontFamily:
+                                  Fonts.a,
+                                  fontSize: 14.sp,
+                                  color: Color(
+                                      color.gray),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Text(
+                                '${snapshot.data[i]['period']}',
+                                style: TextStyle(
+                                  letterSpacing:
+                                  0.8,
+                                  fontWeight:
+                                  FontWeight
+                                      .bold,
+                                  fontFamily:
+                                  Fonts.d,
+                                  fontSize: 15.sp,
+                                  color: Color(
+                                      color.blue),
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -334,14 +338,22 @@ class FavoriteScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 25.h,
+                            height: 5.h,
                           ),
                           Lottie.asset(
                             Images.noitems,
-                            height: 30.h,
+                            height: 25.h,
                           ),
-                          Text(
-                            'No items yet in this consulting ',
+                          sharedPref?.getString("lang") == "ar"?Text(
+                            'noreserv'.tr,
+                            style: TextStyle(
+                              fontFamily: Fonts.j,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                              color: Color(color.blue),
+                            ),
+                          ):Text(
+                            'noreserv'.tr,
                             style: TextStyle(
                               fontFamily: Fonts.h,
                               fontWeight: FontWeight.bold,
@@ -356,41 +368,147 @@ class FavoriteScreen extends StatelessWidget {
                 },
               ),
             ),
-            Stack(
-              children: [
-                Positioned(
-                  top: 6.h,
-                  left: 5.w,
-                  child: Image.asset(
-                    Images.credit,
-                    width: 90.w,
-                  ),
+            sharedPref?.getString("lang") == "ar"?Container(
+              padding: EdgeInsets.only(top: 40.h,right: 5.w),
+              child: Text(
+                'times'.tr,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Fonts.j,
+                  fontSize: 15.sp,
+                  color: Color(color.blue),
                 ),
-                Positioned(
-                  top: 20.h,
-                  left: 37.w,
-                  child: Text(
-                    '0000',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Colors.yellow,
-                      fontFamily: Fonts.d,
-                    ),
-                  ),
+              ),
+            ):Container(
+              padding: EdgeInsets.only(top: 40.h,left: 5.w),
+              child: Text(
+                'times'.tr,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Fonts.d,
+                  fontSize: 15.sp,
+                  color: Color(color.blue),
                 ),
-                Positioned(
-                  top: 25.5.h,
-                  left: 15.w,
-                  child: Text(
-                    '${sharedPref?.getString("name")}',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.yellow,
-                      fontFamily: Fonts.d,
-                    ),
-                  ),
-                ),
-              ],
+              ),
+            ),
+            FutureBuilder<dynamic>(
+              future: ExpertController.veiwReservation(),
+              builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return  Stack(
+                    children: [
+                      Positioned(
+                        top: 6.h,
+                        left: 5.w,
+                        child: Image.asset(
+                          Images.credit,
+                          width: 90.w,
+                        ),
+                      ),
+                      Positioned(
+                        top: 20.h,
+                        left: 37.w,
+                        child: Text(
+                          '${sharedPref?.getString("balance")}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 25.5.h,
+                        left: 15.w,
+                        child: Text(
+                          '${sharedPref?.getString("name")}',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                if (snapshot.data.length!=0) {
+                  return  Stack(
+                    children: [
+                      Positioned(
+                        top: 6.h,
+                        left: 5.w,
+                        child: Image.asset(
+                          Images.credit,
+                          width: 90.w,
+                        ),
+                      ),
+                      Positioned(
+                        top: 20.h,
+                        left: 37.w,
+                        child: Text(
+                          '${int.parse('${sharedPref?.getString("balance")}')+int.parse('${sharedPref?.getString("price")}')*snapshot.data.length}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 25.5.h,
+                        left: 15.w,
+                        child: Text(
+                          '${sharedPref?.getString("name")}',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                else  {
+                  return Stack(
+                    children: [
+                      Positioned(
+                        top: 6.h,
+                        left: 5.w,
+                        child: Image.asset(
+                          Images.credit,
+                          width: 90.w,
+                        ),
+                      ),
+                      Positioned(
+                        top: 20.h,
+                        left: 37.w,
+                        child: Text(
+                          '${int.parse('${sharedPref?.getString("balance")}')}',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 25.5.h,
+                        left: 15.w,
+                        child: Text(
+                          '${sharedPref?.getString("name")}',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.yellow,
+                            fontFamily: Fonts.d,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              },
             ),
           ]
         ),

@@ -12,6 +12,16 @@ class MyLocal implements Translations {
       "AllE": "All Experts",
       "lang": "Language",
       "logout": "logout",
+      "times": "your reserved times :",
+      "noreserv": "No reservations yet",
+      "noitems": "No items yet in this consulting",
+      "nosearch": "There is no expert with this name",
+      "phone":"Phone",
+      "address":"address",
+      "Experiences":"Experiences",
+      "Experience":"Experience",
+      "Details":"Details",
+      "timesexpert":"Times",
     },
     "ar": {
       "appointment": "احجز موعد مع خبير",
@@ -21,6 +31,16 @@ class MyLocal implements Translations {
       "AllE": "كل الخبراء",
       "lang": "لغة التبيق",
       "logout": "تسجيل الخروج",
+      "times": "الأوقات المحجوزة لديك :",
+      "noreserv": "لا يوجد حجوزات لديك بعد",
+      "noitems": "لا يوجد جبراء لهذه الإستشارة بعد",
+      "nosearch": "لا يوجد خبير بهذا الاسم",
+      "phone":"الموبايل",
+      "address":"العنوان",
+      "Experiences":"الخبرات",
+      "Experience":"الخبرة",
+      "Details":"التفاصيل",
+      "timesexpert":"الأوقات المتاحة",
     }
   };
 }

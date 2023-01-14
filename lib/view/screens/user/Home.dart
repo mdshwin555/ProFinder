@@ -34,42 +34,45 @@ class Home extends StatelessWidget {
         ),
         child: GetX<HomeController>(
           builder: (controller) {
-            return CircleNavBar(
-              cornerRadius: BorderRadius.vertical(
-                top: Radius.circular(30.sp),
-                bottom: Radius.circular(30.sp),
-              ),
-              padding: EdgeInsets.only(
-                bottom: 3.h,
-                left: 6.w,
-                right: 6.w
-              ),
-              circleColor: Color(color.orange),
-              activeIcons:[
-                Icon(Icons.settings),
-                Icon(CupertinoIcons.house_fill),
-                sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.heart_fill):Icon(CupertinoIcons.time_solid)
-              ],
-              inactiveIcons:  [
-                Icon(
-                  Icons.settings_outlined,
-                  color: Color(color.blue),
+            return Directionality(
+              textDirection: TextDirection.ltr,
+              child: CircleNavBar(
+                cornerRadius: BorderRadius.vertical(
+                  top: Radius.circular(30.sp),
+                  bottom: Radius.circular(30.sp),
                 ),
-                Icon(
-                  CupertinoIcons.house,
-                  color: Color(color.blue),
+                padding: EdgeInsets.only(
+                  bottom: 3.h,
+                  left: 6.w,
+                  right: 6.w
                 ),
-                sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.suit_heart, color: Color(color.blue),):Icon(CupertinoIcons.time, color: Color(color.blue),)
-              ],
-              color: Color(color.orange),
-              height: 8.h,
-              activeIndex: controller.pageInx.value,
-              circleWidth: 8.h,
-              onTap: (val) {
-                controller.toPage(val);
-              },
-              iconDurationMillSec: 400,
-              tabCurve: Curves.easeOutQuart,
+                circleColor: Color(color.orange),
+                activeIcons:[
+                  Icon(Icons.settings),
+                  Icon(CupertinoIcons.house_fill),
+                  sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.heart_fill):Icon(CupertinoIcons.time_solid)
+                ],
+                inactiveIcons:  [
+                  Icon(
+                    Icons.settings_outlined,
+                    color: Color(color.blue),
+                  ),
+                  Icon(
+                    CupertinoIcons.house,
+                    color: Color(color.blue),
+                  ),
+                  sharedPref?.getString("role")=="User"?Icon(CupertinoIcons.suit_heart, color: Color(color.blue),):Icon(CupertinoIcons.time, color: Color(color.blue),)
+                ],
+                color: Color(color.orange),
+                height: 8.h,
+                activeIndex: controller.pageInx.value,
+                circleWidth: 8.h,
+                onTap: (val) {
+                  controller.toPage(val);
+                },
+                iconDurationMillSec: 400,
+                tabCurve: Curves.easeOutQuart,
+              ),
             );
           },
         ),

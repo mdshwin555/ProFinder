@@ -44,4 +44,7 @@ class Images {
   static const String uk = '$source/uk.png';
   static const String sa = '$source/sa.png';
   static const String search = '$source/search.json';
+  static const String callchat = '$source/callchat.json';
+  static const String onboarding1 = '$source/onboarding1.json';
+  static const String rate = '$source/rate.json';
 }

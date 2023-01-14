@@ -30,6 +30,14 @@ class MainScreen extends StatelessWidget {
     'Business',
   ];
 
+  List artitles = [
+    'طبية',
+    'مهنية',
+    'نفسية',
+    'عائلية',
+    'الأعمال',
+  ];
+
   List rates = [
     '8',
     '7.5',
@@ -76,12 +84,12 @@ class MainScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Row(
+                sharedPref?.getString("lang") == "ar"?Row(
                   children: [
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 6.w),
+                          padding: EdgeInsets.only(right: 6.w),
                           child: CircleAvatar(
                             backgroundColor: Color(color.blue),
                             child: Text(
@@ -98,7 +106,7 @@ class MainScreen extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 3.w),
+                          padding: EdgeInsets.only(right: 3.w),
                           child: FutureBuilder<dynamic>(
                             future: AuthController.userProfile(
                                 token:
@@ -123,7 +131,81 @@ class MainScreen extends StatelessWidget {
                                     "name", "${snapshot.data['user_name']}");
                                 sharedPref?.setString(
                                     "user_id", "${snapshot.data['id']}");
-                                print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa${snapshot.data['id']}');
+                                print('user_id${snapshot.data['id']}');
+                                return Text(
+                                  'Hi ${snapshot.data['user_name']}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  'Hi ${sharedPref?.getString("name")}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ):Row(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 6.w),
+                          child: CircleAvatar(
+                            backgroundColor: Color(color.blue),
+                            child: Text(
+                              '👋',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                              ),
+                            ),
+                            radius: 20.sp,
+                            foregroundImage: path == null
+                                ? FileImage(File(
+                                'Platform/public/images/expert/1670099395.png'))
+                                : FileImage(File(path!)),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 3.w),
+                          child: FutureBuilder<dynamic>(
+                            future: AuthController.userProfile(
+                                token:
+                                '${sharedPref?.getString('access_token')}'),
+                            builder:
+                                (context, AsyncSnapshot<dynamic> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Text(
+                                  'Hi ${sharedPref?.getString("name")}',
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontFamily: Fonts.c,
+                                    fontSize: 30.sp,
+                                    color: Color(color.blue),
+                                  ),
+                                );
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                sharedPref?.setString(
+                                    "name", "${snapshot.data['user_name']}");
+                                sharedPref?.setString(
+                                    "user_id", "${snapshot.data['id']}");
+                                print('user_id${snapshot.data['id']}');
                                 return Text(
                                   'Hi ${snapshot.data['user_name']}',
                                   style: TextStyle(
@@ -156,10 +238,18 @@ class MainScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    right: sharedPref?.getString("lang") == "ar"?0:15.w,
-                    left: sharedPref?.getString("lang") == "ar"?10.w:0,
+                    right: sharedPref?.getString("lang") == "ar" ? 0 : 5.w,
+                    left: sharedPref?.getString("lang") == "ar" ? 10.w : 0,
                   ),
-                  child: Text(
+                  child:  sharedPref?.getString("lang") == "ar"?Text(
+                    'appointment'.tr,
+                    style: TextStyle(
+                      letterSpacing: 0.8,
+                      fontFamily: Fonts.j,
+                      fontSize: 28.sp,
+                      color: Color(color.blue),
+                    ),
+                  ):Text(
                     'appointment'.tr,
                     style: TextStyle(
                       letterSpacing: 0.8,
@@ -167,7 +257,7 @@ class MainScreen extends StatelessWidget {
                       fontSize: 30.sp,
                       color: Color(color.blue),
                     ),
-                  ),
+                  )
                 ),
                 GestureDetector(
                   onTap: () {
@@ -187,12 +277,22 @@ class MainScreen extends StatelessWidget {
                                 color: Colors.white.withOpacity(0.60),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(right: 4.w),
+                                padding: EdgeInsets.only(right: 6.w),
                                 child: Row(
                                   children: [
-                                    Text('search'.tr,style: TextStyle(color:Color(color.blue),),),
+                                    Container(
+                                      width: 34.w,
+                                      child: Text(
+                                        'search'.tr,
+                                        style: TextStyle(
+                                          color: Color(color.blue),
+                                          fontFamily: Fonts.j,
+                                          fontSize: 14.sp
+                                        ),
+                                      ),
+                                    ),
                                     SizedBox(
-                                      width: 48.w,
+                                      width: 30.w,
                                     ),
                                     Container(
                                       height: 6.5.h,
@@ -203,8 +303,7 @@ class MainScreen extends StatelessWidget {
                                         ),
                                         color: Color(color.blue),
                                       ),
-                                      child:
-                                      Icon(
+                                      child: Icon(
                                         Icons.search,
                                         size: 25.sp,
                                         color: Colors.orange,
@@ -229,12 +328,21 @@ class MainScreen extends StatelessWidget {
                                 color: Colors.white.withOpacity(0.60),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 4.w),
+                                padding: EdgeInsets.only(left: 3.w),
                                 child: Row(
                                   children: [
-                                    Text('search'.tr,style: TextStyle(color:Color(color.blue),),),
+                                    Container(
+                                        width: 35.w,
+                                        child: Text(
+                                          'search'.tr,
+                                          style: TextStyle(
+                                            color: Color(color.blue),
+                                            fontFamily: Fonts.a,
+                                            fontSize: 10.sp,
+                                          ),
+                                        )),
                                     SizedBox(
-                                      width: 39.9.w,
+                                      width: 32.w,
                                     ),
                                     Container(
                                       height: 6.5.h,
@@ -269,20 +377,38 @@ class MainScreen extends StatelessWidget {
                         return Column(
                           children: [
                             Container(
-                              alignment:sharedPref?.getString("lang") == "ar"? Alignment.topRight: Alignment.topLeft,
+                              alignment: sharedPref?.getString("lang") == "ar"
+                                  ? Alignment.topRight
+                                  : Alignment.topLeft,
                               margin: EdgeInsets.only(
                                 left: 5.w,
-                                right: sharedPref?.getString("lang") == "ar"?5.w:0,
+                                right: sharedPref?.getString("lang") == "ar"
+                                    ? 5.w
+                                    : 0,
                               ),
-                              child: Text(
+                              child:  sharedPref?.getString("lang") == "ar"?Text(
+                                'hcwhy'.tr,
+                                style: TextStyle(
+                                  fontFamily: Fonts.j,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.sp,
+                                  color:
+                                      sharedPref?.getString("theme") == "dark"
+                                          ? Color(color.white)
+                                          : Color(color.blue),
+                                ),
+                              ):Text(
                                 'hcwhy'.tr,
                                 style: TextStyle(
                                   fontFamily: Fonts.h,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 17.sp,
-                                  color:sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                                  color:
+                                  sharedPref?.getString("theme") == "dark"
+                                      ? Color(color.white)
+                                      : Color(color.blue),
                                 ),
-                              ),
+                              )
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -301,7 +427,8 @@ class MainScreen extends StatelessWidget {
                                     radius: 5.sp,
                                     borderRadius: BorderRadius.circular(50.sp),
                                     onTap: () {
-                                      sharedPref?.setString(
+                                      sharedPref?.getString("lang") == "ar"?sharedPref?.setString(
+                                          "consulting_name", artitles[i]):sharedPref?.setString(
                                           "consulting_name", titles[i]);
                                       sharedPref?.setInt("consulting", i + 1);
                                       Get.to(ConExperts());
@@ -338,8 +465,16 @@ class MainScreen extends StatelessWidget {
                                             height: 7.h,
                                           ),
                                           Positioned(
-                                            bottom: 12,
-                                            child: Text(
+                                            bottom: 0.5.h,
+                                            child: sharedPref?.getString("lang") == "ar"?Text(
+                                              artitles[i],
+                                              style: TextStyle(
+                                                fontFamily: Fonts.j,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 10.sp,
+                                                color: Color(color.blue),
+                                              ),
+                                            ):Text(
                                               titles[i],
                                               style: TextStyle(
                                                 fontFamily: Fonts.a,
@@ -362,21 +497,39 @@ class MainScreen extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment:sharedPref?.getString("lang") == "ar"? Alignment.topRight: Alignment.topLeft,
+                              alignment: sharedPref?.getString("lang") == "ar"
+                                  ? Alignment.topRight
+                                  : Alignment.topLeft,
                               margin: EdgeInsets.only(
                                 top: 1.h,
                                 left: 5.w,
-                                right: sharedPref?.getString("lang") == "ar"?7.w:0,
+                                right: sharedPref?.getString("lang") == "ar"
+                                    ? 7.w
+                                    : 0,
                               ),
-                              child: Text(
+                              child:  sharedPref?.getString("lang") == "ar"?Text(
+                                'AllE'.tr,
+                                style: TextStyle(
+                                  fontFamily: Fonts.j,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.sp,
+                                  color:
+                                      sharedPref?.getString("theme") == "dark"
+                                          ? Color(color.white)
+                                          : Color(color.blue),
+                                ),
+                              ):Text(
                                 'AllE'.tr,
                                 style: TextStyle(
                                   fontFamily: Fonts.h,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 17.sp,
-                                  color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                                  color:
+                                  sharedPref?.getString("theme") == "dark"
+                                      ? Color(color.white)
+                                      : Color(color.blue),
                                 ),
-                              ),
+                              )
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -389,13 +542,16 @@ class MainScreen extends StatelessWidget {
                                 top: 0.5.h,
                               ),
                               height: 100.h,
-                              child:  FutureBuilder<dynamic>(
+                              child: FutureBuilder<dynamic>(
                                 future: ExpertController.allexpert(),
-                                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                builder:
+                                    (context, AsyncSnapshot<dynamic> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
                                     return Center(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Lottie.asset(
                                             Images.loading,
@@ -414,37 +570,38 @@ class MainScreen extends StatelessWidget {
                                       ),
                                     );
                                   }
-                                  if (snapshot.data.length!=0) {
+                                  if (snapshot.data.length != 0) {
                                     return GridView.builder(
-                                      itemCount:snapshot.data.length,
+                                      itemCount: snapshot.data.length,
                                       padding: EdgeInsets.only(
                                         top: 2.h,
                                         left: 3.w,
                                         right: 3.w,
                                       ),
-                                      gridDelegate: SliverWovenGridDelegate.count(
+                                      gridDelegate:
+                                          SliverWovenGridDelegate.count(
                                         crossAxisCount: 2,
                                         mainAxisSpacing: 8,
                                         crossAxisSpacing: 8,
                                         pattern: [
                                           WovenGridTile(1),
-
                                         ],
                                       ),
                                       itemBuilder: (context, index) {
                                         return InkWell(
-                                          onTap: (){
+                                          onTap: () {
                                             Get.to(ExpertsDtails());
-                                            sharedPref?.setInt("id", snapshot.data[index]['id']);
+                                            sharedPref?.setInt("id",
+                                                snapshot.data[index]['id']);
                                           },
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(10.sp),
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   image: AssetImage(
                                                     'Platform/public/images/expert/${snapshot.data[index]['photo']}',
-
                                                   ),
                                                   fit: BoxFit.cover,
                                                 ),
@@ -454,12 +611,15 @@ class MainScreen extends StatelessWidget {
                                                   gradient: LinearGradient(
                                                     colors: [
                                                       Colors.transparent,
-                                                      Colors.black.withOpacity(0.75),
+                                                      Colors.black
+                                                          .withOpacity(0.75),
                                                     ],
                                                     begin: Alignment.topCenter,
                                                     end: Alignment.bottomCenter,
                                                   ),
-                                                  borderRadius: BorderRadius.circular(10.sp),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.sp),
                                                 ),
                                                 child: Padding(
                                                   padding: EdgeInsets.only(
@@ -469,7 +629,8 @@ class MainScreen extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Padding(
-                                                        padding: EdgeInsets.only(
+                                                        padding:
+                                                            EdgeInsets.only(
                                                           left: 25.w,
                                                           top: 2.h,
                                                         ),
@@ -483,7 +644,8 @@ class MainScreen extends StatelessWidget {
                                                         height: 8.h,
                                                       ),
                                                       Container(
-                                                        alignment: Alignment.topLeft,
+                                                        alignment:
+                                                            Alignment.topLeft,
                                                         child: Text(
                                                           '${snapshot.data[index]['name']}',
                                                           style: TextStyle(
@@ -497,9 +659,27 @@ class MainScreen extends StatelessWidget {
                                                         height: 0.5.h,
                                                       ),
                                                       Container(
-                                                        alignment: Alignment.topLeft,
+                                                        alignment:
+                                                            Alignment.topLeft,
                                                         child: Text(
-                                                          snapshot.data[index]['consulting_id']==1?'medical':snapshot.data[index]['consulting_id']==2?'Profession':snapshot.data[index]['consulting_id']==3?'Mental':snapshot.data[index]['consulting_id']==4?'Familial':'Business',
+                                                          snapshot.data[index][
+                                                                      'consulting_id'] ==
+                                                                  1
+                                                              ? 'medical'
+                                                              : snapshot.data[index]
+                                                                          [
+                                                                          'consulting_id'] ==
+                                                                      2
+                                                                  ? 'Profession'
+                                                                  : snapshot.data[index]
+                                                                              [
+                                                                              'consulting_id'] ==
+                                                                          3
+                                                                      ? 'Mental'
+                                                                      : snapshot.data[index]['consulting_id'] ==
+                                                                              4
+                                                                          ? 'Familial'
+                                                                          : 'Business',
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 12.sp,
@@ -516,8 +696,7 @@ class MainScreen extends StatelessWidget {
                                         );
                                       },
                                     );
-                                  }
-                                  else  {
+                                  } else {
                                     return Center(
                                       child: Column(
                                         children: [

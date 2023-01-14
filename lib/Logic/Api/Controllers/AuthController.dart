@@ -27,8 +27,6 @@ class AuthController{
     }
   }
 
-
-
   static Future userProfile({required String token}) async {
     var response = await http.get(Uri.parse('${Api.userprofile}?token=$token'),
         headers: {

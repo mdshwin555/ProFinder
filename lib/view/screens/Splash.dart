@@ -10,6 +10,8 @@ import '../../constants/fonts.dart';
 import '../../constants/images.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+import 'onboarding.dart';
+
 class SplachScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -146,36 +148,9 @@ class SplachScreen extends StatelessWidget {
                   height: 25.h,
                 ),
               ),
-
-              // Image.asset(
-              //   Images.splash,
-              //   height: Get.height,
-              //   width: Get.width,
-              //   fit: BoxFit.fill,
-              // ),
-              // Container(
-              //   height: 200,
-              //   width: 200,
-              //   child: Image.asset(
-              //     //repeat: false,
-              //     Images.expert,
-              //     fit: BoxFit.contain,
-              //   ),
-              // ),
-              // Positioned(
-              //   top: Get.height - 340,
-              //   child: Text(
-              //     "Find Experts",
-              //     style: TextStyle(
-              //       fontSize: 35,
-              //       color: Colors.white,
-              //       //fontFamily: "dr"
-              //     ),
-              //   ),
-              // ),
             ],
           ),
-          nextScreen: sharedPref?.getString("role") == null ? Type() : Home(),
+          nextScreen: sharedPref?.getString("role") == null ?  sharedPref?.getString("onboarding")=="true"?Type():OnBoarding() : Home(),
           splashTransition: SplashTransition.fadeTransition,
           duration: 1000,
         ),

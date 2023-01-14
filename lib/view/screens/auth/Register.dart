@@ -147,7 +147,7 @@ class _RegisterState extends State<Register> {
                             height: 8.h,
                             width: 78.w,
                             decoration: BoxDecoration(
-                              color: Color(color.blue),
+                              color: Color(color.orange),
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Text(
@@ -236,7 +236,7 @@ class _RegisterState extends State<Register> {
                               height: 8.h,
                               width: 78.w,
                               decoration: BoxDecoration(
-                                color: Color(color.blue),
+                                color: Color(color.orange),
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: Text(
@@ -371,6 +371,7 @@ class _RegisterState extends State<Register> {
     addexperiance = await AuthController.addCredit(
         token: '$loginexpert', balance: '${creditnumController.text}');
     if (addexperiance == 200) {
+      sharedPref?.setString("balance","${creditnumController.text}");
       Get.dialog(
         Container(
           padding: EdgeInsets.only(
@@ -833,6 +834,7 @@ class _RegisterState extends State<Register> {
                               {
                                 CurrentStep =
                                     CurrentStep + 1,
+                                sharedPref?.setString("price","${priceController.text}"),
                                 Get.snackbar(
                                     'register Succsess',
                                     'ok'),
@@ -848,6 +850,7 @@ class _RegisterState extends State<Register> {
                                       '${addressController.text}'
                                       '${priceController.text}'
                                       '${experiance[current]}'),
+                            sharedPref?.setString("price","${priceController.text}"),
                           }
                       }
                           : CurrentStep == 3

@@ -115,56 +115,124 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Positioned(
               top: 30.h,
-              left: 35.w,
-              child: FutureBuilder<dynamic>(
-                future: AuthController.userProfile(token: '${sharedPref?.getString('access_token')}'),
-                builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      alignment: Alignment.center,
-                      child: Text('${sharedPref?.getString("name")}', style: TextStyle(
-                        letterSpacing: 0.8,
-                        fontFamily: Fonts.c,
-                        fontSize: 30.sp,
-                        color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
-                      ),),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    sharedPref?.setString("name", "${snapshot.data['user_name']}");
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '${snapshot.data['user_name']}',
-                        style: TextStyle(
+              child: Container(
+                width: 100.w,
+                child: FutureBuilder<dynamic>(
+                  future: AuthController.userProfile(token: '${sharedPref?.getString('access_token')}'),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        alignment: Alignment.center,
+                        child: Text('${sharedPref?.getString("name")}', style: TextStyle(
                           letterSpacing: 0.8,
-                          fontFamily: Fonts.c,
-                          fontSize: 30.sp,
-                          color:sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                          fontFamily: Fonts.d,
+                          fontSize: 25.sp,
+                          color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                        ),),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      sharedPref?.setString("name", "${snapshot.data['user_name']}");
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        alignment: Alignment.center,
+                        child: Text(
+                          '${snapshot.data['user_name']}',
+                          style: TextStyle(
+                            letterSpacing: 0.8,
+                            fontFamily: Fonts.d,
+                            fontSize: 25.sp,
+                            color:sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                          ),
                         ),
-                      ),
-                    );
+                      );
 
-                  }
-                  else  {
-                    return Container(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      alignment: Alignment.center,
-                      child: Text('${sharedPref?.getString("name")}', style: TextStyle(
-                        letterSpacing: 0.8,
-                        fontFamily: Fonts.c,
-                        fontSize: 30.sp,
-                        color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
-                      ),),
-                    );
-                  }
+                    }
+                    else  {
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        alignment: Alignment.center,
+                        child: Text('${sharedPref?.getString("name")}', style: TextStyle(
+                          letterSpacing: 0.8,
+                          fontFamily: Fonts.d,
+                          fontSize: 25.sp,
+                          color: sharedPref?.getString("theme")=="dark"?Color(color.white):Color(color.blue),
+                        ),),
+                      );
+                    }
 
-                },
+                  },
+                ),
               ),
             ),
-            Positioned(
+            sharedPref?.getString("lang") == "ar"?Positioned(
+              top: 36.h,
+              left: 7.w,
+              child: Container(
+                width: 85.w,
+                height: 9.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    15.sp,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.20),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                  color: Color(color.white),
+                ),
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Positioned(
+                      left: 5.w,
+                      child: CupertinoSwitch(
+                          activeColor: Color(color.orange),
+                          value: val,
+                          onChanged: (value) {
+                            setState(() {
+                              val = value;
+                              value
+                                  ? {
+                                sharedPref?.setString("theme", "dark"),
+                                Get.changeTheme(ThemeData.dark()),
+                              }
+                                  : {
+                                sharedPref?.setString("theme", "light"),
+                                Get.changeTheme(ThemeData.light()),
+                              };
+                            });
+                          }),
+
+                    ),
+                    Positioned(
+                      right: 20.w,
+                      child: Text(
+                        "light".tr,
+                        style: TextStyle(
+                          letterSpacing: 0.8,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: Fonts.j,
+                          fontSize: 15.sp,
+                          color: Color(color.blue),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 5.w,
+                      child: Image.asset(
+                        Images.darkmood,
+                        height: 33.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ):Positioned(
               top: 36.h,
               left: 7.w,
               child: Container(
@@ -216,13 +284,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               val = value;
                               value
                                   ? {
-                                      sharedPref?.setString("theme", "dark"),
-                                      Get.changeTheme(ThemeData.dark()),
-                                    }
+                                sharedPref?.setString("theme", "dark"),
+                                Get.changeTheme(ThemeData.dark()),
+                              }
                                   : {
-                                      sharedPref?.setString("theme", "light"),
-                                      Get.changeTheme(ThemeData.light()),
-                                    };
+                                sharedPref?.setString("theme", "light"),
+                                Get.changeTheme(ThemeData.light()),
+                              };
                             });
                           }),
                     ),
@@ -230,7 +298,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            Positioned(
+            sharedPref?.getString("lang") == "ar"?Positioned(
+              top: 48.h,
+              left: 7.w,
+              child: Container(
+                width: 85.w,
+                height: 9.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    15.sp,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.20),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                  color: Color(color.white),
+                ),
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Positioned(
+                      left: 3.w,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: AnimatedToggleSwitch<bool>.dual(
+                          loading: false,
+                          current: value,
+                          first: false,
+                          second: true,
+                          dif: 2.w,
+                          borderColor: Colors.transparent,
+                          borderWidth: 5.0,
+                          height: 55,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 1.5),
+                            ),
+                          ],
+                          onChanged: (b) {
+                            setState(() {
+                              value = b;
+                              b == false
+                                  ? {
+                                controller.changeLang("ar"),
+                              }
+                                  : {
+                                controller.changeLang("en"),
+                              };
+
+                            });
+                            return Future.delayed(Duration(seconds: 2));
+                          },
+                          colorBuilder: (b) => b ? Colors.orange : Colors.orange,
+                          iconBuilder: (value) => value
+                              ? CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.uk,
+                            ),
+                          )
+                              :CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.sa,
+                            ),
+                          ),
+                          textBuilder: (value) => value
+                              ? CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.sa,
+                            ),
+                          )
+                              : CircleAvatar(
+                            foregroundImage: AssetImage(
+                              Images.uk,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 19.w,
+                      child: Text(
+                        'lang'.tr,
+                        style: TextStyle(
+                          letterSpacing: 0.8,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: Fonts.j,
+                          fontSize: 15.sp,
+                          color: Color(color.blue),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 3.w,
+                      child:  Image.asset(
+                        Images.lang,
+                        height: 33.sp,
+                      ),
+
+                    ),
+                  ],
+                ),
+              ),
+            ):Positioned(
               top: 48.h,
               left: 7.w,
               child: Container(
@@ -337,7 +512,184 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            Positioned(
+            sharedPref?.getString("lang") == "ar"?Positioned(
+              top: 60.h,
+              left: 7.w,
+              child: Container(
+                width: 85.w,
+                height: 9.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    15.sp,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.20),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                  color: Color(color.white),
+                ),
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Positioned(
+                      left: 5.w,
+                      child: IconButton(
+                        color: Color(color.yellow),
+                        onPressed: () {
+                          Get.dialog(
+                            Container(
+                              padding: EdgeInsets.only(bottom: 16.h),
+                              height: 50.h,
+                              width: 90.w,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Positioned(
+                                    top: 38.h,
+                                    child: Container(
+                                      height: 40.h,
+                                      width: 90.w,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.circular(25.sp),
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.only(top: 11.h),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              textAlign: TextAlign.center,
+                                              'Oh no you\'re leaving \n are you sure ? ',
+                                              style: TextStyle(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.bold,
+                                                decoration: TextDecoration.none,
+                                                color: Color(color.blue),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+
+                                                Get.to(Type());
+                                                //sharedPref?.clear();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                  left: 7.w,
+                                                  right: 7.w,
+                                                ),
+                                                alignment: Alignment.center,
+                                                height: 8.h,
+                                                width: 78.w,
+                                                decoration: BoxDecoration(
+                                                  color: Color(color.orange),
+                                                  borderRadius:
+                                                  BorderRadius.circular(25),
+                                                ),
+                                                child: Text(
+                                                  'Yes, Log me out',
+                                                  style: TextStyle(
+                                                    color: Color(color.blue),
+                                                    fontSize: 20.sp,
+                                                    fontFamily: Fonts.a,
+                                                    decoration:
+                                                    TextDecoration.none,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                  left: 7.w,
+                                                  right: 7.w,
+                                                ),
+                                                alignment: Alignment.center,
+                                                height: 8.h,
+                                                width: 78.w,
+                                                decoration: BoxDecoration(
+                                                  color: Color(color.blue),
+                                                  borderRadius:
+                                                  BorderRadius.circular(25),
+                                                ),
+                                                child: Text(
+                                                  'No, just kidding',
+                                                  style: TextStyle(
+                                                    color: Color(0xffffffff),
+                                                    fontSize: 20.sp,
+                                                    fontFamily: Fonts.a,
+                                                    decoration:
+                                                    TextDecoration.none,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    radius: 50.sp,
+                                    backgroundColor: Color(color.orange),
+                                    child: Text(
+                                      '!',
+                                      style: TextStyle(
+                                          fontSize: 50.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(color.white)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                          //Get.offNamed(Routes.typeScreen);
+                        },
+                        icon: Icon(
+                          Icons.logout,
+                          size: 20.sp,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 19.w,
+                      child: Text(
+                        'logout'.tr,
+                        style: TextStyle(
+                          letterSpacing: 0.8,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: Fonts.j,
+                          fontSize: 15.sp,
+                          color: Color(color.blue),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 5.w,
+                      child:  Image.asset(
+                        Images.logout,
+                        height: 33.sp,
+                      ),
+
+                    ),
+                  ],
+                ),
+              ),
+            ):Positioned(
               top: 60.h,
               left: 7.w,
               child: Container(
@@ -400,7 +752,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                            BorderRadius.circular(25.sp),
+                                        BorderRadius.circular(25.sp),
                                       ),
                                       child: Container(
                                         padding: EdgeInsets.only(top: 11.h),
@@ -423,7 +775,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               onTap: () {
 
                                                 Get.to(Type());
-                                                //sharedPref?.clear();
+                                                //sharedPref?. ();
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(
@@ -436,7 +788,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 decoration: BoxDecoration(
                                                   color: Color(color.orange),
                                                   borderRadius:
-                                                      BorderRadius.circular(25),
+                                                  BorderRadius.circular(25),
                                                 ),
                                                 child: Text(
                                                   'Yes, Log me out',
@@ -445,7 +797,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     fontSize: 20.sp,
                                                     fontFamily: Fonts.a,
                                                     decoration:
-                                                        TextDecoration.none,
+                                                    TextDecoration.none,
                                                   ),
                                                 ),
                                               ),
@@ -468,7 +820,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 decoration: BoxDecoration(
                                                   color: Color(color.blue),
                                                   borderRadius:
-                                                      BorderRadius.circular(25),
+                                                  BorderRadius.circular(25),
                                                 ),
                                                 child: Text(
                                                   'No, just kidding',
@@ -477,7 +829,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     fontSize: 20.sp,
                                                     fontFamily: Fonts.a,
                                                     decoration:
-                                                        TextDecoration.none,
+                                                    TextDecoration.none,
                                                   ),
                                                 ),
                                               ),
@@ -506,7 +858,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         icon: Icon(
                           Icons.logout,
-                          size: 17.sp,
+                          size: 20.sp,
                         ),
                       ),
                     ),

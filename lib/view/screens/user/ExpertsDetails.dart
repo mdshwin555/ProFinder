@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project2022/main.dart';
 import 'package:sizer/sizer.dart';
-import 'dart:io';
 import '../../../Logic/Api/Controllers/ExpertController.dart';
 import '../../../constants/fonts.dart';
 import '../../../constants/images.dart';
 import 'package:project2022/constants/colors.dart';
-import '../../../constants/routes.dart';
-import 'conExperts.dart';
-import '../../../Logic/Api/Controllers/AuthController.dart';
 
 class ExpertsDtails extends StatefulWidget {
   @override
@@ -84,7 +78,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                           child: Column(
                             children: [
                               Container(
-                                height:hg==15?90.h:hg==23?100.h:hg==29?106.h: hg==36?127.h:150.h, //@@@@#########<<<<<<<<<
+                                height:hg==15?90.h:hg==23?100.h:hg==29?106.h: hg==36?115.h:150.h, //@@@@#########<<<<<<<<<
                                 child: Stack(
                                   children: [
                                     Positioned(
@@ -383,12 +377,12 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                       child: StatefulBuilder(
                                         builder: (context, setState) {
                                           return  Container(
-                                            padding: EdgeInsets.only(left: 25.w,right: 23.w),
+                                            padding: EdgeInsets.only(left: 25.w,right: 23.w,top: 0.5.h),
                                             alignment: Alignment.center,
-                                            width: 90.w,
+                                            width: 95.w,
                                             child: Text(
                                               snapshot.data['avg'] == null
-                                                  ? 'NO RATING 💔 '
+                                                  ?'⭐️'
                                                   : '${snapshot.data['avg'].toInt() == 1 ? '⭐️' : snapshot.data['avg'].toInt() == 2 ? '⭐️⭐️' : snapshot.data['avg'].toInt() == 3 ? '⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 4 ? '⭐️⭐️⭐️⭐️' : snapshot.data['avg'].toInt() == 5 ? '⭐️⭐️⭐️⭐️⭐️' : 'NO RATING⭐️'}',
                                               style: TextStyle(
                                                 letterSpacing: 0.8,
@@ -403,9 +397,9 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                       ),
 
                                     ),
-                                    Positioned(
+                                    sharedPref?.getString("lang") == "ar"?Positioned(
                                       top: 35.h,
-                                      left: -2.5.w,
+                                      right: -2.w,
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -425,7 +419,53 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                             width: 2.w,
                                           ),
                                           Text(
-                                            'Phone ',
+                                            'phone'.tr,
+                                            style: TextStyle(
+                                              letterSpacing: 0.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: Fonts.j,
+                                              fontSize: 12.sp,
+                                              color: Color(color.gray),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 6.w,
+                                          ),
+                                          Text(
+                                            '+${snapshot.data['0'][0]['phone_number']}',
+                                            style: TextStyle(
+                                              letterSpacing: 0.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: Fonts.b,
+                                              fontSize: 15.sp,
+                                              color: Color(color.blue),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ):Positioned(
+                                      top: 35.h,
+                                      left: -2.5.w,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 12.w,
+                                          ),
+                                          CircleAvatar(
+                                            backgroundColor:
+                                            Color(color.orange),
+                                            radius: 19.sp,
+                                            child: Icon(
+                                              Icons.phone,
+                                              size: 20.sp,
+                                              color: Color(color.white),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(
+                                            'phone'.tr,
                                             style: TextStyle(
                                               letterSpacing: 0.8,
                                               fontWeight: FontWeight.bold,
@@ -450,9 +490,9 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                         ],
                                       ),
                                     ),
-                                    Positioned(
+                                    sharedPref?.getString("lang") == "ar"?Positioned(
                                       top: 43.h,
-                                      left: -4.w,
+                                      right: -4.w,
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -472,7 +512,53 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                             width: 2.w,
                                           ),
                                           Text(
-                                            'Address',
+                                            'address'.tr,
+                                            style: TextStyle(
+                                              letterSpacing: 0.8,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: Fonts.j,
+                                              fontSize: 12.sp,
+                                              color: Color(color.gray),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10.w,
+                                          ),
+                                          Text(
+                                            '${snapshot.data['0'][0]['address']}',
+                                            style: TextStyle(
+                                              letterSpacing: 1,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: Fonts.b,
+                                              fontSize: 17.sp,
+                                              color: Color(color.blue),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ):Positioned(
+                                      top: 43.h,
+                                      left: -4.w,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 14.w,
+                                          ),
+                                          CircleAvatar(
+                                            backgroundColor:
+                                            Color(color.orange),
+                                            radius: 19.sp,
+                                            child: Icon(
+                                              Icons.near_me_outlined,
+                                              size: 20.sp,
+                                              color: Color(color.white),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(
+                                            'address'.tr,
                                             style: TextStyle(
                                               letterSpacing: 0.8,
                                               fontWeight: FontWeight.bold,
@@ -482,7 +568,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 6.w,
+                                            width: 10.w,
                                           ),
                                           Text(
                                             '${snapshot.data['0'][0]['address']}',
@@ -500,7 +586,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                     Positioned(
                                       top: 54.h,
                                       left: 6.w,
-                                      child: Container(
+                                      child: AnimatedContainer(
                                         height: height1 == true ? 21.h : 8.h,
                                         width: 88.w,
                                         decoration: BoxDecoration(
@@ -516,14 +602,24 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                             ),
                                           ],
                                         ),
+                                        duration: Duration(milliseconds:height1==true?50:200),
                                         child: ExpansionTile(
                                           onExpansionChanged: (bool state) {
                                             setState(() {
                                               height1 = state;
                                             });
                                           },
-                                          title: Text(
-                                            'Experiences',
+                                          title: sharedPref?.getString("lang") == "ar"?Text(
+                                            'Experiences'.tr,
+                                            style: TextStyle(
+                                              letterSpacing: 1,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: Fonts.j,
+                                              fontSize: 16.sp,
+                                              color: Color(color.blue),
+                                            ),
+                                          ):Text(
+                                            'Experiences'.tr,
                                             style: TextStyle(
                                               letterSpacing: 1,
                                               fontWeight: FontWeight.bold,
@@ -551,8 +647,17 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                 SizedBox(
                                                   width: 2.w,
                                                 ),
-                                                Text(
-                                                  'Experience',
+                                                sharedPref?.getString("lang") == "ar"?Text(
+                                                  'Experience'.tr,
+                                                  style: TextStyle(
+                                                    letterSpacing: 0.8,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: Fonts.j,
+                                                    fontSize: 12.sp,
+                                                    color: Color(color.gray),
+                                                  ),
+                                                ):Text(
+                                                  'Experience'.tr,
                                                   style: TextStyle(
                                                     letterSpacing: 0.8,
                                                     fontWeight: FontWeight.bold,
@@ -562,7 +667,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 6.w,
+                                                  width: 20.w,
                                                 ),
                                                 Text(
                                                   '${snapshot.data['0'][0]['experienc'][0]['experience']}',
@@ -597,12 +702,21 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                 SizedBox(
                                                   width: 2.w,
                                                 ),
-                                                Text(
-                                                  'Details',
+                                                sharedPref?.getString("lang") == "ar"?Text(
+                                                  'Details'.tr,
                                                   style: TextStyle(
                                                     letterSpacing: 0.8,
                                                     fontWeight: FontWeight.bold,
-                                                    fontFamily: Fonts.a,
+                                                    fontFamily: Fonts.j,
+                                                    fontSize: 12.sp,
+                                                    color: Color(color.gray),
+                                                  ),
+                                                ):Text(
+                                                  'Details'.tr,
+                                                  style: TextStyle(
+                                                    letterSpacing: 0.8,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: Fonts.j,
                                                     fontSize: 12.sp,
                                                     color: Color(color.gray),
                                                   ),
@@ -629,7 +743,8 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                     Positioned(
                                       top: height1 == false ? 65.h : 79.h,
                                       left: 6.w,
-                                      child: Container(
+                                      child: AnimatedContainer(
+                                        duration: Duration(milliseconds:height1==true?50:200),
                                         alignment: Alignment.center,
                                         height: height2 == true ? hg?.h : 8.h,
                                         width: 88.w,
@@ -658,7 +773,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                   children: [
                                                     Lottie.asset(
                                                       Images.loading,
-                                                      height: 10.h,
+                                                      height: 1.h,
                                                     ),
                                                     Text(
                                                       'Loading',
@@ -694,8 +809,17 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                     height2 = state;
                                                   });
                                                 },
-                                                title: Text(
-                                                  'Times',
+                                                title: sharedPref?.getString("lang") == "ar"?Text(
+                                                  'timesexpert'.tr,
+                                                  style: TextStyle(
+                                                    letterSpacing: 1,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: Fonts.j,
+                                                    fontSize: 16.sp,
+                                                    color: Color(color.blue),
+                                                  ),
+                                                ):Text(
+                                                  'timesexpert'.tr,
                                                   style: TextStyle(
                                                     letterSpacing: 1,
                                                     fontWeight: FontWeight.bold,
@@ -763,12 +887,26 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                                             height:
                                                                                 5.h,
                                                                           ),
-                                                                          Text(
+                                                                          sharedPref?.getString("lang") == "ar"?Text(
                                                                             textAlign:
                                                                                 TextAlign.center,
-                                                                            '${reservetime}',
+                                                                            reservetime ==
+                                                                                'Reservation successful'?'تم الحجز بنجاح': reservetime ==
+                                                                                'Sorry, time is taken'?'هذا الوقت محجوز ,من فضلك إختر وقتا آخر':'ليس لديك رصيد كاف للحجز ',
                                                                             style:
                                                                                 TextStyle(
+                                                                              fontSize: 15.sp,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              decoration: TextDecoration.none,
+                                                                              color: Color(color.blue),
+                                                                                  fontFamily: Fonts.j
+                                                                            ),
+                                                                          ):Text(
+                                                                            textAlign:
+                                                                            TextAlign.center,
+                                                                            '${reservetime}',
+                                                                            style:
+                                                                            TextStyle(
                                                                               fontSize: 15.sp,
                                                                               fontWeight: FontWeight.bold,
                                                                               decoration: TextDecoration.none,
@@ -886,7 +1024,7 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                                                               width: 2.w,
                                                             ),
                                                             Text(
-                                                              'Time ${ii + 1}',
+                                                              '${snapshot.data[ii]['day']}/${DateTime.now().month}/2023 :',
                                                               style: TextStyle(
                                                                 letterSpacing:
                                                                     0.8,
@@ -968,7 +1106,11 @@ class _ExpertsDtailsState extends State<ExpertsDtails> {
                         onTap: () {
                           Get.back();
                         },
-                        child: Icon(
+                        child: sharedPref?.getString("lang") == "ar"?Icon(
+                          Icons.navigate_next_sharp,
+                          size: 30.sp,
+                          color: Colors.white,
+                        ):Icon(
                           Icons.arrow_back_ios,
                           size: 20.sp,
                           color: Colors.white,
