@@ -7,6 +7,8 @@
 <p align="center"> <img src="https://komarev.com/ghpvc/?username=mdshwin555&label=Followers&color=d41212&style=flat" height="40px"/> </p>
 
 <p><img align="center" href="" target="blank"><img src="https://user-images.githubusercontent.com/63050133/156676671-d5b2e362-97d4-4404-9447-dd71ddfea82f.gif"  /></p>
+![photo_2023-05-06_18-57-50](https://user-images.githubusercontent.com/116727137/236634840-23c12840-2d21-4276-b120-3935114208d4.jpg)
+![photo_2023-05-06_18-57-49](https://user-images.githubusercontent.com/116727137/236634852-88bbe5f8-052e-43a5-8ce7-71a10bf63995.jpg)
 
 <h1 align="left" href="https://github.com/mdshwin555/my_imdb">🎞 IMDB</h1>
 
