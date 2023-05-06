@@ -9,7 +9,7 @@
 <p><img align="center" href="" target="blank"><img src="https://user-images.githubusercontent.com/116727137/236634840-23c12840-2d21-4276-b120-3935114208d4.jpg"  /></p>
 <p><img align="center" href="" target="blank"><img src="https://user-images.githubusercontent.com/116727137/236634852-88bbe5f8-052e-43a5-8ce7-71a10bf63995.jpg"  /></p>
 
-<h1 align="left" href="https://github.com/mdshwin555/my_imdb">🎞 IMDB</h1>
+<h1 align="left" href="https://github.com/mdshwin555/my_imdb">🔎 ProFinder</h1>
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
